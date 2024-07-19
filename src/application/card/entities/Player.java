@@ -33,7 +33,16 @@ public class Player {
 		return deck.size();
 	}
 	public final void drawACard() {
+		if (deck.size()==0) {
+			putDiscardsInDeck();
+		}
 		hand.add(deck.remove(0));
+	}
+	public final void replaceACard(int index) {
+		if (deck.size()==0) {
+			putDiscardsInDeck();
+		}
+		hand.set(index, deck.remove(0));
 	}
 	
 	public final List<Card> getHand() {
@@ -67,6 +76,13 @@ public class Player {
 		updateDiscardCardImage(index);
 	}
 	
+	public final void putDiscardsInDeck() {
+		if (!isGameOver()) {
+			deck.addAll(discard);
+			shuffleDeck();
+			discard.clear();
+		}
+	}
 	/*
 	 * Methods that can be extended/overridden
 	 */
@@ -77,4 +93,15 @@ public class Player {
 	
 	public void updateDiscardCardImage(int index) {	
 	}
+	
+	public boolean isGameOver() {
+		System.out.println("===========> Game over logic not implemented!");
+		return false;
+	}
+	
+	public void shuffleDeck() {
+		System.out.println(">>>>>>>> Not shuffling deck!");
+	}
+	
+	
 }

@@ -27,6 +27,10 @@ public class AnExtendedCard extends Card {
 		return cardNo;
 	}
 	
+	public String getCardName() {
+		return cardName;
+	}
+	
 	public int getCost() {
 		return cost;
 	}

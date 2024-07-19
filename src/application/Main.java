@@ -56,7 +56,7 @@ public class Main extends Application {
 			initDeck(group);
 			drawCards(5);
 			// group: indexes 2-6 (change FIRST_CARD_INDEX if this changes).
-			addItems(group);
+			player.addItems(group);
 			
 			// Add buttons - group: index 7
 			ImageButton ib = new EndTurnButton("Button-EndTurn",1200,700, player, group);
@@ -99,14 +99,6 @@ public class Main extends Application {
 	private void drawCards(int handSize) {
 		while (player.handSize() < handSize) {
 			player.drawACard();
-		}
-	}
-	private void addItems(Group group) {
-		for(int i=0; i<player.handSize(); i++) {
-			ImageView imageView = player.viewCardInHand(i).getImageView();
-			imageView.setLayoutX(50+200*i);
-			imageView.setLayoutY(600);
-			group.getChildren().add(imageView);
 		}
 	}
 

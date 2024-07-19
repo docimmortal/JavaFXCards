@@ -12,7 +12,7 @@ VM arguments: --module-path C:\path-to-javafx\lib --add-modules=javafx.controls,
 
 
 Structure:
-The Player object contains references to the deck, hand, discard, clicked card. The updateDiscardCardImage method should be overwritten (see DemoPlayer).
+The Player object contains references to the deck, hand, discard, clicked card. The updateDiscardCardImage and isGameOver should be overwritten (see DemoPlayer). The shuffleTheDeck method can be overridden if you want to actually shuffle the discard pile before creating a new deck. 
 The DemoPlayer extends that, adding enemy, clicked enemy (the enemy target if the user clicked it), points (for playing cards) and points text for displaying remaining points to screen.
 The Card has the ImageView, whether it can be used, and a circular reference back to player. Methods checkUsability() and useTheCard() can be overwritten (see AnExtendedCard).
 Enemy has an ImageView, a circular reference back to the player, and a reference to itself which is needed for the listener. Enemy will eventually have one or more methods than can be overridden.
@@ -35,3 +35,6 @@ Enemy taking damage or doing actions.
 Player health or other stats (outside of points for playing cards).
 Enemy or player dying. 
 A way to find a new enemy.
+
+Unresolved issues:
+Clicking cards, the enemy, and End Turn should check to see if isGameOver is true before doing the click action. 

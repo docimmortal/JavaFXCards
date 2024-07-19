@@ -2,6 +2,7 @@ package application.card.entities;
 
 import application.Main;
 import javafx.scene.Group;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -9,10 +10,13 @@ import javafx.scene.text.Text;
 public class DemoPlayer extends Player {
 
 	private int points;
+	private int health;
+	private int maxHealth;
 	private Text pointsText;
 	private Enemy enemy;
 	private Enemy enemyClicked;
 	private Group group;
+	private boolean initialHandSet;
 	
 	public DemoPlayer(Group group) {
 		super();
@@ -22,6 +26,8 @@ public class DemoPlayer extends Player {
 		pointsText.setFont(new Font(20));
 		pointsText.setFill(Color.WHITE);
 		this.group=group;
+		health=20;
+		maxHealth=20;
 	}
 
 	public Enemy getEnemy() {
@@ -30,6 +36,26 @@ public class DemoPlayer extends Player {
 
 	public void setEnemy(Enemy enemy) {
 		this.enemy = enemy;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public void decrementHealth(int amount) {
+		health-=amount;
+	}
+	
+	public void incrementHealth(int amount) {
+		health+=amount;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+	
+	public void healToFullHealth() {
+		health=maxHealth;
 	}
 
 	public int getPoints() {
@@ -70,6 +96,31 @@ public class DemoPlayer extends Player {
 	@Override
 	public void updateDiscardCardImage(int index) {
 		group.getChildren().set(Main.FIRST_CARD_INDEX+index, getHand().get(index).getImageView());
+	}
+	
+	@Override
+	public boolean isGameOver() {
+		boolean gameOver=false;
+		if (health <=0) {
+			gameOver=true;
+		}
+		return gameOver;
+	}
+	
+	public void addItems(Group group) {
+		for(int i=0; i< handSize(); i++) {
+			ImageView imageView = viewCardInHand(i).getImageView();
+			imageView.setLayoutX(50+200*i);
+			imageView.setLayoutY(600);
+			if (initialHandSet) {
+				System.out.println(">>>>Update "+((AnExtendedCard)viewCardInHand(i)).getCardName());
+				group.getChildren().set(Main.FIRST_CARD_INDEX+i, imageView);
+			} else {
+				System.out.println(">>>>>Add "+((AnExtendedCard)viewCardInHand(i)).getCardName());
+				group.getChildren().add(imageView);
+			}
+		}
+		initialHandSet=true;
 	}
 	
 }
