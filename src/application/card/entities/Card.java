@@ -25,17 +25,25 @@ public class Card {
 		canUse=true;
 	}
 
-	public ImageView getImageView() {
+	public final ImageView getImageView() {
 		return imageView;
 	}
 	
-	public void setCanUse(boolean canUse) {
+	public final void setCanUse(boolean canUse) {
 		this.canUse=canUse;
 	}
 	
-	public boolean getCanUse() {
+	public final boolean getCanUse() {
 		return canUse;
 	}
+
+	public final Player getPlayer() {
+		return player;
+	}
+	
+	/*
+	 *  Methods that can be overridden
+	 */
 	
 	public boolean checkUsability() {
 		return true;
@@ -44,13 +52,6 @@ public class Card {
 	public void useTheCard() {
 		System.out.println("Using card does nothing.");
 	}
-	
-	public boolean updateVisibilityCheck() {
-		return true;
-	}
 
-	public Player getPlayer() {
-		return player;
-	}
-	
+
 }

@@ -29,10 +29,18 @@ public class Enemy {
 		this.player=player;
 	}
 	
-	public ImageView getImageView() {
+	public final ImageView getImageView() {
 		return imageView;
 	}
 	
+
+	public final Player getPlayer() {
+		return player;
+	}
+	
+	/*
+	 * Methods that can be overridden
+	 */
 	public boolean canTarget() {
 		boolean canTarget=false;
 		if (player.getCardClicked() != null) {
@@ -53,7 +61,4 @@ public class Enemy {
 		
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
 }

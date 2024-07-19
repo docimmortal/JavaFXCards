@@ -42,15 +42,19 @@ public class ImageButton {
 		this.player=player;
 	}
 
-	public ImageView getImageView() {
+	public final ImageView getImageView() {
 		return imageView;
 	}
 	
+	public final Player getPlayer() {
+		return player;
+	}
+	
+	/*
+	 * Methods that can be overridden
+	 */
 	public void doAction() {
 		
 	}
 
-	public Player getPlayer() {
-		return player;
-	}
 }

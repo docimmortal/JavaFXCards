@@ -16,57 +16,63 @@ public class Player {
 		discard = new ArrayList<>();
 	}
 	
-	public Card getCardClicked() {
+	public final Card getCardClicked() {
 		return cardClicked;
 	}
-	public void setCardClicked(Card cardClicked) {
-		this.cardClicked = cardClicked;
-	}
-	
-	public List<Card> getDeck() {
+
+	public final List<Card> getDeck() {
 		return deck;
 	}
-	public void setDeck(List<Card> deck) {
+	public final void setDeck(List<Card> deck) {
 		this.deck = deck;
 	}
-	public void addCardToDeck(Card card) {
+	public final void addCardToDeck(Card card) {
 		deck.add(card);
 	}
-	public int deckSize() {
+	public final int deckSize() {
 		return deck.size();
 	}
-	public void drawACard() {
+	public final void drawACard() {
 		hand.add(deck.remove(0));
 	}
 	
-	public List<Card> getHand() {
+	public final List<Card> getHand() {
 		return hand;
 	}
-	public void setHand(List<Card> hand) {
+	public final void setHand(List<Card> hand) {
 		this.hand = hand;
 	}
-	public void addCardToHand(Card card) {
+	public final void addCardToHand(Card card) {
 		hand.add(card);
 	}
-	public int handSize() {
+	public final int handSize() {
 		return hand.size();
 	}
-	public Card viewCardInHand(int index) {
+	public final Card viewCardInHand(int index) {
 		return hand.get(index);
 	}
 
-	public List<Card> getDiscard() {
+	public final List<Card> getDiscard() {
 		return discard;
 	}
-	public void initDiscard() {
+	public final void initDiscard() {
 		discard = new ArrayList<>();
 	}
+
 	public final void discardCardFromHand(Card card) {
 		int index=getHand().indexOf(card);
 		getDiscard().add(getHand().get(index));
 		getHand().set(index, new NoCard(this));
 		setCardClicked(null);
 		updateDiscardCardImage(index);
+	}
+	
+	/*
+	 * Methods that can be extended/overridden
+	 */
+	// Additional logic can be added for targetting (see AnExtendedCard)
+	public void setCardClicked(Card cardClicked) {
+		this.cardClicked = cardClicked;
 	}
 	
 	public void updateDiscardCardImage(int index) {	
