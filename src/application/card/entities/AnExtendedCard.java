@@ -1,0 +1,85 @@
+package application.card.entities;
+
+import entities.card.Target;
+import javafx.scene.Group;
+
+public class AnExtendedCard extends Card {
+
+	private String cardName;
+	private int cost;
+	private Group group;
+	private Target target;
+	private int damage;
+	private int block;
+	private int cardNo;
+	private static int staticNo=1;
+	
+	public AnExtendedCard(String filename, Target target, Player player, Group group, String cardName, int cost) {
+		super(filename, player);
+		this.cardName=cardName;
+		this.target=target;
+		this.cost=cost;
+		this.group=group;
+		cardNo=staticNo++;
+	}
+
+	public int getCost() {
+		return cost;
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+
+	public int getBlock() {
+		return block;
+	}
+
+	public void setBlock(int block) {
+		this.block = block;
+	}
+
+	@Override
+	public boolean checkUsability() {
+		boolean validPlay=false;
+		if (((DemoPlayer)getPlayer()).getPoints()>=cost) {
+			validPlay=true;
+			getPlayer().setCardClicked(this);
+		}
+		return validPlay;
+	}
+	
+	@Override
+	public boolean updateVisibilityCheck() {
+		boolean hide=false;
+		if (target == Target.SELF || getEnemyClicked()!=null) {
+			hide=true;
+		}
+		return hide;
+	}
+	
+	public Enemy getEnemyClicked() {
+		return ((DemoPlayer)getPlayer()).getEnemyClicked();
+	}
+	
+	@Override
+	public void useTheCard() {
+		if (target==Target.SELF || getEnemyClicked()!=null) {
+			System.out.println("Using "+cardName+" on "+target);
+			((DemoPlayer)getPlayer()).subtract(cost);
+			group.getChildren().set(1, ((DemoPlayer)getPlayer()).getSpellpointsText());
+			getPlayer().setCardClicked(null);
+			getPlayer().discardCardFromHand(this);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "AnExtendedCard [cardNo=" + cardNo + ", cardName=" + cardName + ", cost=" + cost + ", target=" + target + ", damage=" + damage
+				+ ", block=" + block + "]";
+	}
+}
