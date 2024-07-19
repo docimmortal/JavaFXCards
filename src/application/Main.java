@@ -24,8 +24,9 @@ import javafx.scene.text.Text;
 
 public class Main extends Application {
 	
-	DemoPlayer player = new DemoPlayer();
+	DemoPlayer player;
 	Text pointsText;
+	public static final int FIRST_CARD_INDEX=2;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -34,13 +35,16 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
-			player.setPoints(3);
 			// Horizontal panes array
 			List<HBox> panes = new ArrayList<>();
 			Group group = new Group();
+			player = new DemoPlayer(group);
+			player.setPoints(3);
+			// group: index 0
 			group.getChildren().add(ImageLoader.load("images\\woods2.jpg", false)); 
 			
 			// Add any text
+			// group: index 1
 			pointsText = new Text("Points:"+((DemoPlayer)player).getPoints());
 			pointsText.setLayoutX(70);
 			pointsText.setLayoutY(70);
@@ -51,13 +55,14 @@ public class Main extends Application {
 			// initialize deck and add the card images to the screen
 			initDeck(group);
 			drawCards(5);
+			// group: indexes 2-6 (change FIRST_CARD_INDEX if this changes).
 			addItems(group);
 			
-			// Add buttons
+			// Add buttons - group: index 7
 			ImageButton ib = new EndTurnButton("Button-EndTurn",1200,700, player, group);
 			group.getChildren().add(ib.getImageView());
 			
-			// Add enemies
+			// Add enemies - group: index 8
 			Enemy enemy = new Enemy("images\\bunny.png", player, 1100, 300);
 			group.getChildren().add(enemy.getImageView());
 			

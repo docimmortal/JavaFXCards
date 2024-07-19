@@ -12,9 +12,9 @@ VM arguments: --module-path C:\path-to-javafx\lib --add-modules=javafx.controls,
 
 
 Structure:
-The Player object contains references to the deck, hand, discard, clicked card.
+The Player object contains references to the deck, hand, discard, clicked card. The updateDiscardCardImage method should be overwritten (see DemoPlayer).
 The DemoPlayer extends that, adding enemy, clicked enemy (the enemy target if the user clicked it), points (for playing cards) and points text for displaying remaining points to screen.
-The Card has the ImageView, whether it can be used and if it is used, and a circular reference back to player. Methods checkUsability() and updateVisibilityCheck() can be overwritten (see AnExtendedCard).
+The Card has the ImageView, whether it can be used, and a circular reference back to player. Methods checkUsability() and useTheCard() can be overwritten (see AnExtendedCard).
 Enemy has an ImageView, a circular reference back to the player, and a reference to itself which is needed for the listener. Enemy will eventually have one or more methods than can be overridden.
 SpecificEnemy will eventually overwrite methods in Enemy class, so it does specific actions.
 ImageButton is for any clickable button. Can be extended for "exit game", "look for monster", "save:, etc. doAction() should be overwritten. See EndTurnButton for example. 

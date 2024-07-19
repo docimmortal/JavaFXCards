@@ -48,9 +48,7 @@ public class Enemy {
 		Card card=player.getCardClicked();
 		if (card!=null) {
 			System.out.println("Used the card.");
-			card.setUsed(true);
 			card.useTheCard();
-			card.hideCardImage();
 		}
 		
 	}

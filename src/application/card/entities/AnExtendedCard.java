@@ -23,6 +23,10 @@ public class AnExtendedCard extends Card {
 		cardNo=staticNo++;
 	}
 
+	public int getCardNo() {
+		return cardNo;
+	}
+	
 	public int getCost() {
 		return cost;
 	}
@@ -51,15 +55,6 @@ public class AnExtendedCard extends Card {
 			getPlayer().setCardClicked(this);
 		}
 		return validPlay;
-	}
-	
-	@Override
-	public boolean updateVisibilityCheck() {
-		boolean hide=false;
-		if (target == Target.SELF || getEnemyClicked()!=null) {
-			hide=true;
-		}
-		return hide;
 	}
 	
 	public Enemy getEnemyClicked() {

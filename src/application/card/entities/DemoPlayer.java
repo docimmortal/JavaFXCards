@@ -1,5 +1,7 @@
 package application.card.entities;
 
+import application.Main;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -10,14 +12,16 @@ public class DemoPlayer extends Player {
 	private Text pointsText;
 	private Enemy enemy;
 	private Enemy enemyClicked;
+	private Group group;
 	
-	public DemoPlayer() {
+	public DemoPlayer(Group group) {
 		super();
 		pointsText = new Text("Points: "+points);
 		pointsText.setLayoutX(70);
 		pointsText.setLayoutY(70);
 		pointsText.setFont(new Font(20));
 		pointsText.setFill(Color.WHITE);
+		this.group=group;
 	}
 
 	public Enemy getEnemy() {
@@ -61,6 +65,11 @@ public class DemoPlayer extends Player {
 	public void setCardClicked(Card cardClicked) {
 		super.setCardClicked(cardClicked);
 		enemyClicked=null;
+	}
+	
+	@Override
+	public void updateDiscardCardImage(int index) {
+		group.getChildren().set(Main.FIRST_CARD_INDEX+index, getHand().get(index).getImageView());
 	}
 	
 }

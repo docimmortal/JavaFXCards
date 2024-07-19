@@ -8,7 +8,6 @@ import javafx.scene.input.MouseEvent;
 public class Card {
 
 	private ImageView imageView;
-	private boolean used;
 	private boolean canUse;
 	private Player player;
 	
@@ -18,11 +17,7 @@ public class Card {
 	    	@Override
 	        public void handle(MouseEvent event) {
 	    		if (checkUsability()) {
-	   	    		used=true;
 	   	    		useTheCard();
-	   	    		if (updateVisibilityCheck()) {
-	   	    			imageView.setVisible(!used);
-	   	    		}
 	    		}
 	    	}
 		});
@@ -32,15 +27,6 @@ public class Card {
 
 	public ImageView getImageView() {
 		return imageView;
-	}
-	
-	public boolean isUsed() {
-		return used;
-	}
-	
-	public void setUsed(boolean used) {
-		this.used=used;
-		imageView.setVisible(!used);
 	}
 	
 	public void setCanUse(boolean canUse) {
@@ -61,11 +47,6 @@ public class Card {
 	
 	public boolean updateVisibilityCheck() {
 		return true;
-	}
-	
-	// to manually hide card somehow
-	public void hideCardImage() {
-		imageView.setVisible(!used);
 	}
 
 	public Player getPlayer() {
