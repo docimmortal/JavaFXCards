@@ -67,12 +67,26 @@ public class AnExtendedCard extends Card {
 	
 	@Override
 	public void useTheCard() {
-		if (target==Target.SELF || getEnemyClicked()!=null) {
+		if (target!=Target.ENEMY || getEnemyClicked()!=null) {
 			System.out.println("Using "+cardName+" on "+target);
 			((DemoPlayer)getPlayer()).getCharacter().decrementPoints(cost);
 			group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
 			getPlayer().setCardClicked(null);
 			getPlayer().discardCardFromHand(this);
+			if (target==Target.ENEMY) {
+				if (damage!=0) {
+					int damageMinusArmor=damage;
+					getPlayer().getCharacter().incrementAttack(damageMinusArmor);
+					System.out.println("ATTACK="+getPlayer().getCharacter().getAttack());
+				}
+			} else if (target==Target.SELF) {
+				if (block!=0) {
+					getPlayer().getCharacter().incrementArmor(block);
+					System.out.println("ARMOR="+getPlayer().getCharacter().getArmor());
+				}
+			}
+			// This will change based on index in goup for this text
+			group.getChildren().set(9, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 		}
 	}
 

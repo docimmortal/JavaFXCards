@@ -16,10 +16,16 @@ public class EndTurnButton extends ImageButton {
 	
 	public void doAction() {
 		System.out.println("Ended turn. Do stuff.");
-		((DemoPlayer)getPlayer()).getCharacter().resetPoints();
+		// Player does action
+		
+		// Player reset
+		((DemoPlayer)getPlayer()).getCharacter().resetAll();
 		group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
-
+		group.getChildren().set(9, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
+		
 		// Enemy does action
+		
+		// Enemy reset
 		
 		// Draw up cards if the game is not over.
 		if (!getPlayer().isGameOver()) {

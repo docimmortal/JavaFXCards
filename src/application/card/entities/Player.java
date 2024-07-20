@@ -16,7 +16,7 @@ public class Player {
 		hand = new ArrayList<>();
 		discard = new ArrayList<>();
 		// 20 health, 0 armor, 0 attack, 3 spell points, x=0,y=0 (no character image, yet)
-		character = new Character("",this,20,0,0,3,0,0);  
+		character = new Character("images\\characters\\wizard-point-tp.png",this,20,0,0,3,100,100);  
 	}
 	
 	public final Card getCardClicked() {
@@ -90,11 +90,7 @@ public class Player {
 	public final Character getCharacter() {
 		return character;
 	}
-
-	public final void setCharacter(Character character) {
-		this.character = character;
-	}
-
+	
 	/*
 	 * Methods that can be extended/overridden
 	 */

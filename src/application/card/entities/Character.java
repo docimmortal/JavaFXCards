@@ -18,13 +18,13 @@ public class Character extends Entity {
 		super(filename, player, x, y);
 		this.points=points;
 		pointsText = TextUtil.initText("Spell points: "+points, 70, 70);
-		setStatsText();
 		this.health=health;
 		maxHealth=health;
 		maxPoints=points;
 		this.attack=attack;
 		this.armor=armor;
 		points=maxPoints;
+		setStatsText();
 	}
 	
 	public final int getHealth() {
@@ -63,9 +63,9 @@ public class Character extends Entity {
 		health=maxHealth;
 		setStatsText();
 	}
-
-	public final int getAttack() {
-		return attack;
+	
+	public final int getArmor() {
+		return armor;
 	}
 	
 	public final void incrementArmor(int thisValue) {
@@ -82,9 +82,14 @@ public class Character extends Entity {
 		}
 	}
 	
-	public final void setArmorZero() {
+	public final void resetArmor() {
 		armor=0;
 		setStatsText();
+	}
+	
+
+	public final int getAttack() {
+		return attack;
 	}
 	
 	public final void incrementAttack(int thisValue) {
@@ -101,13 +106,9 @@ public class Character extends Entity {
 		}
 	}
 	
-	public final void setAttackZero() {
+	public final void resetAttack() {
 		attack=0;
 		setStatsText();
-	}
-
-	public final int getArmor() {
-		return armor;
 	}
 
 	public final int getPoints() {
@@ -116,25 +117,34 @@ public class Character extends Entity {
 
 	public final void setPoints(int points) {
 		this.points = points;
-		pointsText.setText("Points: "+points);
+		setPointsText();
 	}
 	
 	public final void decrementPoints(int thesePoints) {
 		if (thesePoints <= points) {
 			points-=thesePoints;
-			pointsText.setText("Points: "+points);
+			setPointsText();
 		}
 	}
 	
 	public final void incrementPoints(int thesePoints) {
 		if (thesePoints > 0) {
 			points+=thesePoints;
-			pointsText.setText("Points: "+points);
+			setPointsText();
 		}
 	}
 	
 	public final void resetPoints() {
 		points=maxPoints;
+		setPointsText();
+	}
+	
+	public final void resetAll() {
+		points=maxPoints;
+		armor=0;
+		attack=0;
+		setPointsText();
+		setStatsText();
 	}
 	
 	public final int getMaxPoints() {
@@ -144,9 +154,24 @@ public class Character extends Entity {
 	public final Text getSpellpointsText() {
 		return pointsText;
 	}
+
+	public void setPointsText() {
+		pointsText.setText("Spell points: "+points);
+	}
 	
 	private void setStatsText() {
-		 statsText = TextUtil.initText(health+"  "+armor+"  "+attack, 120, 120);
+		String msg=health+"      "+armor+"       "+attack;
+		statsText = TextUtil.initText(msg, getLowerXCenterMinusOffset(msg.length()), getLowerYPlusOffset());
+	}
+	
+	private int getLowerYPlusOffset() {
+		return (int)getImageView().boundsInParentProperty().get().getMaxY()+25;
+	}
+	
+	private int getLowerXCenterMinusOffset(int strLen) {
+		int maxX= (int)getImageView().boundsInParentProperty().get().getMaxX();
+		int minX= (int)getImageView().boundsInParentProperty().get().getMinX()-(strLen*8);
+		return minX+(maxX-minX)/2;
 	}
 	
 	public final Text getStatsText() {

@@ -26,6 +26,8 @@ public class Main extends Application {
 	
 	DemoPlayer player;
 	Text pointsText;
+	Text statsText;
+	
 	public static final int FIRST_CARD_INDEX=2;
 	
 	public static void main(String[] args) {
@@ -45,11 +47,7 @@ public class Main extends Application {
 			
 			// Add any text
 			// group: index 1
-			pointsText = new Text("Points:"+((DemoPlayer)player).getCharacter().getPoints());
-			pointsText.setLayoutX(70);
-			pointsText.setLayoutY(70);
-			pointsText.setFont(new Font(20));
-			pointsText.setFill(Color.WHITE);
+			pointsText = player.getCharacter().getSpellpointsText();
 			group.getChildren().add(pointsText);
 			
 			// initialize deck and add the card images to the screen
@@ -62,7 +60,14 @@ public class Main extends Application {
 			ImageButton ib = new EndTurnButton("Button-EndTurn",1200,700, player, group);
 			group.getChildren().add(ib.getImageView());
 			
-			// Add enemies - group: index 8
+			// Add character - group: index 8
+			group.getChildren().add(player.getCharacter().getImageView());
+			
+			// Add character text - group: index 9
+			statsText=player.getCharacter().getStatsText();
+			group.getChildren().add(statsText);
+			
+			// Add enemies - group: index 10
 			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300, 10);
 			group.getChildren().add(enemy.getImageView());
 			
