@@ -86,7 +86,7 @@ public class AnExtendedCard extends Card {
 				}
 			}
 			// This will change based on index in goup for this text
-			group.getChildren().set(9, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
+			group.getChildren().set(10, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 		}
 	}
 

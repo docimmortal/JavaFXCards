@@ -63,11 +63,14 @@ public class Main extends Application {
 			// Add character - group: index 8
 			group.getChildren().add(player.getCharacter().getImageView());
 			
-			// Add character text - group: index 9
+			// Add character stats image - group: index 9
+			group.getChildren().add(player.getCharacter().getStatsImage());
+			
+			// Add character text - group: index 10
 			statsText=player.getCharacter().getStatsText();
 			group.getChildren().add(statsText);
 			
-			// Add enemies - group: index 10
+			// Add enemies - group: index 11
 			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300, 10);
 			group.getChildren().add(enemy.getImageView());
 			

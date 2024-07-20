@@ -23,7 +23,7 @@ public class EndTurnButton extends ImageButton {
 		// Player reset
 		((DemoPlayer)getPlayer()).getCharacter().resetAll();
 		group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
-		group.getChildren().set(9, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
+		group.getChildren().set(10, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 
 		// Enemy reset
 		

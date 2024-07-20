@@ -16,6 +16,7 @@ public class TextUtil {
 		text.setLayoutY(y);
 		text.setFont(new Font(20));
 		text.setFill(color);
+		text.setStyle("-fx-font-weight: bold");
 		return text;
 	}
 }

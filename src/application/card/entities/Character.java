@@ -1,6 +1,8 @@
 package application.card.entities;
 
+import application.fxcomponents.ImageLoader;
 import application.utils.TextUtil;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public class Character extends Entity {
@@ -13,6 +15,8 @@ public class Character extends Entity {
 	private Text pointsText;
 	private Text statsText;
 	private int maxPoints;
+
+	private ImageView statsImage;
 	
 	public Character(String filename, Player player, int health, int attack, int armor, int points, int x, int y) {
 		super(filename, player, x, y);
@@ -25,6 +29,10 @@ public class Character extends Entity {
 		this.armor=armor;
 		points=maxPoints;
 		setStatsText();
+		
+		statsImage = ImageLoader.load("images//characters//stats-images.png",false);
+		statsImage.setLayoutX(140);
+		statsImage.setLayoutY(getLowerYPlusOffset()-22);
 	}
 	
 	public final int getHealth() {
@@ -160,22 +168,40 @@ public class Character extends Entity {
 	}
 	
 	private void setStatsText() {
-		String msg=health+"      "+armor+"       "+attack;
-		statsText = TextUtil.initText(msg, getLowerXCenterMinusOffset(msg.length()), getLowerYPlusOffset());
+		String healthStr=String.format("%3d",health);
+		int hpLen=8;
+		if (health>0)
+			hpLen-=(int)Math.log(health);
+		String spacing1=String.format("%"+hpLen+"s", "");
+		String attackStr=String.format("%3d",attack);
+		int attLen=7;
+		if (attack>9)
+			attLen-=1;
+		if (attack>99)
+			attLen-=1;
+		System.out.println("--------------->AttLen:"+attLen);
+		String spacing2=String.format("%"+attLen+"s", "");
+		String armorStr=String.format("%3d",armor);
+		String msg=healthStr+spacing1+attackStr+spacing2+armorStr;
+		statsText = TextUtil.initText(msg, 140, getLowerYPlusOffset());
 	}
 	
 	private int getLowerYPlusOffset() {
 		return (int)getImageView().boundsInParentProperty().get().getMaxY()+25;
 	}
 	
-	private int getLowerXCenterMinusOffset(int strLen) {
+	/*
+	private int getLowerXCenterMinusOffset() {
 		int maxX= (int)getImageView().boundsInParentProperty().get().getMaxX();
-		int minX= (int)getImageView().boundsInParentProperty().get().getMinX()-(strLen*8);
+		int minX= (int)getImageView().boundsInParentProperty().get().getMinX();
 		return minX+(maxX-minX)/2;
-	}
+	}*/
 	
 	public final Text getStatsText() {
 		return statsText;
 	}
-
+	
+	public ImageView getStatsImage() {
+		return statsImage;
+	}
 }
