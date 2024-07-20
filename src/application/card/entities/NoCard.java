@@ -5,7 +5,7 @@ package application.card.entities;
 public final class NoCard extends Card {
 
 	public NoCard(Player player) {
-		super("/images/no-card.png", player);
+		super("\\images\\cards\\no-card.png", player);
 	}
 	
 	@Override

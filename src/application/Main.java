@@ -41,7 +41,7 @@ public class Main extends Application {
 			player = new DemoPlayer(group);
 			player.getCharacter().resetPoints();
 			// group: index 0
-			group.getChildren().add(ImageLoader.load("images\\woods2.jpg", false)); 
+			group.getChildren().add(ImageLoader.load("images\\backgrounds\\woods2.jpg", false)); 
 			
 			// Add any text
 			// group: index 1
@@ -63,7 +63,7 @@ public class Main extends Application {
 			group.getChildren().add(ib.getImageView());
 			
 			// Add enemies - group: index 8
-			Enemy enemy = new Enemy("images\\bunny.png", player, 1100, 300);
+			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300);
 			group.getChildren().add(enemy.getImageView());
 			
 			// Add everything to the panes
@@ -85,11 +85,11 @@ public class Main extends Application {
 			AnExtendedCard newCard=null;
 			// create only 2 cards (for now)
 			if (i%2==0) {
-				newCard=new AnExtendedCard("images\\block.jpg", Target.SELF, player, group, "Block", 1);
+				newCard=new AnExtendedCard("images\\cards\\block.jpg", Target.SELF, player, group, "Block", 1);
 				newCard.setBlock(5);
 				
 			} else {
-				newCard=new AnExtendedCard("images\\punch.jpg",Target.ENEMY, player, group, "Punch", 1);
+				newCard=new AnExtendedCard("images\\cards\\punch.jpg",Target.ENEMY, player, group, "Punch", 1);
 				newCard.setDamage(5);
 			}
 			player.addCardToDeck(newCard);
