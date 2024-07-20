@@ -63,7 +63,7 @@ public class Main extends Application {
 			group.getChildren().add(ib.getImageView());
 			
 			// Add enemies - group: index 8
-			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300);
+			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300, 10);
 			group.getChildren().add(enemy.getImageView());
 			
 			// Add everything to the panes

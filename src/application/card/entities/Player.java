@@ -15,7 +15,8 @@ public class Player {
 		deck = new ArrayList<>();
 		hand = new ArrayList<>();
 		discard = new ArrayList<>();
-		character = new Character("",this,0,0);
+		// 20 health, 0 armor, 0 attack, 3 spell points, x=0,y=0 (no character image, yet)
+		character = new Character("",this,20,0,0,3,0,0);  
 	}
 	
 	public final Card getCardClicked() {
