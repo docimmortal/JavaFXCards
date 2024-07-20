@@ -73,8 +73,8 @@ public class Player {
 
 	public final void discardCardFromHand(Card card) {
 		int index=getHand().indexOf(card);
-		getDiscard().add(getHand().get(index));
-		getHand().set(index, new NoCard(this));
+		discard.add(getHand().get(index));
+		hand.set(index, new NoCard(this));
 		setCardClicked(null);
 		updateDiscardCardImage(index);
 	}
