@@ -3,16 +3,9 @@ package application.card.entities;
 import application.Main;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class DemoPlayer extends Player {
 
-	private int points;
-	private int health;
-	private int maxHealth;
-	private Text pointsText;
 	private Enemy enemy;
 	private Enemy enemyClicked;
 	private Group group;
@@ -20,14 +13,7 @@ public class DemoPlayer extends Player {
 	
 	public DemoPlayer(Group group) {
 		super();
-		pointsText = new Text("Points: "+points);
-		pointsText.setLayoutX(70);
-		pointsText.setLayoutY(70);
-		pointsText.setFont(new Font(20));
-		pointsText.setFill(Color.WHITE);
 		this.group=group;
-		health=20;
-		maxHealth=20;
 	}
 
 	public Enemy getEnemy() {
@@ -36,46 +22,6 @@ public class DemoPlayer extends Player {
 
 	public void setEnemy(Enemy enemy) {
 		this.enemy = enemy;
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-	
-	public void decrementHealth(int amount) {
-		health-=amount;
-	}
-	
-	public void incrementHealth(int amount) {
-		health+=amount;
-	}
-	
-	public int getMaxHealth() {
-		return maxHealth;
-	}
-	
-	public void healToFullHealth() {
-		health=maxHealth;
-	}
-
-	public int getPoints() {
-		return points;
-	}
-
-	public void setPoints(int points) {
-		this.points = points;
-		pointsText.setText("Points: "+points);
-	}
-	
-	public void subtract(int thesePoints) {
-		if (thesePoints <= points) {
-			points-=thesePoints;
-			pointsText.setText("Points: "+points);
-		}
-	}
-	
-	public Text getSpellpointsText() {
-		return pointsText;
 	}
 	
 	public Enemy getEnemyClicked() {
@@ -101,7 +47,7 @@ public class DemoPlayer extends Player {
 	@Override
 	public boolean isGameOver() {
 		boolean gameOver=false;
-		if (health <=0) {
+		if (getCharacter().getHealth() <=0) {
 			gameOver=true;
 		}
 		return gameOver;

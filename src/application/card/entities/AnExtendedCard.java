@@ -54,7 +54,7 @@ public class AnExtendedCard extends Card {
 	@Override
 	public boolean checkUsability() {
 		boolean validPlay=false;
-		if (((DemoPlayer)getPlayer()).getPoints()>=cost) {
+		if (((DemoPlayer)getPlayer()).getCharacter().getPoints()>=cost) {
 			validPlay=true;
 			getPlayer().setCardClicked(this);
 		}
@@ -69,8 +69,8 @@ public class AnExtendedCard extends Card {
 	public void useTheCard() {
 		if (target==Target.SELF || getEnemyClicked()!=null) {
 			System.out.println("Using "+cardName+" on "+target);
-			((DemoPlayer)getPlayer()).subtract(cost);
-			group.getChildren().set(1, ((DemoPlayer)getPlayer()).getSpellpointsText());
+			((DemoPlayer)getPlayer()).getCharacter().decrementPoints(cost);
+			group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
 			getPlayer().setCardClicked(null);
 			getPlayer().discardCardFromHand(this);
 		}

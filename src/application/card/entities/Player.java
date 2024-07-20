@@ -9,11 +9,13 @@ public class Player {
 	private List<Card> deck;
 	private List<Card> hand;
 	private List<Card> discard;
+	private Character character;
 
 	public Player() {
 		deck = new ArrayList<>();
 		hand = new ArrayList<>();
 		discard = new ArrayList<>();
+		character = new Character("",this,0,0);
 	}
 	
 	public final Card getCardClicked() {
@@ -83,6 +85,15 @@ public class Player {
 			discard.clear();
 		}
 	}
+	
+	public final Character getCharacter() {
+		return character;
+	}
+
+	public final void setCharacter(Character character) {
+		this.character = character;
+	}
+
 	/*
 	 * Methods that can be extended/overridden
 	 */

@@ -1,22 +1,16 @@
 package application.card.entities;
 
-import application.fxcomponents.ImageLoader;
 import javafx.event.EventHandler;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-public class Enemy {
+public class Enemy extends Entity{
 
-	private ImageView imageView;
-	private Player player;
 	private Enemy thisEnemy;
 	
 	public Enemy(String filename, Player player, int x, int y) {
+		super(filename, player, x, y);
 		thisEnemy=this;
-		imageView = ImageLoader.load(filename,false);
-		imageView.setLayoutX(x);
-		imageView.setLayoutY(y);
-		imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		getImageView().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 	    	@Override
 	        public void handle(MouseEvent event) {
 	    		if (canTarget()) {
@@ -26,16 +20,6 @@ public class Enemy {
 	    		}
 	    	}
 		});
-		this.player=player;
-	}
-	
-	public final ImageView getImageView() {
-		return imageView;
-	}
-	
-
-	public final Player getPlayer() {
-		return player;
 	}
 	
 	/*
@@ -43,7 +27,7 @@ public class Enemy {
 	 */
 	public boolean canTarget() {
 		boolean canTarget=false;
-		if (player.getCardClicked() != null) {
+		if (getPlayer().getCardClicked() != null) {
 			System.out.println("We can target the enemy.");
 			canTarget=true;
 		} else {
@@ -53,7 +37,7 @@ public class Enemy {
 	}
 	
 	public void doTargetAction() {
-		Card card=player.getCardClicked();
+		Card card=getPlayer().getCardClicked();
 		if (card!=null) {
 			System.out.println("Used the card.");
 			card.useTheCard();

@@ -53,16 +53,18 @@ public class ImageLoader {
 	// If external=true, the image is stored somewhere else on the hard drive.
 	public static ImageView load(String filename, boolean external) {
 		ImageView imageView = new ImageView();
-		Image image = null;
-		if (external) {
-			image=getImageFromFileSystem(filename);
-		} else {
-			image=getProjectImage(filename);
+		if (filename != null && filename.length()>0) {
+			Image image = null;
+			if (external) {
+				image=getImageFromFileSystem(filename);
+			} else {
+				image=getProjectImage(filename);
+			}
+			imageView.setImage(image);
+			imageView.setX(0);
+			imageView.setY(0);
+			imageView.setPreserveRatio(true);
 		}
-		imageView.setImage(image);
-		imageView.setX(0);
-		imageView.setY(0);
-		imageView.setPreserveRatio(true);
 		return imageView;
 	}
 

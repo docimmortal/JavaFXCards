@@ -16,8 +16,8 @@ public class EndTurnButton extends ImageButton {
 	
 	public void doAction() {
 		System.out.println("Ended turn. Do stuff.");
-		((DemoPlayer)getPlayer()).setPoints(3);
-		group.getChildren().set(1, ((DemoPlayer)getPlayer()).getSpellpointsText());
+		((DemoPlayer)getPlayer()).getCharacter().resetPoints();
+		group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
 
 		// Enemy does action
 		
@@ -33,7 +33,7 @@ public class EndTurnButton extends ImageButton {
 		}
 
 		// Debugging
-		System.out.println("Updated points to "+((DemoPlayer)getPlayer()).getPoints());
+		System.out.println("Updated points to "+((DemoPlayer)getPlayer()).getCharacter().getPoints());
 		System.out.println("Discards:");
 		for (Card card: getPlayer().getDiscard()) {
 			System.out.println(card);

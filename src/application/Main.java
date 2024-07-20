@@ -39,13 +39,13 @@ public class Main extends Application {
 			List<HBox> panes = new ArrayList<>();
 			Group group = new Group();
 			player = new DemoPlayer(group);
-			player.setPoints(3);
+			player.getCharacter().resetPoints();
 			// group: index 0
 			group.getChildren().add(ImageLoader.load("images\\woods2.jpg", false)); 
 			
 			// Add any text
 			// group: index 1
-			pointsText = new Text("Points:"+((DemoPlayer)player).getPoints());
+			pointsText = new Text("Points:"+((DemoPlayer)player).getCharacter().getPoints());
 			pointsText.setLayoutX(70);
 			pointsText.setLayoutY(70);
 			pointsText.setFont(new Font(20));
