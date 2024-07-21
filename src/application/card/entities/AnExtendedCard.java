@@ -15,13 +15,25 @@ public class AnExtendedCard extends Card {
 	private Group group;
 	private Target target;
 	private Map<StatType,Integer> statMap;
+	private String filename;
 	
 	public AnExtendedCard(String filename, Target target, Player player, Group group, String cardName, int cost) {
 		super(filename, cardName, player);
+		this.filename=filename;
 		statMap = new HashMap<>();
 		this.target=target;
 		statMap.put(StatType.COST, cost);
 		this.group=group;
+	}
+	
+	// Copy an extended card from another extended card
+	// This will be a new object in a new memory location.
+	public AnExtendedCard(AnExtendedCard eCard) {
+		super(eCard.filename, eCard.getCardName(), eCard.getPlayer());
+		statMap = new HashMap<>(eCard.statMap);
+		this.target=eCard.target;
+		statMap.put(StatType.COST, eCard.get(StatType.COST));
+		this.group=eCard.group;
 	}
 	
 	public int get(StatType statType) {

@@ -88,16 +88,19 @@ public class Main extends Application {
 	}
 	
 	private void initDeck(Group group) {
+		AnExtendedCard block = new AnExtendedCard("images\\cards\\block.jpg", Target.SELF, player, group, "Block", 1);
+		block.set(StatType.ARMOR,5);
+		AnExtendedCard punch = new AnExtendedCard("images\\cards\\punch.jpg",Target.ENEMY, player, group, "Punch", 1);
+		punch.set(StatType.ATTACK,5);
+		
 		for(int i=0; i<10; i++) {
 			AnExtendedCard newCard=null;
 			// create only 2 cards (for now)
 			if (i%2==0) {
-				newCard=new AnExtendedCard("images\\cards\\block.jpg", Target.SELF, player, group, "Block", 1);
-				newCard.set(StatType.ARMOR,5);
+				newCard=new AnExtendedCard(block);
 				
 			} else {
-				newCard=new AnExtendedCard("images\\cards\\punch.jpg",Target.ENEMY, player, group, "Punch", 1);
-				newCard.set(StatType.ATTACK,5);
+				newCard=new AnExtendedCard(punch);
 			}
 			player.addCardToDeck(newCard);
 		}

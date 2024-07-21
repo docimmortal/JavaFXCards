@@ -2,8 +2,6 @@ package application.buttons;
 
 import java.util.List;
 
-import application.Main;
-import application.card.effects.StatType;
 import application.card.entities.Card;
 import application.card.entities.NoCard;
 import application.player.entities.DemoPlayer;
