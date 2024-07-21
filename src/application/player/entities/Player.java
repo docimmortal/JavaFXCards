@@ -1,7 +1,11 @@
-package application.card.entities;
+package application.player.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import application.card.entities.Card;
+import application.card.entities.NoCard;
+import application.entities.Character;
 
 public class Player {
 
@@ -98,7 +102,7 @@ public class Player {
 	/*
 	 * Methods that can be extended/overridden
 	 */
-	// Additional logic can be added for targetting (see AnExtendedCard)
+	// Additional logic can be added for targeting (see AnExtendedCard)
 	public void setCardClicked(Card cardClicked) {
 		this.cardClicked = cardClicked;
 	}
@@ -114,6 +118,5 @@ public class Player {
 	public void shuffleDeck() {
 		System.out.println(">>>>>>>> Not shuffling deck!");
 	}
-	
 	
 }

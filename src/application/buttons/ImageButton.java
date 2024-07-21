@@ -1,6 +1,7 @@
-package application.card.entities;
+package application.buttons;
 
 import application.fxcomponents.ImageLoader;
+import application.player.entities.Player;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;

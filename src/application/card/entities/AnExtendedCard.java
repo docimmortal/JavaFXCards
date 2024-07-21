@@ -1,62 +1,45 @@
 package application.card.entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import application.card.effects.StatType;
+import application.entities.Enemy;
+import application.player.entities.DemoPlayer;
+import application.player.entities.Player;
 import entities.card.Target;
 import javafx.scene.Group;
 
 public class AnExtendedCard extends Card {
 
-	private String cardName;
-	private int cost;
 	private Group group;
 	private Target target;
-	private int damage;
-	private int block;
-	private int cardNo;
-	private static int staticNo=1;
+	private Map<StatType,Integer> statMap;
 	
 	public AnExtendedCard(String filename, Target target, Player player, Group group, String cardName, int cost) {
-		super(filename, player);
-		this.cardName=cardName;
+		super(filename, cardName, player);
+		statMap = new HashMap<>();
 		this.target=target;
-		this.cost=cost;
+		//this.cost=cost;
+		statMap.put(StatType.COST, cost);
 		this.group=group;
-		cardNo=staticNo++;
-	}
-
-	public int getCardNo() {
-		return cardNo;
 	}
 	
-	public String getCardName() {
-		return cardName;
+	public int get(StatType statType) {
+		return statMap.get(statType);
 	}
 	
-	public int getCost() {
-		return cost;
-	}
-	
-	public int getDamage() {
-		return damage;
-	}
-
-	public void setDamage(int damage) {
-		this.damage = damage;
-	}
-
-	public int getBlock() {
-		return block;
-	}
-
-	public void setBlock(int block) {
-		this.block = block;
+	public void set(StatType statType, int value) {
+		System.out.println(getCardName()+": Setting "+statType+" to "+value);
+		statMap.put(statType, value);
 	}
 
 	@Override
 	public boolean checkUsability() {
 		boolean validPlay=false;
+		int cost=statMap.get(StatType.COST);
 		int totalPoints=((DemoPlayer)getPlayer()).getCharacter().get(StatType.POINTS);
-		System.out.print(cardName+" cost:"+cost+", total points:"+totalPoints);
+		System.out.print(getCardName()+" cost:"+cost+", total points:"+totalPoints);
 		if (totalPoints >= cost) {
 			validPlay=true;
 			getPlayer().setCardClicked(this);
@@ -72,31 +55,55 @@ public class AnExtendedCard extends Card {
 	@Override
 	public void useTheCard() {
 		if (target!=Target.ENEMY || getEnemyClicked()!=null) {
-			System.out.println("Using "+cardName+" on "+target);
+			System.out.println("Using "+getCardName()+" on "+target);
+			int cost=statMap.get(StatType.COST);
+			Integer damage=statMap.get(StatType.ATTACK);
+			Integer block=statMap.get(StatType.ARMOR);
+			
+			// spend points on using card
 			((DemoPlayer)getPlayer()).getCharacter().decrement(StatType.POINTS,cost,0); // lowest point value is 0.
 			group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
+			
+			// Discard card
 			getPlayer().setCardClicked(null);
 			getPlayer().discardCardFromHand(this);
+			
+			// Do card actions based on target
 			if (target==Target.ENEMY) {
-				if (damage!=0) {
+				if (damage != null && damage!=0) {
 					int damageMinusArmor=damage;
 					getPlayer().getCharacter().increment(StatType.ATTACK,damageMinusArmor, 0); // min damage is 0 
 					System.out.println("ATTACK="+getPlayer().getCharacter().get(StatType.ATTACK));
 				}
 			} else if (target==Target.SELF) {
-				if (block!=0) {
+				if (block != null && block!=0) {
 					getPlayer().getCharacter().increment(StatType.ARMOR,block,-1); // no max armor amount
 					System.out.println("ARMOR="+getPlayer().getCharacter().get(StatType.ARMOR));
 				}
 			}
-			// This will change based on index in goup for this text
-			group.getChildren().set(10, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
+			
+			// Update character stats.
+			// This will change based on index in group for this text
+			group.getChildren().set(5, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "AnExtendedCard [cardNo=" + cardNo + ", cardName=" + cardName + ", cost=" + cost + ", target=" + target + ", damage=" + damage
-				+ ", block=" + block + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("AnExtendedCard [cardName=");
+		builder.append(getCardName());
+		builder.append(", group=");
+		builder.append(group);
+		builder.append(", target=");
+		builder.append(target);
+		builder.append(", statMap=");
+		builder.append(statMap);
+		builder.append(", cardNo=");
+		builder.append(getCardNo());
+		builder.append("]");
+		return builder.toString();
 	}
+
+	
 }

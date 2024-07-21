@@ -1,9 +1,13 @@
-package application.card.entities;
+package application.buttons;
 
 import java.util.List;
 
 import application.Main;
 import application.card.effects.StatType;
+import application.card.entities.Card;
+import application.card.entities.NoCard;
+import application.player.entities.DemoPlayer;
+import application.player.entities.Player;
 import javafx.scene.Group;
 
 public class EndTurnButton extends ImageButton {
@@ -24,7 +28,7 @@ public class EndTurnButton extends ImageButton {
 		// Player reset
 		((DemoPlayer)getPlayer()).getCharacter().resetAll();
 		group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
-		group.getChildren().set(10, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
+		group.getChildren().set(5, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 
 		// Enemy reset
 		
@@ -38,15 +42,15 @@ public class EndTurnButton extends ImageButton {
 					getPlayer().replaceACard(i);
 				}
 			}
-			((DemoPlayer)getPlayer()).addItems(group);
+			((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
 		}
 
-		// Debugging
+		/* Debugging
 		System.out.println("Updated points to "+((DemoPlayer)getPlayer()).getCharacter().get(StatType.POINTS));
 		System.out.println("Discards:");
 		for (Card card: getPlayer().getDiscard()) {
 			System.out.println(card);
-		}
+		}*/
 	}
 
 }

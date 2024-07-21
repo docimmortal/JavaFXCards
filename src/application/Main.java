@@ -3,23 +3,20 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.card.entities.EndTurnButton;
-import application.card.entities.Enemy;
-import application.card.entities.ImageButton;
+import application.entities.Enemy;
+import application.buttons.EndTurnButton;
+import application.buttons.ImageButton;
 import application.card.effects.StatType;
 import application.card.entities.AnExtendedCard;
-import application.card.entities.DemoPlayer;
 import application.fxcomponents.ImageLoader;
+import application.player.entities.DemoPlayer;
 import entities.card.Target;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 
@@ -29,7 +26,7 @@ public class Main extends Application {
 	Text pointsText;
 	Text statsText;
 	
-	public static final int FIRST_CARD_INDEX=2;
+	public static final int FIRST_CARD_INDEX=7;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -42,7 +39,6 @@ public class Main extends Application {
 			List<HBox> panes = new ArrayList<>();
 			Group group = new Group();
 			player = new DemoPlayer(group);
-			//player.getCharacter().resetToZero(StatType.POINTS);
 			// group: index 0
 			group.getChildren().add(ImageLoader.load("images\\backgrounds\\woods2.jpg", false)); 
 			
@@ -50,33 +46,32 @@ public class Main extends Application {
 			// group: index 1
 			pointsText = player.getCharacter().getSpellpointsText();
 			group.getChildren().add(pointsText);
+						
+			// Add buttons - group: index 2
+			ImageButton endTurnButton = new EndTurnButton("Button-EndTurn",1200,700, player, group);
+			group.getChildren().add(endTurnButton.getImageView());
+			
+			// Add character - group: index 3
+			group.getChildren().add(player.getCharacter().getImageView());
+			
+			// Add character stats image - group: index 4
+			group.getChildren().add(player.getCharacter().getStatsImage());
+			
+			// Add character text - group: index 5
+			statsText=player.getCharacter().getStatsText();
+			group.getChildren().add(statsText);
+			
+			// Add enemies - group: index 6
+			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300, 10);
+			group.getChildren().add(enemy.getImageView());
+			
+			// Cards displayed should be the last thing since max hand size might not be the same as initial hand size
 			
 			// initialize deck and add the card images to the screen
 			initDeck(group);
 			drawCards(5);
-			// group: indexes 2-6 (change FIRST_CARD_INDEX if this changes).
-			player.addItems(group);
-			
-			// debug
-			System.out.println("=====> Points after loading cards:"+((DemoPlayer)player).getCharacter().get(StatType.POINTS));
-			
-			// Add buttons - group: index 7
-			ImageButton ib = new EndTurnButton("Button-EndTurn",1200,700, player, group);
-			group.getChildren().add(ib.getImageView());
-			
-			// Add character - group: index 8
-			group.getChildren().add(player.getCharacter().getImageView());
-			
-			// Add character stats image - group: index 9
-			group.getChildren().add(player.getCharacter().getStatsImage());
-			
-			// Add character text - group: index 10
-			statsText=player.getCharacter().getStatsText();
-			group.getChildren().add(statsText);
-			
-			// Add enemies - group: index 11
-			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300, 10);
-			group.getChildren().add(enemy.getImageView());
+			// group: indexes 7-11 (change FIRST_CARD_INDEX if this changes).
+			player.addCardsToJavaFxDisplay(group);
 			
 			// Add everything to the panes
 			panes.add(new HBox(group));
@@ -98,19 +93,25 @@ public class Main extends Application {
 			// create only 2 cards (for now)
 			if (i%2==0) {
 				newCard=new AnExtendedCard("images\\cards\\block.jpg", Target.SELF, player, group, "Block", 1);
-				newCard.setBlock(5);
+				newCard.set(StatType.ARMOR,5);
 				
 			} else {
 				newCard=new AnExtendedCard("images\\cards\\punch.jpg",Target.ENEMY, player, group, "Punch", 1);
-				newCard.setDamage(5);
+				newCard.set(StatType.ATTACK,5);
 			}
 			player.addCardToDeck(newCard);
 		}
 	}
 	
 	private void drawCards(int handSize) {
-		while (player.handSize() < handSize) {
+		drawCards(handSize,handSize);
+	}
+	
+	private void drawCards(int cards, int maxHandSize) {
+		int count=0;
+		while (player.handSize() < maxHandSize && count<cards) {
 			player.drawACard();
+			count++;
 		}
 	}
 

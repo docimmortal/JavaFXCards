@@ -1,5 +1,8 @@
-package application.card.entities;
+package application.entities;
 
+import application.card.entities.Card;
+import application.player.entities.DemoPlayer;
+import application.player.entities.Player;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 

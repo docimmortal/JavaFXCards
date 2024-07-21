@@ -7,13 +7,6 @@ public class Effect {
 	private Adjustment adjustment;
 	private StatType statType;
 	private int value;
-	
-	public Effect(String name, EffectTarget target, Adjustment adjustment, StatType statType) {
-		this.name = name;
-		this.target=target;
-		this.adjustment = adjustment;
-		this.statType = statType;
-	}
 
 	public Effect(String name, EffectTarget target, Adjustment adjustment, StatType statType, int value) {
 		super();
@@ -71,11 +64,10 @@ public class Effect {
 		builder.append(name);
 		builder.append(", target=");
 		builder.append(target);
-		builder.append(", adjustment=");
+		builder.append(", ");
 		builder.append(adjustment);
-		builder.append(", statType=");
 		builder.append(statType);
-		builder.append(", value=");
+		builder.append(" by ");
 		builder.append(value);
 		builder.append("]");
 		return builder.toString();

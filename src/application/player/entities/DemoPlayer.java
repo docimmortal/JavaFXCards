@@ -1,7 +1,9 @@
-package application.card.entities;
+package application.player.entities;
 
 import application.Main;
 import application.card.effects.StatType;
+import application.card.entities.Card;
+import application.entities.Enemy;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
@@ -35,6 +37,7 @@ public class DemoPlayer extends Player {
 	
 	// When you click on a card, you have not selected an enemy, yet.
 	// If there was a enemy targeted by the previous card, we need to clear it out.
+	@Override
 	public void setCardClicked(Card cardClicked) {
 		super.setCardClicked(cardClicked);
 		enemyClicked=null;
@@ -55,16 +58,14 @@ public class DemoPlayer extends Player {
 		return gameOver;
 	}
 	
-	public void addItems(Group group) {
+	public void addCardsToJavaFxDisplay(Group group) {
 		for(int i=0; i< handSize(); i++) {
 			ImageView imageView = viewCardInHand(i).getImageView();
 			imageView.setLayoutX(50+200*i);
 			imageView.setLayoutY(600);
 			if (initialHandSet) {
-				System.out.println(">>>>Update "+((AnExtendedCard)viewCardInHand(i)).getCardName());
 				group.getChildren().set(Main.FIRST_CARD_INDEX+i, imageView);
 			} else {
-				System.out.println(">>>>>Add "+((AnExtendedCard)viewCardInHand(i)).getCardName());
 				group.getChildren().add(imageView);
 			}
 		}

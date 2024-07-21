@@ -2,8 +2,8 @@ package application.card.effects;
 
 public enum Adjustment {
 	NEGATES,
-	HALVES,
+	DIVIDES,
 	DECREMENTS,
 	INCREMENTS,
-	DOUBLES
+	MULTIPLIES
 }
