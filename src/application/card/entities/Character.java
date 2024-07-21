@@ -12,14 +12,8 @@ import javafx.scene.text.Text;
 
 public class Character extends Entity {
 
-	//private int points;
-	//private int health;
-	//private int maxHealth;
-	//private int attack;
-	//private int armor;
 	private Text pointsText;
 	private Text statsText;
-	//private int maxPoints;
 	private Map<StatType,Integer> statMap;
 
 	private ImageView statsImage;
@@ -27,20 +21,13 @@ public class Character extends Entity {
 	public Character(String filename, Player player, int health, int attack, int armor, int points, int x, int y) {
 		super(filename, player, x, y);
 		statMap = new HashMap<>();
-		//this.points=points;
-		statMap.put(StatType.POINTS, points);
+		set(StatType.POINTS, points);
+		set(StatType.MAX_POINTS, points);
 		pointsText = TextUtil.initText("Spell points: "+points, 70, 70);
-		//this.health=health;
-		statMap.put(StatType.HEALTH, health);
-		//maxHealth=health;
-		statMap.put(StatType.MAX_HEALTH, health);
-		//maxPoints=points;
-		statMap.put(StatType.MAX_POINTS, points);
-		//this.attack=attack;
-		statMap.put(StatType.ATTACK, attack);
-		//this.armor=armor;
-		statMap.put(StatType.ARMOR, armor);
-		//points=maxPoints;
+		set(StatType.HEALTH, health);
+		set(StatType.MAX_HEALTH, health);
+		set(StatType.ATTACK, attack);
+		set(StatType.ARMOR, armor);
 		setStatsText();
 		
 		statsImage = ImageLoader.load("images//characters//stats-images.png",false);
@@ -48,197 +35,81 @@ public class Character extends Entity {
 		statsImage.setLayoutY(getLowerYPlusOffset()-22);
 	}
 	
-	public final int getHealth() {
-		//return health;
-		return statMap.get(StatType.HEALTH);
+	public final int get(StatType statType) {
+		return statMap.get(statType);
 	}
 	
-	public final void decrementHealth(int amount) {
+	public final void set(StatType statType, int value) {
+		statMap.put(statType, value);
+	}
+	
+	public final void resetToZero(StatType statType) {
+		set(statType, 0);
+		setStatsText();
+		setPointsText();
+	}
+	
+	public final void resetTo(StatType statType, StatType newValue) {
+		set(statType, get(newValue));
+		setStatsText();
+		setPointsText();
+	}
+	
+	// set minAmount to -1 if there is no minAmount.
+	public final void decrement(StatType statType, int amount, int minAmount) {
 		if (amount>0) {
-			int lHealth=statMap.get(StatType.HEALTH);
-			/*health-=amount;
-			 * if (health<0) {
-				health=0;
-			}*/
-			lHealth-=amount;
-			if (lHealth<0) {
-				lHealth=0;
+			int value=get(statType);
+			value-=amount;
+			if (minAmount>=0 && value<minAmount) {
+				value=minAmount;
 			}
-			statMap.put(StatType.HEALTH, lHealth);
+			statMap.put(statType, value);
 			setStatsText();
+			setPointsText();
 		}
 	}
 	
-	public final void incrementHealth(int amount) {
+	// set maxAmount to -1 if there is no maxAmount.
+	public final void increment(StatType statType, int amount, int maxAmount) {
 		if (amount>0) {
-			int lHealth=statMap.get(StatType.HEALTH);
-			/*
-			health+=amount;
-			if (health>maxHealth) {
-				health=maxHealth;
-			}*/
-			lHealth+=amount;
-			int lMaxHealth=statMap.get(StatType.MAX_HEALTH);
-			if (lHealth>lMaxHealth) {
-				lHealth=lMaxHealth;
+			int value=get(statType);
+			value+=amount;
+			if (maxAmount>0 && amount>maxAmount) {
+				value=maxAmount;
 			}
-			statMap.put(StatType.HEALTH, lHealth);
+			statMap.put(statType, value);
 			setStatsText();
+			setPointsText();
 		}
-	}
-	
-	public final int getMaxHealth() {
-		//return maxHealth;
-		return statMap.get(StatType.MAX_HEALTH);
-	}
-	
-	public final void setMaxHealth(int maxHealth) {
-		//this.maxHealth=maxHealth;
-		statMap.put(StatType.MAX_HEALTH,maxHealth);
 	}
 	
 	public final void healToFullHealth() {
-		statMap.put(StatType.HEALTH,statMap.get(StatType.MAX_HEALTH));
-		//health=maxHealth;
+		set(StatType.HEALTH,get(StatType.MAX_HEALTH));
 		setStatsText();
-	}
-	
-	public final int getArmor() {
-		//return armor;
-		return statMap.get(StatType.ARMOR);
-	}
-	
-	public final void incrementArmor(int thisValue) {
-		if (thisValue>0) {
-			int lArmor=statMap.get(StatType.ARMOR);
-			//armor+=thisValue;
-			lArmor+=thisValue;
-			statMap.put(StatType.ARMOR, lArmor);
-			setStatsText();
-		}
-	}
-	
-	public final void decrementArmor(int thisValue) {
-		if (thisValue>0) {
-			int lArmor=statMap.get(StatType.ARMOR);
-			//armor-=thisValue;
-			lArmor-=thisValue;
-			statMap.put(StatType.ARMOR, lArmor);
-			setStatsText();
-		}
-	}
-	
-	public final void resetArmor() {
-		//armor=0;
-		statMap.put(StatType.ARMOR, 0);
-		setStatsText();
-	}
-	
-
-	public final int getAttack() {
-		//return attack;
-		return statMap.get(StatType.ATTACK);
-	}
-	
-	public final void incrementAttack(int thisValue) {
-		int lAttack=statMap.get(StatType.ATTACK);
-		if (thisValue>0) {
-			//attack+=thisValue;
-			lAttack+=thisValue;
-			statMap.put(StatType.ATTACK, lAttack);
-			setStatsText();
-		}
-	}
-	
-	public final void decrementAttack(int thisValue) {
-		if (thisValue>0) {
-			int lAttack=statMap.get(StatType.ATTACK);
-			//attack-=thisValue;
-			lAttack-=thisValue;
-			statMap.put(StatType.ATTACK, lAttack);
-			setStatsText();
-		}
-	}
-	
-	public final void resetAttack() {
-		//attack=0;
-		statMap.put(StatType.ATTACK, 0);
-		setStatsText();
-	}
-
-	public final int getPoints() {
-		//return points;
-		return statMap.get(StatType.POINTS);
-	}
-
-	public final void setPoints(int points) {
-		//this.points = points;
-		statMap.put(StatType.POINTS, points);
-		setPointsText();
-	}
-	
-	public final void decrementPoints(int thesePoints) {
-		int lPoints=statMap.get(StatType.POINTS);
-		//if (thesePoints <= points) {
-		if (thesePoints <= lPoints) {
-			//points-=thesePoints;
-			lPoints-=thesePoints;
-			statMap.put(StatType.POINTS, lPoints);
-			setPointsText();
-		}
-	}
-	
-	public final void incrementPoints(int thesePoints) {
-		if (thesePoints > 0) {
-			int lPoints=statMap.get(StatType.POINTS);
-			//points+=thesePoints;
-			lPoints+=thesePoints;
-			statMap.put(StatType.POINTS, lPoints);
-			setPointsText();
-		}
-	}
-	
-	public final void resetPoints() {
-		statMap.put(StatType.POINTS, statMap.get(StatType.MAX_POINTS));
-		setPointsText();
 	}
 	
 	public final void resetAll() {
-		//points=maxPoints;
-		resetPoints();
-		//armor=0;
-		 resetAttack();
-		//attack=0;
-		resetArmor();
-		//setPointsText();
-		//setStatsText();
+		resetTo(StatType.POINTS, StatType.MAX_POINTS);
+		resetToZero(StatType.ATTACK);
+		resetToZero(StatType.ARMOR);
 	}
 	
-	public final int getMaxPoints() {
-		//return maxPoints;
-		return statMap.get(StatType.MAX_POINTS);
-	}
-
 	public final Text getSpellpointsText() {
 		return pointsText;
 	}
 
 	public void setPointsText() {
-		//pointsText.setText("Spell points: "+points);
 		pointsText.setText("Spell points: "+statMap.get(StatType.POINTS));
 	}
 	
 	private void setStatsText() {
-		//String healthStr=String.format("%3d",health);
-		int lHealth=statMap.get(StatType.HEALTH);
+		int lHealth=get(StatType.HEALTH);
 		String healthStr=String.format("%3d",lHealth);
 		int hpLen=8;
 		if (lHealth>0)
 			hpLen-=(int)Math.log(lHealth);
-			//hpLen-=(int)Math.log(health);
 		String spacing1=String.format("%"+hpLen+"s", "");
-		//String attackStr=String.format("%3d",attack);
-		int lAttack=statMap.get(StatType.ATTACK);
+		int lAttack=get(StatType.ATTACK);
 		String attackStr=String.format("%3d",lAttack);
 		int attLen=7;
 		if (lAttack>9)
@@ -247,8 +118,7 @@ public class Character extends Entity {
 			attLen-=1;
 		System.out.println("--------------->AttLen:"+attLen);
 		String spacing2=String.format("%"+attLen+"s", "");
-		int lArmor=statMap.get(StatType.ARMOR);
-		//String armorStr=String.format("%3d",armor);
+		int lArmor=get(StatType.ARMOR);
 		String armorStr=String.format("%3d",lArmor);
 		String msg=healthStr+spacing1+attackStr+spacing2+armorStr;
 		statsText = TextUtil.initText(msg, 140, getLowerYPlusOffset());

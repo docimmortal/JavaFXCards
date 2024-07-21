@@ -1,6 +1,7 @@
 package application.card.entities;
 
 import application.Main;
+import application.card.effects.StatType;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
@@ -47,7 +48,8 @@ public class DemoPlayer extends Player {
 	@Override
 	public boolean isGameOver() {
 		boolean gameOver=false;
-		if (getCharacter().getHealth() <=0) {
+		//if (getCharacter().getHealth() <=0) {
+		if (getCharacter().get(StatType.HEALTH) <=0) {
 			gameOver=true;
 		}
 		return gameOver;

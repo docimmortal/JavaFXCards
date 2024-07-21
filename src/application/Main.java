@@ -6,6 +6,7 @@ import java.util.List;
 import application.card.entities.EndTurnButton;
 import application.card.entities.Enemy;
 import application.card.entities.ImageButton;
+import application.card.effects.StatType;
 import application.card.entities.AnExtendedCard;
 import application.card.entities.DemoPlayer;
 import application.fxcomponents.ImageLoader;
@@ -41,7 +42,7 @@ public class Main extends Application {
 			List<HBox> panes = new ArrayList<>();
 			Group group = new Group();
 			player = new DemoPlayer(group);
-			player.getCharacter().resetPoints();
+			//player.getCharacter().resetToZero(StatType.POINTS);
 			// group: index 0
 			group.getChildren().add(ImageLoader.load("images\\backgrounds\\woods2.jpg", false)); 
 			
@@ -55,6 +56,9 @@ public class Main extends Application {
 			drawCards(5);
 			// group: indexes 2-6 (change FIRST_CARD_INDEX if this changes).
 			player.addItems(group);
+			
+			// debug
+			System.out.println("=====> Points after loading cards:"+((DemoPlayer)player).getCharacter().get(StatType.POINTS));
 			
 			// Add buttons - group: index 7
 			ImageButton ib = new EndTurnButton("Button-EndTurn",1200,700, player, group);

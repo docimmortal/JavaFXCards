@@ -3,6 +3,7 @@ package application.card.entities;
 import java.util.List;
 
 import application.Main;
+import application.card.effects.StatType;
 import javafx.scene.Group;
 
 public class EndTurnButton extends ImageButton {
@@ -41,7 +42,7 @@ public class EndTurnButton extends ImageButton {
 		}
 
 		// Debugging
-		System.out.println("Updated points to "+((DemoPlayer)getPlayer()).getCharacter().getPoints());
+		System.out.println("Updated points to "+((DemoPlayer)getPlayer()).getCharacter().get(StatType.POINTS));
 		System.out.println("Discards:");
 		for (Card card: getPlayer().getDiscard()) {
 			System.out.println(card);

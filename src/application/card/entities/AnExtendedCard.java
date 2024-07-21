@@ -1,5 +1,6 @@
 package application.card.entities;
 
+import application.card.effects.StatType;
 import entities.card.Target;
 import javafx.scene.Group;
 
@@ -54,10 +55,13 @@ public class AnExtendedCard extends Card {
 	@Override
 	public boolean checkUsability() {
 		boolean validPlay=false;
-		if (((DemoPlayer)getPlayer()).getCharacter().getPoints()>=cost) {
+		int totalPoints=((DemoPlayer)getPlayer()).getCharacter().get(StatType.POINTS);
+		System.out.print(cardName+" cost:"+cost+", total points:"+totalPoints);
+		if (totalPoints >= cost) {
 			validPlay=true;
 			getPlayer().setCardClicked(this);
 		}
+		System.out.println("  "+validPlay);
 		return validPlay;
 	}
 	
@@ -69,20 +73,20 @@ public class AnExtendedCard extends Card {
 	public void useTheCard() {
 		if (target!=Target.ENEMY || getEnemyClicked()!=null) {
 			System.out.println("Using "+cardName+" on "+target);
-			((DemoPlayer)getPlayer()).getCharacter().decrementPoints(cost);
+			((DemoPlayer)getPlayer()).getCharacter().decrement(StatType.POINTS,cost,0); // lowest point value is 0.
 			group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
 			getPlayer().setCardClicked(null);
 			getPlayer().discardCardFromHand(this);
 			if (target==Target.ENEMY) {
 				if (damage!=0) {
 					int damageMinusArmor=damage;
-					getPlayer().getCharacter().incrementAttack(damageMinusArmor);
-					System.out.println("ATTACK="+getPlayer().getCharacter().getAttack());
+					getPlayer().getCharacter().increment(StatType.ATTACK,damageMinusArmor, 0); // min damage is 0 
+					System.out.println("ATTACK="+getPlayer().getCharacter().get(StatType.ATTACK));
 				}
 			} else if (target==Target.SELF) {
 				if (block!=0) {
-					getPlayer().getCharacter().incrementArmor(block);
-					System.out.println("ARMOR="+getPlayer().getCharacter().getArmor());
+					getPlayer().getCharacter().increment(StatType.ARMOR,block,-1); // no max armor amount
+					System.out.println("ARMOR="+getPlayer().getCharacter().get(StatType.ARMOR));
 				}
 			}
 			// This will change based on index in goup for this text
