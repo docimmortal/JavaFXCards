@@ -20,7 +20,6 @@ public class AnExtendedCard extends Card {
 		super(filename, cardName, player);
 		statMap = new HashMap<>();
 		this.target=target;
-		//this.cost=cost;
 		statMap.put(StatType.COST, cost);
 		this.group=group;
 	}

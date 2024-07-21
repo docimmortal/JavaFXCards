@@ -34,28 +34,12 @@ public class Character extends Entity {
 		statsImage.setLayoutX(140);
 		statsImage.setLayoutY(getLowerYPlusOffset()-22);
 	}
-	
-	public final void resetAll() {
-		resetTo(StatType.POINTS, StatType.MAX_POINTS);
-		resetToZero(StatType.ATTACK);
-		resetToZero(StatType.ARMOR);
-	}
-	
+
 	public final Text getSpellpointsText() {
 		return pointsText;
 	}
-
-	public void setPointsText() {
-		pointsText.setText("Spell points: "+get(StatType.POINTS));
-	}
 	
-	@Override
-	public void updateScreenText() {
-		setStatsText();
-		setPointsText();
-	}
-	
-	private void setStatsText() {
+	public final void setStatsText() {
 		int lHealth=get(StatType.HEALTH);
 		String healthStr=String.format("%3d",lHealth);
 		int hpLen=8;
@@ -76,22 +60,21 @@ public class Character extends Entity {
 		statsText = TextUtil.initText(msg, 140, getLowerYPlusOffset());
 	}
 	
-	private int getLowerYPlusOffset() {
+	public final int getLowerYPlusOffset() {
 		return (int)getImageView().boundsInParentProperty().get().getMaxY()+25;
 	}
 	
-	/*
-	private int getLowerXCenterMinusOffset() {
+	public final int getLowerXCenter() {
 		int maxX= (int)getImageView().boundsInParentProperty().get().getMaxX();
 		int minX= (int)getImageView().boundsInParentProperty().get().getMinX();
 		return minX+(maxX-minX)/2;
-	}*/
+	}
 	
 	public final Text getStatsText() {
 		return statsText;
 	}
 	
-	public ImageView getStatsImage() {
+	public final ImageView getStatsImage() {
 		return statsImage;
 	}
 	
@@ -99,8 +82,24 @@ public class Character extends Entity {
 	 * Methods that can be overridden
 	 */
 	
+	@Override
+	public void updateScreenText() {
+		setStatsText();
+		setPointsText();
+	}
+	
 	public List<Card> getInitialDeck(){
 		System.out.println("===========[ NO INITIAL DECK ]===========");
 		return new ArrayList<>();
+	}
+	
+	public void setPointsText() {
+		pointsText.setText("Spell points: "+get(StatType.POINTS));
+	}
+	
+	public void resetAll() {
+		resetTo(StatType.POINTS, StatType.MAX_POINTS);
+		resetToZero(StatType.ATTACK);
+		resetToZero(StatType.ARMOR);
 	}
 }
