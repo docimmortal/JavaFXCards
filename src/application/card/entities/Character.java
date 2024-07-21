@@ -83,11 +83,6 @@ public class Character extends Entity {
 		}
 	}
 	
-	public final void healToFullHealth() {
-		set(StatType.HEALTH,get(StatType.MAX_HEALTH));
-		setStatsText();
-	}
-	
 	public final void resetAll() {
 		resetTo(StatType.POINTS, StatType.MAX_POINTS);
 		resetToZero(StatType.ATTACK);
