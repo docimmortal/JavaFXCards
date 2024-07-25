@@ -65,7 +65,8 @@ public class AnExtendedCard extends Card {
 	
 	@Override
 	public void useTheCard() {
-		if (target!=Target.ENEMY || getEnemyClicked()!=null) {
+		Enemy enemy=getEnemyClicked();
+		if (target!=Target.ENEMY || enemy!=null) {
 			System.out.println("Using "+getCardName()+" on "+target);
 			int cost=statMap.get(StatType.COST);
 			Integer damage=statMap.get(StatType.ATTACK);
@@ -82,8 +83,18 @@ public class AnExtendedCard extends Card {
 			// Do card actions based on target
 			if (target==Target.ENEMY) {
 				if (damage != null && damage!=0) {
+					//System.out.println("=====> Initial damage "+damage);
 					int damageMinusArmor=damage;
-					getPlayer().getCharacter().increment(StatType.ATTACK,damageMinusArmor, 0); // min damage is 0 
+					//System.out.print("=====> Enemy ");
+					int armor=enemy.get(StatType.ARMOR);
+					damageMinusArmor=damageMinusArmor-armor;
+					if (damageMinusArmor<0) damageMinusArmor=0;
+					//System.out.println("=====> Altered damage "+damageMinusArmor);
+					enemy.decrement(StatType.ARMOR, damage, 0);
+					enemy.decrementHealth(damageMinusArmor);
+					enemy.updateScreenText();
+					// temp
+					//getPlayer().getCharacter().increment(StatType.ATTACK,damageMinusArmor, 0); // min damage is 0 
 					System.out.println("ATTACK="+getPlayer().getCharacter().get(StatType.ATTACK));
 				}
 			} else if (target==Target.SELF) {

@@ -1,6 +1,5 @@
 package application.entities;
 
-import application.fxcomponents.ImageLoader;
 import application.player.entities.Player;
 import application.utils.TextUtil;
 
@@ -9,15 +8,11 @@ import java.util.List;
 
 import application.card.effects.StatType;
 import application.card.entities.Card;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 public class Character extends Entity {
 
 	private Text pointsText;
-	private Text statsText;
-
-	private ImageView statsImage;
 	
 	public Character(String filename, Player player, int health, int attack, int armor, int points, int x, int y) {
 		super(filename, player, x, y);
@@ -26,13 +21,12 @@ public class Character extends Entity {
 		pointsText = TextUtil.initText("Spell points: "+points, 70, 70);
 		set(StatType.HEALTH, health);
 		set(StatType.MAX_HEALTH, health);
-		set(StatType.ATTACK, attack);
+		//set(StatType.ATTACK, attack);
 		set(StatType.ARMOR, armor);
-		setStatsText();
 		
-		statsImage = ImageLoader.load("images//characters//stats-images.png",false);
-		statsImage.setLayoutX(140);
-		statsImage.setLayoutY(getLowerYPlusOffset()-22);
+		//statsImage = ImageLoader.load("images//characters//stats-images.png",false);
+		//statsImage.setLayoutX(140);
+		//statsImage.setLayoutY(getLowerYPlusOffset()-22);
 	}
 
 	public final Text getSpellpointsText() {
@@ -40,42 +34,11 @@ public class Character extends Entity {
 	}
 	
 	public final void setStatsText() {
-		int lHealth=get(StatType.HEALTH);
-		String healthStr=String.format("%3d",lHealth);
-		int hpLen=8;
-		if (lHealth>0)
-			hpLen-=(int)Math.log(lHealth);
-		String spacing1=String.format("%"+hpLen+"s", "");
-		int lAttack=get(StatType.ATTACK);
-		String attackStr=String.format("%3d",lAttack);
-		int attLen=7;
-		if (lAttack>9)
-			attLen-=1;
-		if (lAttack>99)
-			attLen-=1;
-		String spacing2=String.format("%"+attLen+"s", "");
-		int lArmor=get(StatType.ARMOR);
-		String armorStr=String.format("%3d",lArmor);
-		String msg=healthStr+spacing1+attackStr+spacing2+armorStr;
-		statsText = TextUtil.initText(msg, 140, getLowerYPlusOffset());
-	}
-	
-	public final int getLowerYPlusOffset() {
-		return (int)getImageView().boundsInParentProperty().get().getMaxY()+25;
-	}
-	
-	public final int getLowerXCenter() {
-		int maxX= (int)getImageView().boundsInParentProperty().get().getMaxX();
-		int minX= (int)getImageView().boundsInParentProperty().get().getMinX();
-		return minX+(maxX-minX)/2;
+		super.setStatsText();
 	}
 	
 	public final Text getStatsText() {
-		return statsText;
-	}
-	
-	public final ImageView getStatsImage() {
-		return statsImage;
+		return super.getStatsText();
 	}
 	
 	/*
@@ -99,7 +62,7 @@ public class Character extends Entity {
 	
 	public void resetAll() {
 		resetTo(StatType.POINTS, StatType.MAX_POINTS);
-		resetToZero(StatType.ATTACK);
+		//resetToZero(StatType.ATTACK);
 		resetToZero(StatType.ARMOR);
 	}
 }

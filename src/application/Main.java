@@ -14,6 +14,7 @@ import entities.card.Target;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,7 +27,7 @@ public class Main extends Application {
 	Text pointsText;
 	Text statsText;
 	
-	public static final int FIRST_CARD_INDEX=7;
+	public static final int FIRST_CARD_INDEX=11;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -62,15 +63,24 @@ public class Main extends Application {
 			group.getChildren().add(statsText);
 			
 			// Add enemies - group: index 6
-			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300, 10);
+			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300, 15);
 			group.getChildren().add(enemy.getImageView());
+			
+			// Add enemy health - group: index 7,8
+			group.getChildren().add(enemy.getStatsImage());
+			group.getChildren().add(enemy.getStatsText());
+			
+			// Add enemy action - group: index 9,10
+			group.getChildren().add(enemy.getActionImage());
+			group.getChildren().add(enemy.getActionText());
 			
 			// Cards displayed should be the last thing since max hand size might not be the same as initial hand size
 			
 			// initialize deck and add the card images to the screen
 			initDeck(group);
 			drawCards(5);
-			// group: indexes 7-11 (change FIRST_CARD_INDEX if this changes).
+			
+			// group: indexes 11-15 (change FIRST_CARD_INDEX if this changes).
 			player.addCardsToJavaFxDisplay(group);
 			
 			// Add everything to the panes
