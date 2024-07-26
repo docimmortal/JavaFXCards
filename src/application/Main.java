@@ -14,7 +14,6 @@ import entities.card.Target;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -26,8 +25,10 @@ public class Main extends Application {
 	DemoPlayer player;
 	Text pointsText;
 	Text statsText;
+	Enemy enemy ;
 	
 	public static final int FIRST_CARD_INDEX=11;
+	private static final int ENEMY1_ACTION_IMAGE_INDEX=9;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -39,40 +40,15 @@ public class Main extends Application {
 			// Horizontal panes array
 			List<HBox> panes = new ArrayList<>();
 			Group group = new Group();
+			
+			// initialize player and enemy
 			player = new DemoPlayer(group);
-			// group: index 0
-			group.getChildren().add(ImageLoader.load("images\\backgrounds\\woods2.jpg", false)); 
+			enemy = new Enemy("images\\enemies\\bunny.png",ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 15);
+			player.setEnemy(enemy);
 			
-			// Add any text
-			// group: index 1
-			pointsText = player.getCharacter().getSpellpointsText();
-			group.getChildren().add(pointsText);
-						
-			// Add buttons - group: index 2
-			ImageButton endTurnButton = new EndTurnButton("Button-EndTurn",1200,700, player, group);
-			group.getChildren().add(endTurnButton.getImageView());
-			
-			// Add character - group: index 3
-			group.getChildren().add(player.getCharacter().getImageView());
-			
-			// Add character stats image - group: index 4
-			group.getChildren().add(player.getCharacter().getStatsImage());
-			
-			// Add character text - group: index 5
-			statsText=player.getCharacter().getStatsText();
-			group.getChildren().add(statsText);
-			
-			// Add enemies - group: index 6
-			Enemy enemy = new Enemy("images\\enemies\\bunny.png", player, 1100, 300, 15);
-			group.getChildren().add(enemy.getImageView());
-			
-			// Add enemy health - group: index 7,8
-			group.getChildren().add(enemy.getStatsImage());
-			group.getChildren().add(enemy.getStatsText());
-			
-			// Add enemy action - group: index 9,10
-			group.getChildren().add(enemy.getActionImage());
-			group.getChildren().add(enemy.getActionText());
+			// display everything except cards;
+			initScreen(group);
+
 			
 			// Cards displayed should be the last thing since max hand size might not be the same as initial hand size
 			
@@ -80,6 +56,7 @@ public class Main extends Application {
 			initDeck(group);
 			drawCards(5);
 			
+			// display cards
 			// group: indexes 11-15 (change FIRST_CARD_INDEX if this changes).
 			player.addCardsToJavaFxDisplay(group);
 			
@@ -95,6 +72,42 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void initScreen(Group group) {
+		// Set background
+		// group: index 0
+		group.getChildren().add(ImageLoader.load("images\\backgrounds\\woods2.jpg", false)); 
+
+		// Add spell points text
+		// group: index 1
+		pointsText = player.getCharacter().getSpellpointsText();
+		group.getChildren().add(pointsText);
+
+		// Add End Turn button - group: index 2
+		ImageButton endTurnButton = new EndTurnButton("Button-EndTurn",1200,700, player, group);
+		group.getChildren().add(endTurnButton.getImageView());
+
+		// Add character image - group: index 3
+		group.getChildren().add(player.getCharacter().getImageView());
+
+		// Add character stats image - group: index 4
+		group.getChildren().add(player.getCharacter().getStatsImage());
+
+		// Add character text - group: index 5
+		statsText=player.getCharacter().getStatsText();
+		group.getChildren().add(statsText);
+
+		// Add enemies - group: index 6
+		group.getChildren().add(enemy.getImageView());
+
+		// Add enemy health - group: index 7,8
+		group.getChildren().add(enemy.getStatsImage());
+		group.getChildren().add(enemy.getStatsText());
+
+		// Add enemy action - group: index 9,10
+		group.getChildren().add(enemy.getActionImage());
+		group.getChildren().add(enemy.getActionText());
 	}
 	
 	private void initDeck(Group group) {

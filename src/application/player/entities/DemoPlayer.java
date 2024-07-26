@@ -18,6 +18,10 @@ public class DemoPlayer extends Player {
 		super();
 		this.group=group;
 	}
+	
+	public Group getGroup() {
+		return group;
+	}
 
 	public Enemy getEnemy() {
 		return enemy;

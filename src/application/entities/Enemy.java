@@ -12,6 +12,7 @@ import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import application.utils.TextUtil;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -19,10 +20,7 @@ import javafx.scene.text.Text;
 public class Enemy extends Entity{
 
 	private Enemy thisEnemy;
-	private int health;
-	private int maxHealth;
-	
-	private ImageView healthImage;
+
 	private ImageView actionImage;
 	
 	private Text actionText;
@@ -31,25 +29,26 @@ public class Enemy extends Entity{
 	private Action currentAction;
 	private int actionIndex;
 	
-	public Enemy(String filename, Player player, int x, int y, int health) {
+	private int actionImageIndex;
+	private int actionX;
+	private int actionY;
+	
+	public Enemy(String filename, int actionImageIndex, Player player, int x, int y, int health) {
 		super(filename, player, x, y);
 		thisEnemy=this;
-		this.health=health;
-		this.maxHealth=health;
 		
-		/*
-		healthImage = ImageLoader.load("images//enemies//lheart.png",false);
-		int healthY=y+(int)getImageView().getImage().getHeight()+2;
-		int healthX=x+(int)(getImageView().getImage().getWidth()/2)-(int)(healthImage.getImage().getWidth()/2);
-		healthImage.setLayoutX(healthX);
-		healthImage.setLayoutY(healthY);*/
+		initDefaultActions();
+		this.actionImageIndex=actionImageIndex;
+		actionY=y-(int)actionImage.getImage().getHeight()-2;
+		actionX=x+(int)(getImageView().getImage().getWidth()/2)-(int)(actionImage.getImage().getWidth()/2);
 		
-		actionImage = ImageLoader.load("images//enemies//lattack.png",false);
-		int actionY=y-(int)actionImage.getImage().getHeight()-2;
-		int actionX=x+(int)(getImageView().getImage().getWidth()/2)-(int)(actionImage.getImage().getWidth()/2);
-		actionImage.setLayoutX(actionX);
-		actionImage.setLayoutY(actionY);
+		set(StatType.HEALTH,health);
+		set(StatType.MAX_HEALTH,health);
 		
+		
+		displayFirstAction(x,y);
+		
+		// Add click event
 		getImageView().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 	    	@Override
 	        public void handle(MouseEvent event) {
@@ -60,23 +59,59 @@ public class Enemy extends Entity{
 	    		}
 	    	}
 		});
-		actions = new ArrayList<>();
 		
-		//(String name, ImageView imageView, EffectTarget target, Adjustment adjustment, StatType statType, int value) 
-		actions.add(new Action("Bite",actionImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 6)); 
-		ImageView blockImage = ImageLoader.load("images//enemies//lshield.png",false);
-		actions.add(new Action("Block",blockImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ARMOR, 6));
-		currentAction = actions.get(actionIndex);
 		initText();
+		debugAllStats();
+		setStatsText();
+	}
+	
+	public void initDefaultActions() {
+		actions = new ArrayList<>();
+		ImageView attackImage = ImageLoader.load("images//enemies//lattack.png",false);
+		ImageView blockImage = ImageLoader.load("images//enemies//lshield.png",false);
+		
+		//actions.add(String name, ImageView imageView, EffectTarget target, Adjustment adjustment, StatType statType, int value) 
+		actions.add(new Action("Bite",attackImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 6)); 
+		actions.add(new Action("Block",blockImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ARMOR, 6));
+		currentAction = actions.get(0);
+		actionImage=currentAction.getImageView();
+	}
+	
+	public final void setStatsText() {
+		super.setStatsText();
+	}
+	
+	public final Text getStatsText() {
+		return super.getStatsText();
+	}
+	
+	public void displayFirstAction(int x, int y) {
+		actionImage = actions.get(0).getImageView();
+		setActionIndexXY();
+	}
+	
+	private void setActionIndexXY() {
+		actionImage.setLayoutX(actionX);
+		actionImage.setLayoutY(actionY);
 	}
 	
 	public final Action getNextAction() {
+		actionIndex++;
 		if (actionIndex==actions.size()) {
 			actionIndex=0;
 		}
 		currentAction=actions.get(actionIndex);
+		
+		// update actionImage
 		actionImage=currentAction.getImageView();
-		actionIndex++;
+		setActionIndexXY();
+		Group group=((DemoPlayer)getPlayer()).getGroup();
+		group.getChildren().set(actionImageIndex, actionImage);
+		
+		return currentAction;
+	}
+	
+	public final Action getCurrentAction() {
 		return currentAction;
 	}
 	
@@ -97,30 +132,34 @@ public class Enemy extends Entity{
 	}
 
 	public final int getHealth() {
-		return health;
+		return get(StatType.HEALTH);
 	}
 
 	public final int getMaxHealth() {
-		return maxHealth;
+		return get(StatType.MAX_HEALTH);
 	}
 
-	public final void decrementHealth(int thisAmount) {
-		System.out.println("=====> Health: "+health+", Damage: "+thisAmount);
-		if (thisAmount>0) {
-			health-=thisAmount;
-			if (health<0) {
-				health=0;
+	// takes into account armor
+	public final void decrementHealth(int damage) {
+		//System.out.println("=====> Health: "+getHealth()+", Damage: "+damage);
+		if (damage>0) {
+			int armor = get(StatType.ARMOR);
+			int finalDamage=damage-armor;
+			decrement(StatType.HEALTH, finalDamage, 0);
+			
+			// Reduce armor by damage dealt
+			if (damage>armor) {
+				resetToZero(StatType.ARMOR); // damage exceeds armor. Set character armor to 0.
+			}else {
+				decrement(StatType.ARMOR, damage, 0); // subtract damage from armor.
 			}
 		}
-		System.out.println("=====> Health: "+health);
+		//System.out.println("=====> Health: "+getHealth());
 	}
 	
 	public final void incrementHealth(int thisAmount) {
 		if (thisAmount>0) {
-			health-=thisAmount;
-			if (health>maxHealth) {
-				health=maxHealth;
-			}
+			increment(StatType.HEALTH, thisAmount, get(StatType.MAX_HEALTH));
 		}
 	}
 	
@@ -139,7 +178,7 @@ public class Enemy extends Entity{
 	
 	@Override
 	public void updateScreenText() {
-		super.setStatsText();
+		setStatsText();
 		setActionText();
 	}
 

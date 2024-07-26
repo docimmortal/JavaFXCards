@@ -24,6 +24,8 @@ public class Character extends Entity {
 		//set(StatType.ATTACK, attack);
 		set(StatType.ARMOR, armor);
 		
+		setStatsText();
+		
 		//statsImage = ImageLoader.load("images//characters//stats-images.png",false);
 		//statsImage.setLayoutX(140);
 		//statsImage.setLayoutY(getLowerYPlusOffset()-22);

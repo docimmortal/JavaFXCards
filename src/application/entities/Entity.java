@@ -2,6 +2,7 @@ package application.entities;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import application.card.effects.StatType;
 import application.fxcomponents.ImageLoader;
@@ -28,13 +29,16 @@ public class Entity {
 		this.player=player;
 		statMap = new HashMap<>();
 		
+		initStatsImage(x);
+		setStatsText();
+	}
+	
+	private final void initStatsImage(int x) {
 		statsImage = ImageLoader.load("images//characters//stats-images.png",false);
-		//statsImage.setLayoutX(140);
 		statsX=x+(int)(getImageView().getImage().getWidth()/2)-(int)(statsImage.getImage().getWidth()/2);
 		statsY=getLowerYPlusOffset()-12;
 		statsImage.setLayoutX(statsX);
 		statsImage.setLayoutY(statsY);
-		setStatsText();
 	}
 	
 	public final int get(StatType statType) {
@@ -48,6 +52,13 @@ public class Entity {
 	
 	public final void set(StatType statType, int value) {
 		statMap.put(statType, value);
+	}
+	
+	public final void debugAllStats() {
+		Set<StatType> keys = statMap.keySet();
+		for (StatType key:keys) {
+			System.out.println(key+": "+statMap.get(key));
+		}
 	}
 	
 	// set minAmount to -1 if there is no minAmount.
@@ -100,19 +111,14 @@ public class Entity {
 		int hpLen=8;
 		if (lHealth>0)
 			hpLen-=(int)Math.log(lHealth);
+
 		String spacing1=String.format("%"+hpLen+"s", "");
-		/*int lAttack=get(StatType.ATTACK);
-		String attackStr=String.format("%3d",lAttack);
-		int attLen=7;
-		if (lAttack>9)
-			attLen-=1;
-		if (lAttack>99)
-			attLen-=1;
-		String spacing2=String.format("%"+attLen+"s", "");*/
+
 		int lArmor=get(StatType.ARMOR);
 		String armorStr=String.format("%3d",lArmor);
-		//String msg=healthStr+spacing1+attackStr+spacing2+armorStr;
+
 		String msg=healthStr+spacing1+armorStr;
+		//System.out.println(this.getClass().getSimpleName()+"======>>>"+msg);
 		statsText = TextUtil.initText(msg, statsX, statsY+25);
 	}
 	

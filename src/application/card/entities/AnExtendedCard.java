@@ -83,19 +83,8 @@ public class AnExtendedCard extends Card {
 			// Do card actions based on target
 			if (target==Target.ENEMY) {
 				if (damage != null && damage!=0) {
-					//System.out.println("=====> Initial damage "+damage);
-					int damageMinusArmor=damage;
-					//System.out.print("=====> Enemy ");
-					int armor=enemy.get(StatType.ARMOR);
-					damageMinusArmor=damageMinusArmor-armor;
-					if (damageMinusArmor<0) damageMinusArmor=0;
-					//System.out.println("=====> Altered damage "+damageMinusArmor);
-					enemy.decrement(StatType.ARMOR, damage, 0);
-					enemy.decrementHealth(damageMinusArmor);
+					enemy.decrementHealth(damage);
 					enemy.updateScreenText();
-					// temp
-					//getPlayer().getCharacter().increment(StatType.ATTACK,damageMinusArmor, 0); // min damage is 0 
-					System.out.println("ATTACK="+getPlayer().getCharacter().get(StatType.ATTACK));
 				}
 			} else if (target==Target.SELF) {
 				if (block != null && block!=0) {
@@ -107,6 +96,10 @@ public class AnExtendedCard extends Card {
 			// Update character stats.
 			// This will change based on index in group for this text
 			group.getChildren().set(5, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
+			
+			// Update enemy stats.
+			// This will change based on index in group for this text
+			group.getChildren().set(8, ((DemoPlayer)getPlayer()).getEnemy().getStatsText());
 		}
 	}
 
