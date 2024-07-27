@@ -27,6 +27,13 @@ public class Player {
 		character = new Character("images\\characters\\wizard-point-tp.png",this,group,20,0,0,3,100,100);  
 	}
 	
+	public void resetDeckHandDiscard() {
+		deck.addAll(hand);
+		deck.addAll(discard);
+		hand.clear();
+		discard.clear();
+	}
+	
 	public Group getGroup() {
 		return group;
 	}

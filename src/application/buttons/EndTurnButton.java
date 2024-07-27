@@ -13,14 +13,17 @@ import application.player.entities.Player;
 import application.utils.EnemyBuffUtil;
 import application.utils.EnemyVsCharacterUtil;
 import javafx.scene.Group;
+import javafx.stage.Stage;
 
 public class EndTurnButton extends ImageButton {
 
 	private Group group;
+	private Stage stage;
 	
-	public EndTurnButton(String filename, int x, int y, Player player, Group group) {
+	public EndTurnButton(String filename, int x, int y, Player player, Group group, Stage stage) {
 		super(filename, x, y, player);
 		this.group=group;
+		this.stage=stage;
 	}
 	
 	public void doAction() {
@@ -47,34 +50,35 @@ public class EndTurnButton extends ImageButton {
 		group.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
 		group.getChildren().set(5, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 
-		// If Enemy is dead, flag new button to display ("hunt") and do not draw cards
-
-		// ELSE
-		
-		
-		// If the game is not over (ie player dead)
-		if (!getPlayer().isGameOver()) {
-			
-			// Get next enemy action
-			enemy.getNextAction();
-			System.out.println(enemy.getCurrentAction());
-
-			// Draw up cards
-			List<Card> hand=getPlayer().getHand();
-			for (int i=0; i < getPlayer().handSize(); i++) {
-				if (hand.get(i) instanceof NoCard) {
-					getPlayer().replaceACard(i);
+		// If Enemy is dead, flag new button to display ("leave") and do not draw cards
+		if (enemy.get(StatType.HEALTH)==0) {
+			ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer(), group, stage);
+			group.getChildren().set(2, leaveButton.getImageView());
+		} else {
+			// If the game is not over (ie player dead)
+			if (!getPlayer().isGameOver()) {
+				
+				// Get next enemy action
+				enemy.getNextAction();
+				System.out.println(enemy.getCurrentAction());
+	
+				// Draw up cards
+				List<Card> hand=getPlayer().getHand();
+				for (int i=0; i < getPlayer().handSize(); i++) {
+					if (hand.get(i) instanceof NoCard) {
+						getPlayer().replaceACard(i);
+					}
 				}
-			}
-			((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
+				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
+			} // else game over
+	
+			/* Debugging
+			System.out.println("Updated points to "+((DemoPlayer)getPlayer()).getCharacter().get(StatType.POINTS));
+			System.out.println("Discards:");
+			for (Card card: getPlayer().getDiscard()) {
+				System.out.println(card);
+			}*/
 		}
-
-		/* Debugging
-		System.out.println("Updated points to "+((DemoPlayer)getPlayer()).getCharacter().get(StatType.POINTS));
-		System.out.println("Discards:");
-		for (Card card: getPlayer().getDiscard()) {
-			System.out.println(card);
-		}*/
 	}
 
 }

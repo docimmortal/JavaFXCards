@@ -14,9 +14,10 @@ public class ImageButton {
 	private Player player;
 	
 	public ImageButton(String filename, int  x, int y, Player player) {
-		noHoverImage = ImageLoader.load("images\\buttons\\"+filename+".jpg",false);
-		hoverImage = ImageLoader.load("images\\buttons\\"+filename+"-hover.jpg",false);
-		imageView = ImageLoader.load("images\\buttons\\"+filename+".jpg",false);
+		String[] parts = filename.split("\\.");
+		noHoverImage = ImageLoader.load("images\\buttons\\"+parts[0]+"."+parts[1],false);
+		hoverImage = ImageLoader.load("images\\buttons\\"+parts[0]+"-hover."+parts[1],false);
+		imageView = ImageLoader.load("images\\buttons\\"+parts[0]+"."+parts[1],false);
 		imageView.setLayoutX(x);
 		imageView.setLayoutY(y);
 		imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {

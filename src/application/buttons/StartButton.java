@@ -1,12 +1,11 @@
 package application.buttons;
 
-import java.util.List;
-
 import application.entities.Enemy;
 import application.fxcomponents.ImageLoader;
 import application.player.entities.Player;
 import application.player.entities.DemoPlayer;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -45,6 +44,7 @@ public class StartButton extends ImageButton {
 		// initialize deck and add the card images to the screen
 		//initDeck(group);
 		player.getCharacter().setInitialDeck();
+		player.resetDeckHandDiscard();
 		drawCards(5);
 
 		// display cards
@@ -60,39 +60,60 @@ public class StartButton extends ImageButton {
 	private void initScreen(Group group) {
 		// Set background
 		// group: index 0
-		group.getChildren().add(ImageLoader.load("images\\backgrounds\\woods2.jpg", false)); 
-
+		//group.getChildren().add(ImageLoader.load("images\\backgrounds\\woods2.jpg", false)); 
+		putInGroup(0, ImageLoader.load("images\\backgrounds\\woods2.jpg", false),group);
+		
 		// Add spell points text
 		// group: index 1
 		pointsText = getPlayer().getCharacter().getSpellpointsText();
-		group.getChildren().add(pointsText);
+		//group.getChildren().add(pointsText);
+		putInGroup(1,pointsText, group);
 
 		// Add End Turn button - group: index 2
-		ImageButton endTurnButton = new EndTurnButton("Button-EndTurn",1200,700, player, group);
-		group.getChildren().add(endTurnButton.getImageView());
+		ImageButton endTurnButton = new EndTurnButton("Button-EndTurn.jpg",1200,700, player, group, stage);
+		//group.getChildren().add(endTurnButton.getImageView());
+		putInGroup(2,endTurnButton.getImageView(), group);
 
 		// Add character image - group: index 3
-		group.getChildren().add(getPlayer().getCharacter().getImageView());
+		//group.getChildren().add(getPlayer().getCharacter().getImageView());
+		putInGroup(3,getPlayer().getCharacter().getImageView(), group);
 
 		// Add character stats image - group: index 4
-		group.getChildren().add(player.getCharacter().getStatsImage());
+		//group.getChildren().add(player.getCharacter().getStatsImage());
+		putInGroup(4,player.getCharacter().getStatsImage(),group);
 
 		// Add character text - group: index 5
 		statsText=player.getCharacter().getStatsText();
-		group.getChildren().add(statsText);
+		//group.getChildren().add(statsText);
+		putInGroup(5,statsText,group);
 
 		// Add enemies - group: index 6
-		group.getChildren().add(enemy.getImageView());
+		//group.getChildren().add(enemy.getImageView());
+		putInGroup(6,enemy.getImageView(),group);
 
 		// Add enemy health - group: index 7,8
-		group.getChildren().add(enemy.getStatsImage());
-		group.getChildren().add(enemy.getStatsText());
+		//group.getChildren().add(enemy.getStatsImage());
+		putInGroup(7,enemy.getStatsImage(),group);
+		//group.getChildren().add(enemy.getStatsText());
+		putInGroup(8,enemy.getStatsText(),group);
 
 		// Add enemy action - group: index 9,10
-		group.getChildren().add(enemy.getActionImage());
-		group.getChildren().add(enemy.getActionText());
+		//group.getChildren().add(enemy.getActionImage());
+		putInGroup(9,enemy.getActionImage(),group);
+		//group.getChildren().add(enemy.getActionText());
+		putInGroup(10,enemy.getActionText(),group);
 	}
 
+	private void putInGroup(int index, Node node, Group group) {
+	
+		if (group.getChildren().size()<index+1) {
+			group.getChildren().add(node);
+		} else {
+			group.getChildren().set(index, node);
+		}
+	}
+	
+	
 	private void drawCards(int handSize) {
 		drawCards(handSize,handSize);
 	}

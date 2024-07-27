@@ -4,15 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.entities.Enemy;
-import application.buttons.EndTurnButton;
-import application.buttons.ImageButton;
 import application.buttons.StartButton;
-import application.card.effects.StatType;
-import application.card.entities.AnExtendedCard;
-import application.fxcomponents.ImageLoader;
 import application.player.entities.DemoPlayer;
 import application.screens.SplashScreen;
-import entities.card.Target;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -46,7 +40,7 @@ public class Main extends Application {
 			
 			SplashScreen spl = new SplashScreen("map.jpg");
 			
-			spl.addButton(new StartButton("Button-start",1200,700, player, group, stage));
+			spl.addButton(new StartButton("Button-start.jpg",1200,700, player, group, stage));
 			VBox vbox = spl.getSplashScreen();
 			
 			// Final steps to render the scene
