@@ -11,16 +11,10 @@ public class DemoPlayer extends Player {
 
 	private Enemy enemy;
 	private Enemy enemyClicked;
-	private Group group;
 	private boolean initialHandSet;
 	
 	public DemoPlayer(Group group) {
-		super();
-		this.group=group;
-	}
-	
-	public Group getGroup() {
-		return group;
+		super(group);
 	}
 
 	public Enemy getEnemy() {
@@ -49,13 +43,12 @@ public class DemoPlayer extends Player {
 	
 	@Override
 	public void updateDiscardCardImage(int index) {
-		group.getChildren().set(Main.FIRST_CARD_INDEX+index, getHand().get(index).getImageView());
+		getGroup().getChildren().set(Main.FIRST_CARD_INDEX+index, getHand().get(index).getImageView());
 	}
 	
 	@Override
 	public boolean isGameOver() {
 		boolean gameOver=false;
-		//if (getCharacter().getHealth() <=0) {
 		if (getCharacter().get(StatType.HEALTH) <=0) {
 			gameOver=true;
 		}

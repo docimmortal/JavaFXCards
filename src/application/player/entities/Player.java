@@ -6,6 +6,7 @@ import java.util.List;
 import application.card.entities.Card;
 import application.card.entities.NoCard;
 import application.entities.Character;
+import javafx.scene.Group;
 
 public class Player {
 
@@ -14,13 +15,20 @@ public class Player {
 	private List<Card> hand;
 	private List<Card> discard;
 	private Character character;
+	
+	private Group group;
 
-	public Player() {
+	public Player(Group group) {
 		deck = new ArrayList<>();
 		hand = new ArrayList<>();
 		discard = new ArrayList<>();
+		this.group=group;
 		// 20 health, 0 armor, 0 attack, 3 spell points, x=100,y=100 
-		character = new Character("images\\characters\\wizard-point-tp.png",this,20,0,0,3,100,100);  
+		character = new Character("images\\characters\\wizard-point-tp.png",this,group,20,0,0,3,100,100);  
+	}
+	
+	public Group getGroup() {
+		return group;
 	}
 	
 	public final Card getCardClicked() {

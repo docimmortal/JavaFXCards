@@ -12,7 +12,6 @@ import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import application.utils.EnemyBuffUtil;
 import application.utils.EnemyVsCharacterUtil;
-import entities.card.Target;
 import javafx.scene.Group;
 
 public class EndTurnButton extends ImageButton {
@@ -26,6 +25,8 @@ public class EndTurnButton extends ImageButton {
 	
 	public void doAction() {
 		System.out.println("Ended turn. Do stuff.");
+		
+		// Any ongoing enemy damage/debuffs
 		
 		// Enemy does action, can be changed to getEnemies();
 		Enemy enemy = ((DemoPlayer)getPlayer()).getEnemy();
