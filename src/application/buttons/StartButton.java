@@ -10,11 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class StartButton extends ImageButton {
 
-	private Stage stage;
 	private DemoPlayer player;
 	private Text pointsText;
 	private Text statsText;
@@ -23,10 +21,9 @@ public class StartButton extends ImageButton {
 	
 	private static final int ENEMY1_ACTION_IMAGE_INDEX=9;
 
-	public StartButton(String filename, int x, int y, Player player, Group group, Stage stage) {
+	public StartButton(String filename, int x, int y, Player player, Group group) {
 		super(filename, x, y, player);
 		this.player=(DemoPlayer)player;
-		this.stage=stage;
 		this.group=group;
 	}
 
@@ -52,8 +49,8 @@ public class StartButton extends ImageButton {
 		player.addCardsToJavaFxDisplay(group);
 		VBox pane = new VBox(1, new HBox(group));
 		Scene scene = new Scene(pane, 1500, 900);
-		stage.setScene(scene);
-		stage.show();
+		player.getStage().setScene(scene);
+		player.getStage().show();
 	}
 
 
@@ -70,7 +67,7 @@ public class StartButton extends ImageButton {
 		putInGroup(1,pointsText, group);
 
 		// Add End Turn button - group: index 2
-		ImageButton endTurnButton = new EndTurnButton("Button-EndTurn.jpg",1200,700, player, group, stage);
+		ImageButton endTurnButton = new EndTurnButton("Button-EndTurn.jpg",1200,700, player, group);
 		//group.getChildren().add(endTurnButton.getImageView());
 		putInGroup(2,endTurnButton.getImageView(), group);
 

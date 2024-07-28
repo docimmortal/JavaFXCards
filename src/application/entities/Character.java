@@ -4,12 +4,8 @@ import application.player.entities.Player;
 import application.utils.TextUtil;
 import entities.card.Target;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import application.card.effects.StatType;
 import application.card.entities.AnExtendedCard;
-import application.card.entities.Card;
 import javafx.scene.Group;
 import javafx.scene.text.Text;
 
@@ -26,14 +22,7 @@ public class Character extends Entity {
 		pointsText = TextUtil.initText("Spell points: "+points, 70, 70);
 		set(StatType.HEALTH, health);
 		set(StatType.MAX_HEALTH, health);
-		//set(StatType.ATTACK, attack);
 		set(StatType.ARMOR, armor);
-		
-		setStatsText();
-		
-		//statsImage = ImageLoader.load("images//characters//stats-images.png",false);
-		//statsImage.setLayoutX(140);
-		//statsImage.setLayoutY(getLowerYPlusOffset()-22);
 	}
 
 	public final Text getSpellpointsText() {
@@ -84,7 +73,6 @@ public class Character extends Entity {
 	
 	public void resetAll() {
 		resetTo(StatType.POINTS, StatType.MAX_POINTS);
-		//resetToZero(StatType.ATTACK);
 		resetToZero(StatType.ARMOR);
 	}
 }

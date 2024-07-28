@@ -7,6 +7,7 @@ import application.card.entities.Card;
 import application.card.entities.NoCard;
 import application.entities.Character;
 import javafx.scene.Group;
+import javafx.stage.Stage;
 
 public class Player {
 
@@ -17,14 +18,20 @@ public class Player {
 	private Character character;
 	
 	private Group group;
+	private Stage stage;
 
-	public Player(Group group) {
+	public Player(Group group, Stage stage) {
 		deck = new ArrayList<>();
 		hand = new ArrayList<>();
 		discard = new ArrayList<>();
 		this.group=group;
+		this.stage=stage;
 		// 20 health, 0 armor, 0 attack, 3 spell points, x=100,y=100 
-		character = new Character("images\\characters\\wizard-point-tp.png",this,group,20,0,0,3,100,100);  
+		character = new Character("images\\characters\\wizard-point-tp.png",this,group, 20,0,0,3,100,100);
+	}
+	
+	public Stage getStage() {
+		return stage;
 	}
 	
 	public void resetDeckHandDiscard() {
@@ -93,7 +100,7 @@ public class Player {
 	public final void discardCardFromHand(Card card) {
 		int index=getHand().indexOf(card);
 		discard.add(getHand().get(index));
-		hand.set(index, new NoCard(this));
+		hand.set(index, new NoCard(this, stage));
 		setCardClicked(null);
 		updateDiscardCardImage(index);
 	}

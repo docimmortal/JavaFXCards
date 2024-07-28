@@ -30,14 +30,12 @@ public class ImageButton {
 		imageView.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
 			@Override
 	        public void handle(MouseEvent event) {
-				System.out.println("NoHover entered!");
 				imageView.setImage(hoverImage.getImage());
 			}
 		});
 		imageView.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
 			@Override
 	        public void handle(MouseEvent event) {
-				System.out.println("Hover exited!");
 				imageView.setImage(noHoverImage.getImage());
 			}
 		});

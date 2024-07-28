@@ -36,11 +36,11 @@ public class Main extends Application {
 			// Horizontal panes array
 			panes = new ArrayList<>();
 			Group group = new Group();
-			player = new DemoPlayer(group); // new character created
+			player = new DemoPlayer(group, stage); // new character created
 			
 			SplashScreen spl = new SplashScreen("map.jpg");
 			
-			spl.addButton(new StartButton("Button-start.jpg",1200,700, player, group, stage));
+			spl.addButton(new StartButton("Button-start.jpg",1200,700, player, group));
 			VBox vbox = spl.getSplashScreen();
 			
 			// Final steps to render the scene

@@ -13,17 +13,14 @@ import application.player.entities.Player;
 import application.utils.EnemyBuffUtil;
 import application.utils.EnemyVsCharacterUtil;
 import javafx.scene.Group;
-import javafx.stage.Stage;
 
 public class EndTurnButton extends ImageButton {
 
 	private Group group;
-	private Stage stage;
 	
-	public EndTurnButton(String filename, int x, int y, Player player, Group group, Stage stage) {
+	public EndTurnButton(String filename, int x, int y, Player player, Group group) {
 		super(filename, x, y, player);
 		this.group=group;
-		this.stage=stage;
 	}
 	
 	public void doAction() {
@@ -52,7 +49,7 @@ public class EndTurnButton extends ImageButton {
 
 		// If Enemy is dead, flag new button to display ("leave") and do not draw cards
 		if (enemy.get(StatType.HEALTH)==0) {
-			ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer(), group, stage);
+			ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer(), group);
 			group.getChildren().set(2, leaveButton.getImageView());
 		} else {
 			// If the game is not over (ie player dead)

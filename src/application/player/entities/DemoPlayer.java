@@ -6,6 +6,7 @@ import application.card.entities.Card;
 import application.entities.Enemy;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class DemoPlayer extends Player {
 
@@ -13,8 +14,8 @@ public class DemoPlayer extends Player {
 	private Enemy enemyClicked;
 	private boolean initialHandSet;
 	
-	public DemoPlayer(Group group) {
-		super(group);
+	public DemoPlayer(Group group, Stage stage) {
+		super(group, stage);
 	}
 
 	public Enemy getEnemy() {

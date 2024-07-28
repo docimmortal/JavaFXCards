@@ -1,8 +1,5 @@
 package application.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import application.buttons.ImageButton;
 import application.fxcomponents.ImageLoader;
 import javafx.scene.Group;

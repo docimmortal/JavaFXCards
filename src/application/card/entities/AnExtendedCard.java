@@ -3,6 +3,8 @@ package application.card.entities;
 import java.util.HashMap;
 import java.util.Map;
 
+import application.buttons.ImageButton;
+import application.buttons.LeaveButton;
 import application.card.effects.StatType;
 import application.entities.Enemy;
 import application.player.entities.DemoPlayer;
@@ -41,7 +43,7 @@ public class AnExtendedCard extends Card {
 	}
 	
 	public void set(StatType statType, int value) {
-		System.out.println(getCardName()+": Setting "+statType+" to "+value);
+		//System.out.println(getCardName()+": Setting "+statType+" to "+value);
 		statMap.put(statType, value);
 	}
 
@@ -50,12 +52,12 @@ public class AnExtendedCard extends Card {
 		boolean validPlay=false;
 		int cost=statMap.get(StatType.COST);
 		int totalPoints=((DemoPlayer)getPlayer()).getCharacter().get(StatType.POINTS);
-		System.out.print(getCardName()+" cost:"+cost+", total points:"+totalPoints);
+		//System.out.print(getCardName()+" cost:"+cost+", total points:"+totalPoints);
 		if (totalPoints >= cost) {
 			validPlay=true;
 			getPlayer().setCardClicked(this);
 		}
-		System.out.println("  "+validPlay);
+		//System.out.println("  "+validPlay);
 		return validPlay;
 	}
 	
@@ -100,6 +102,12 @@ public class AnExtendedCard extends Card {
 			// Update enemy stats.
 			// This will change based on index in group for this text
 			group.getChildren().set(8, ((DemoPlayer)getPlayer()).getEnemy().getStatsText());
+			
+			// Enemy will be null for cards that do not target an enemy
+			if (enemy!=null && enemy.get(StatType.HEALTH)==0) {
+				ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer(), group);
+				group.getChildren().set(2, leaveButton.getImageView());
+			}
 		}
 	}
 

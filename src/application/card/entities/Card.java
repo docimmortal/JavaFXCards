@@ -5,6 +5,7 @@ import application.player.entities.Player;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class Card {
 
@@ -29,6 +30,10 @@ public class Card {
 		this.cardName=cardName;
 		canUse=true;
 		cardNo=staticNo++;
+	}
+	
+	public Stage getStage() {
+		return getPlayer().getStage();
 	}
 	
 	public int getCardNo() {
