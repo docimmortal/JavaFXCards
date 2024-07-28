@@ -172,7 +172,6 @@ public class Enemy extends Entity{
 	}
 	
 	private void initText() {
-		//healthText = TextUtil.initText(""+health, (int)healthImage.getLayoutX()+10, (int)healthImage.getLayoutY()+25);
 		actionText = TextUtil.initText(""+currentAction.getValue(), (int)actionImage.getLayoutX()+10, (int)actionImage.getLayoutY()+25);
 	}
 	

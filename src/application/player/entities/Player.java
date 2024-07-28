@@ -20,6 +20,16 @@ public class Player {
 	private Group group;
 	private Stage stage;
 
+	public Player(Group group, Stage stage, Character character) {
+		deck = new ArrayList<>();
+		hand = new ArrayList<>();
+		discard = new ArrayList<>();
+		this.group=group;
+		this.stage=stage;
+		// 20 health, 0 armor, 0 attack, 3 spell points, x=100,y=100 
+		this.character = character;
+	}
+	
 	public Player(Group group, Stage stage) {
 		deck = new ArrayList<>();
 		hand = new ArrayList<>();
@@ -29,7 +39,7 @@ public class Player {
 		// 20 health, 0 armor, 0 attack, 3 spell points, x=100,y=100 
 		character = new Character("images\\characters\\wizard-point-tp.png",this,group, 20,0,0,3,100,100);
 	}
-	
+
 	public Stage getStage() {
 		return stage;
 	}

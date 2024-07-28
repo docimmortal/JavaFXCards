@@ -1,5 +1,6 @@
 package application.player.entities;
 
+import application.entities.Character;
 import application.Main;
 import application.card.effects.StatType;
 import application.card.entities.Card;
@@ -16,6 +17,10 @@ public class DemoPlayer extends Player {
 	
 	public DemoPlayer(Group group, Stage stage) {
 		super(group, stage);
+	}
+	
+	public DemoPlayer(Group group, Stage stage, Character character) {
+		super(group, stage, character);
 	}
 
 	public Enemy getEnemy() {

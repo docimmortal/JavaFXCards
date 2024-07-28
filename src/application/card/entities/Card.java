@@ -17,7 +17,11 @@ public class Card {
 	private static int staticNo=1;
 	
 	public Card(String filename, String cardName, Player player) {
-		imageView = ImageLoader.load(filename,false);
+		if (! filename.contains("no-card")) {
+				imageView = ImageLoader.load(filename,false,169,244);
+		} else {
+			imageView = ImageLoader.load(filename,false);
+		}
 		imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 	    	@Override
 	        public void handle(MouseEvent event) {

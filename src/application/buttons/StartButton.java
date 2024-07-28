@@ -1,5 +1,9 @@
 package application.buttons;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import application.Main;
 import application.entities.Enemy;
 import application.fxcomponents.ImageLoader;
 import application.player.entities.Player;
@@ -19,7 +23,8 @@ public class StartButton extends ImageButton {
 	private Enemy enemy;
 	private Group group;
 	
-	private static final int ENEMY1_ACTION_IMAGE_INDEX=9;
+	private List<Enemy> enemies;
+
 
 	public StartButton(String filename, int x, int y, Player player, Group group) {
 		super(filename, x, y, player);
@@ -29,8 +34,12 @@ public class StartButton extends ImageButton {
 
 	@Override
 	public void doAction() {
-		
-		enemy = new Enemy("images\\enemies\\bunny.png",ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 15);
+		if (enemies == null || enemies.size()==0) {
+			System.out.println("NO ENEMIES DEFINED! Setting default enemy.");
+			enemies = new ArrayList<>();
+			enemies.add(new Enemy("images\\enemies\\bunny.png",Main.ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 35));
+		}
+		enemy = enemies.remove(0); // remove first enemy from the list.
 		player.setEnemy(enemy);
 		
 		// display everything except cards;
@@ -52,8 +61,11 @@ public class StartButton extends ImageButton {
 		player.getStage().setScene(scene);
 		player.getStage().show();
 	}
-
-
+	
+	public void setEnemies(List<Enemy> enemies) {
+		this.enemies=enemies;
+	}
+	
 	private void initScreen(Group group) {
 		// Set background
 		// group: index 0

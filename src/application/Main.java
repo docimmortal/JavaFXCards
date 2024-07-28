@@ -24,6 +24,8 @@ public class Main extends Application {
 	Enemy enemy ;
 	List<HBox> panes;
 	
+	public static final int ENEMY1_ACTION_IMAGE_INDEX=9;
+	
 	public static final int FIRST_CARD_INDEX=11;
 	
 	public static void main(String[] args) {
@@ -39,8 +41,12 @@ public class Main extends Application {
 			player = new DemoPlayer(group, stage); // new character created
 			
 			SplashScreen spl = new SplashScreen("map.jpg");
+			StartButton start = new StartButton("Button-start.jpg",1200,700, player, group);
+			List<Enemy> enemies = new ArrayList<>();
+			enemies.add(new Enemy("images\\enemies\\bunny.png",ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 35));
+			start.setEnemies(enemies);
 			
-			spl.addButton(new StartButton("Button-start.jpg",1200,700, player, group));
+			spl.addButton(start);
 			VBox vbox = spl.getSplashScreen();
 			
 			// Final steps to render the scene

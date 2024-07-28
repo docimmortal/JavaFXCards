@@ -118,8 +118,8 @@ public class Entity {
 		String armorStr=String.format("%3d",lArmor);
 
 		String msg=healthStr+spacing1+armorStr;
-		//System.out.println(this.getClass().getSimpleName()+"======>>>"+msg);
 		statsText = TextUtil.initText(msg, statsX, statsY+25);
+		System.out.println("===========>>>>> setStatsText:"+statsText);
 	}
 	
 	public final int getLowerYPlusOffset() {
