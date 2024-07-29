@@ -78,27 +78,39 @@ public class Character extends Entity {
 		eCards.add(punch);
 		getPlayer().addCardToDeck(punch);
 		
-		AnExtendedCard puncha = new AnExtendedCard("images\\cards\\puncha.jpg",Target.ENEMY, getPlayer(), group, "Punch", 1);
+		AnExtendedCard punchPlus = new AnExtendedCard("images\\cards\\punch-plus.jpg",Target.ENEMY, getPlayer(), group, "Punch+", 1);
+		punchPlus.set(StatType.ATTACK,5);
+		punchPlus.set(StatType.CYCLE, 1);
+		eCards.add(punch);
+		getPlayer().addCardToDeck(punchPlus);
+		
+		AnExtendedCard puncha = new AnExtendedCard("images\\cards\\puncha.jpg",Target.ENEMY, getPlayer(), group, "Punch A", 1);
 		puncha.set(StatType.ATTACK,5);
 		eCards.add(puncha);
 		getPlayer().addCardToDeck(puncha);
 		
-		AnExtendedCard punchb = new AnExtendedCard("images\\cards\\punchb.jpg",Target.ENEMY, getPlayer(), group, "Punch", 1);
+		getPlayer().addCardToDeck(new AnExtendedCard(block));
+		
+		AnExtendedCard punchb = new AnExtendedCard("images\\cards\\punchb.jpg",Target.ENEMY, getPlayer(), group, "Punch B", 1);
 		punchb.set(StatType.ATTACK,5);
 		eCards.add(punchb);
 		getPlayer().addCardToDeck(punchb);
 		
-		AnExtendedCard punchc = new AnExtendedCard("images\\cards\\punchc.jpg",Target.ENEMY, getPlayer(), group, "Punch", 1);
+		AnExtendedCard punchc = new AnExtendedCard("images\\cards\\punchc.jpg",Target.ENEMY, getPlayer(), group, "Punch C", 1);
 		punchc.set(StatType.ATTACK,5);
 		eCards.add(punchc);
 		getPlayer().addCardToDeck(punchc);
 		
-		AnExtendedCard punchd = new AnExtendedCard("images\\cards\\punchd.jpg",Target.ENEMY, getPlayer(), group, "Punch", 1);
+		getPlayer().addCardToDeck(new AnExtendedCard(block));
+		getPlayer().addCardToDeck(new AnExtendedCard(block));
+		getPlayer().addCardToDeck(new AnExtendedCard(block));
+		
+		AnExtendedCard punchd = new AnExtendedCard("images\\cards\\punchd.jpg",Target.ENEMY, getPlayer(), group, "Punch D", 1);
 		punchd.set(StatType.ATTACK,5);
 		eCards.add(punchd);
 		getPlayer().addCardToDeck(punchd);
 		
-		AnExtendedCard punche = new AnExtendedCard("images\\cards\\punche.jpg",Target.ENEMY, getPlayer(), group, "Punch", 1);
+		AnExtendedCard punche = new AnExtendedCard("images\\cards\\punche.jpg",Target.ENEMY, getPlayer(), group, "Punch E", 1);
 		punche.set(StatType.ATTACK,5);
 		eCards.add(punche);
 		getPlayer().addCardToDeck(punche);

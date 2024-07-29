@@ -46,7 +46,6 @@ public class Entity {
 		if (value==null) {
 			value = Integer.valueOf(0);
 		}
-		//System.out.println("Entity get "+statType+" = "+value);
 		return value;
 	}
 	
@@ -64,10 +63,13 @@ public class Entity {
 	// set minAmount to -1 if there is no minAmount.
 	public final void decrement(StatType statType, int amount, int minAmount) {
 		if (amount>0) {
-			int value=get(statType);
-			value-=amount;
+			int initValue=get(statType);
+			int value=initValue-amount;
 			if (minAmount>=0 && value<minAmount) {
 				value=minAmount;
+			}
+			if (value>initValue) { //underflow
+				value=Integer.MIN_VALUE;
 			}
 			statMap.put(statType, value);
 			updateScreenText();
@@ -81,6 +83,9 @@ public class Entity {
 			value+=amount;
 			if (maxAmount>0 && amount>maxAmount) {
 				value=maxAmount;
+			}
+			if (value<0) {// overflow
+				value=Integer.MAX_VALUE;
 			}
 			statMap.put(statType, value);
 			updateScreenText();
@@ -115,11 +120,10 @@ public class Entity {
 		String spacing1=String.format("%"+hpLen+"s", "");
 
 		int lArmor=get(StatType.ARMOR);
-		String armorStr=String.format("%3d",lArmor);
+		String armorStr=String.format(" %3d",lArmor);
 
 		String msg=healthStr+spacing1+armorStr;
 		statsText = TextUtil.initText(msg, statsX, statsY+25);
-		System.out.println("===========>>>>> setStatsText:"+statsText);
 	}
 	
 	public final int getLowerYPlusOffset() {

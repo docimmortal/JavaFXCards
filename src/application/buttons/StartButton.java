@@ -24,6 +24,7 @@ public class StartButton extends ImageButton {
 	private Group group;
 	
 	private List<Enemy> enemies;
+	private int enemyIndex;
 
 
 	public StartButton(String filename, int x, int y, Player player, Group group) {
@@ -39,8 +40,13 @@ public class StartButton extends ImageButton {
 			enemies = new ArrayList<>();
 			enemies.add(new Enemy("images\\enemies\\bunny.png",Main.ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 35));
 		}
-		enemy = enemies.remove(0); // remove first enemy from the list.
+		if (enemyIndex>enemies.size()-1) {
+			System.out.println("Reset enemy list");
+			enemyIndex=0;
+		}
+		enemy = enemies.get(enemyIndex++); // remove first enemy from the list.
 		player.setEnemy(enemy);
+		player.getCharacter().resetAll();
 		
 		// display everything except cards;
 		initScreen(group);
@@ -51,7 +57,7 @@ public class StartButton extends ImageButton {
 		//initDeck(group);
 		player.getCharacter().setInitialDeck();
 		player.resetDeckHandDiscard();
-		drawCards(5);
+		player.drawAnInitialHand();
 
 		// display cards
 		// group: indexes 11-15 (change FIRST_CARD_INDEX if this changes).
@@ -64,6 +70,7 @@ public class StartButton extends ImageButton {
 	
 	public void setEnemies(List<Enemy> enemies) {
 		this.enemies=enemies;
+		enemyIndex=0;
 	}
 	
 	private void initScreen(Group group) {
@@ -79,7 +86,7 @@ public class StartButton extends ImageButton {
 		putInGroup(1,pointsText, group);
 
 		// Add End Turn button - group: index 2
-		ImageButton endTurnButton = new EndTurnButton("Button-EndTurn.jpg",1200,700, player, group);
+		ImageButton endTurnButton = new EndTurnButton("Button-EndTurn.jpg",1200,750, player, group);
 		//group.getChildren().add(endTurnButton.getImageView());
 		putInGroup(2,endTurnButton.getImageView(), group);
 
@@ -111,6 +118,9 @@ public class StartButton extends ImageButton {
 		putInGroup(9,enemy.getActionImage(),group);
 		//group.getChildren().add(enemy.getActionText());
 		putInGroup(10,enemy.getActionText(),group);
+		
+		ImageButton discard = new DiscardButton(1200,600, player, group);
+		putInGroup(11,discard.getImageView(),group);
 	}
 
 	private void putInGroup(int index, Node node, Group group) {
@@ -121,17 +131,5 @@ public class StartButton extends ImageButton {
 			group.getChildren().set(index, node);
 		}
 	}
-	
-	
-	private void drawCards(int handSize) {
-		drawCards(handSize,handSize);
-	}
 
-	private void drawCards(int cards, int maxHandSize) {
-		int count=0;
-		while (player.handSize() < maxHandSize && count<cards) {
-			player.drawACard();
-			count++;
-		}
-	}
 }

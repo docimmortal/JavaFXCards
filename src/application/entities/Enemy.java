@@ -53,7 +53,6 @@ public class Enemy extends Entity{
 	    	@Override
 	        public void handle(MouseEvent event) {
 	    		if (canTarget()) {
-	    			System.out.println("Clicked monster");
 	    			((DemoPlayer)player).setEnemyClicked(thisEnemy);
 	    			doTargetAction();
 	    		}
@@ -70,9 +69,15 @@ public class Enemy extends Entity{
 		ImageView attackImage = ImageLoader.load("images//enemies//lattack.png",false);
 		ImageView blockImage = ImageLoader.load("images//enemies//lshield.png",false);
 		
-		//actions.add(String name, ImageView imageView, EffectTarget target, Adjustment adjustment, StatType statType, int value) 
+		//actions.add(String name, ImageView imageView, EffectTarget target, Adjustment adjustment, StatType statType, int value) 		
+		actions.add(new Action("Block",blockImage, EffectTarget.SELF, Adjustment.INCREMENTS, StatType.ARMOR, 6));
 		actions.add(new Action("Bite",attackImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 6)); 
-		actions.add(new Action("Block",blockImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ARMOR, 6));
+		currentAction = actions.get(0);
+		actionImage=currentAction.getImageView();
+	}
+	
+	public void initDefaultActions(List<Action> actions) {
+		this.actions = actions;
 		currentAction = actions.get(0);
 		actionImage=currentAction.getImageView();
 	}
@@ -154,7 +159,6 @@ public class Enemy extends Entity{
 				decrement(StatType.ARMOR, damage, 0); // subtract damage from armor.
 			}
 		}
-		//System.out.println("=====> Health: "+getHealth());
 	}
 	
 	public final void incrementHealth(int thisAmount) {

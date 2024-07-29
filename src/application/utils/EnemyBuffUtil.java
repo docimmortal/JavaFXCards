@@ -11,6 +11,7 @@ public class EnemyBuffUtil {
 		switch (action.getStatType()) {
 			case ARMOR:
 				setArmor(enemy, action.getValue());
+				System.out.println("Enemy armor: "+enemy.get(StatType.ARMOR));
 				break;
 			default:
 		}

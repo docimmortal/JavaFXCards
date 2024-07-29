@@ -11,10 +11,7 @@ public class Card {
 
 	private ImageView imageView;
 	private String cardName;
-	private boolean canUse;
 	private Player player; // required to manipulate player variables.
-	private int cardNo;
-	private static int staticNo=1;
 	
 	public Card(String filename, String cardName, Player player) {
 		if (! filename.contains("no-card")) {
@@ -32,16 +29,10 @@ public class Card {
 		});
 		this.player=player;
 		this.cardName=cardName;
-		canUse=true;
-		cardNo=staticNo++;
 	}
 	
 	public Stage getStage() {
 		return getPlayer().getStage();
-	}
-	
-	public int getCardNo() {
-		return cardNo;
 	}
 	
 	public String getCardName() {
@@ -53,14 +44,6 @@ public class Card {
 		return imageView;
 	}
 	
-	public final void setCanUse(boolean canUse) {
-		this.canUse=canUse;
-	}
-	
-	public final boolean getCanUse() {
-		return canUse;
-	}
-
 	public final Player getPlayer() {
 		return player;
 	}
@@ -82,10 +65,6 @@ public class Card {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Card [cardName=");
 		builder.append(cardName);
-		builder.append(", cardNo=");
-		builder.append(cardNo);
-		builder.append(", canUse=");
-		builder.append(canUse);
 		builder.append("]");
 		return builder.toString();
 	}

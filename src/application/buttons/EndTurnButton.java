@@ -1,10 +1,7 @@
 package application.buttons;
 
-import java.util.List;
-
 import application.card.effects.EffectTarget;
 import application.card.effects.StatType;
-import application.card.entities.Card;
 import application.card.entities.NoCard;
 import application.entities.Action;
 import application.entities.Enemy;
@@ -41,6 +38,9 @@ public class EndTurnButton extends ImageButton {
 		} else if (action.getTarget() == EffectTarget.CHARACTER) {
 			EnemyVsCharacterUtil.getEnemyAction(enemy, ((DemoPlayer)getPlayer()).getCharacter());
 		}
+		// Update enemy stats
+		enemy.setStatsText();
+		group.getChildren().set(8, enemy.getStatsText());
 		
 		// Player reset
 		((DemoPlayer)getPlayer()).getCharacter().resetAll();
@@ -51,21 +51,17 @@ public class EndTurnButton extends ImageButton {
 		if (enemy.get(StatType.HEALTH)==0) {
 			ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer(), group);
 			group.getChildren().set(2, leaveButton.getImageView());
+			getPlayer().clearHand();
 		} else {
 			// If the game is not over (ie player dead)
 			if (!getPlayer().isGameOver()) {
 				
 				// Get next enemy action
 				enemy.getNextAction();
-				System.out.println(enemy.getCurrentAction());
 	
 				// Draw up cards
-				List<Card> hand=getPlayer().getHand();
-				for (int i=0; i < getPlayer().handSize(); i++) {
-					if (hand.get(i) instanceof NoCard) {
-						getPlayer().replaceACard(i);
-					}
-				}
+				drawCards(5,5);
+				
 				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
 			} // else game over
 	
@@ -75,6 +71,20 @@ public class EndTurnButton extends ImageButton {
 			for (Card card: getPlayer().getDiscard()) {
 				System.out.println(card);
 			}*/
+		}
+	}
+	
+
+	private void drawCards(int cards, int maxHandSize) {
+		int count=0;
+		int index=0;
+
+		while (getPlayer().handSize() < maxHandSize && count<cards) {
+			if (getPlayer().getHand().get(index) instanceof NoCard) {
+				getPlayer().replaceACard(index);
+				count++;
+			}
+			index++;
 		}
 	}
 

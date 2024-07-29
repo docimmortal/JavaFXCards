@@ -45,10 +45,26 @@ public class Player {
 	}
 	
 	public void resetDeckHandDiscard() {
-		deck.addAll(hand);
+		// Add all cards that are not NoCard from hand to deck
+		for (Card card: hand) {
+			if (!(card instanceof NoCard)) {
+				deck.add(card);
+			}
+		}
+		// put all discards back in deck
 		deck.addAll(discard);
+		// clear hand and discard
 		hand.clear();
 		discard.clear();
+		shuffleDeck();
+	}
+	
+	public void clearHand() {
+		for (Card card: hand) {
+			int index=getHand().indexOf(card);
+			hand.set(index, new NoCard(this, stage));
+		}
+		((DemoPlayer)this).addCardsToJavaFxDisplay(group);
 	}
 	
 	public Group getGroup() {
@@ -68,14 +84,21 @@ public class Player {
 	public final void addCardToDeck(Card card) {
 		deck.add(card);
 	}
+	
+	public final int getIndexOfCardInHand(Card card) {
+		return hand.indexOf(card);
+	}
+	
 	public final int deckSize() {
 		return deck.size();
 	}
-	public final void drawACard() {
-		if (deck.size()==0) {
-			putDiscardsInDeck();
+	public final void drawAnInitialHand() {
+		for (int i=0; i<5; i++) {
+			if (deck.size()==0) {
+				putDiscardsInDeck();
+			}
+			hand.add(deck.remove(0));
 		}
-		hand.add(deck.remove(0));
 	}
 	public final void replaceACard(int index) {
 		if (deck.size()==0) {
@@ -94,7 +117,13 @@ public class Player {
 		hand.add(card);
 	}
 	public final int handSize() {
-		return hand.size();
+		int handSize=0;
+		for (Card card:hand) {
+			if (!(card instanceof NoCard)) {
+				handSize++;
+			}
+		}
+		return handSize;
 	}
 	public final Card viewCardInHand(int index) {
 		return hand.get(index);

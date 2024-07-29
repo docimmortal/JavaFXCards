@@ -11,6 +11,9 @@ import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import entities.card.Target;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class AnExtendedCard extends Card {
 
@@ -39,7 +42,11 @@ public class AnExtendedCard extends Card {
 	}
 	
 	public int get(StatType statType) {
-		return statMap.get(statType);
+		Integer stat = statMap.get(statType);
+		if (stat==null) {
+			stat = Integer.valueOf(0);
+		}
+		return stat;
 	}
 	
 	public void set(StatType statType, int value) {
@@ -107,6 +114,11 @@ public class AnExtendedCard extends Card {
 			if (enemy!=null && enemy.get(StatType.HEALTH)==0) {
 				ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer(), group);
 				group.getChildren().set(2, leaveButton.getImageView());
+				getPlayer().clearHand();
+				VBox pane = new VBox(1, new HBox(group));
+				Scene scene = new Scene(pane, 1500, 900);
+				getPlayer().getStage().setScene(scene);
+				getPlayer().getStage().show();
 			}
 		}
 	}
@@ -122,8 +134,6 @@ public class AnExtendedCard extends Card {
 		builder.append(target);
 		builder.append(", statMap=");
 		builder.append(statMap);
-		builder.append(", cardNo=");
-		builder.append(getCardNo());
 		builder.append("]");
 		return builder.toString();
 	}
