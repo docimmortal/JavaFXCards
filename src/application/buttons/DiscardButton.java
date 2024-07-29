@@ -19,7 +19,6 @@ public class DiscardButton extends ImageButton {
 	public void doAction() {
 		AnExtendedCard card =(AnExtendedCard)getPlayer().getCardClicked();
 		if (card != null) {
-			System.out.println("==============>DISCARD....");
 			// Check if card is a cycle card
 			int cycle = card.get(StatType.CYCLE);
 			int index=-1;

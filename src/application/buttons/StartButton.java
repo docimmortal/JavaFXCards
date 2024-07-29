@@ -40,12 +40,11 @@ public class StartButton extends ImageButton {
 			enemies = new ArrayList<>();
 			enemies.add(new Enemy("images\\enemies\\bunny.png",Main.ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 35));
 		}
-		if (enemyIndex>enemies.size()-1) {
-			System.out.println("Reset enemy list");
+		if (enemyIndex>(enemies.size()-1)){
 			enemyIndex=0;
 		}
-		enemy = enemies.get(enemyIndex++); // remove first enemy from the list.
-		player.setEnemy(enemy);
+		enemy = new Enemy(enemies.get(enemyIndex++)); // remove first enemy from the list.
+		player.setEnemy(0,enemy);
 		player.getCharacter().resetAll();
 		
 		// display everything except cards;
@@ -103,6 +102,8 @@ public class StartButton extends ImageButton {
 		//group.getChildren().add(statsText);
 		putInGroup(5,statsText,group);
 
+		/* START ENEMY*/
+		
 		// Add enemies - group: index 6
 		//group.getChildren().add(enemy.getImageView());
 		putInGroup(6,enemy.getImageView(),group);
@@ -119,6 +120,7 @@ public class StartButton extends ImageButton {
 		//group.getChildren().add(enemy.getActionText());
 		putInGroup(10,enemy.getActionText(),group);
 		
+		/* END ENEMY*/
 		ImageButton discard = new DiscardButton(1200,600, player, group);
 		putInGroup(11,discard.getImageView(),group);
 	}

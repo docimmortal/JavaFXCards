@@ -7,6 +7,7 @@ import application.entities.Enemy;
 import application.buttons.StartButton;
 import application.player.entities.DemoPlayer;
 import application.screens.SplashScreen;
+import application.utils.EnemyUtil;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -42,8 +43,10 @@ public class Main extends Application {
 			
 			SplashScreen spl = new SplashScreen("map.jpg");
 			StartButton start = new StartButton("Button-start.jpg",1200,700, player, group);
-			List<Enemy> enemies = new ArrayList<>();
-			enemies.add(new Enemy("images\\enemies\\bunny.png",ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 55));
+			player.setStartButton(start);
+			
+			List<Enemy> enemies = new ArrayList<>();			
+			enemies.add(EnemyUtil.yarnBoy(player));
 			enemies.add(new Enemy("images\\enemies\\bunny.png",ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 10));
 			start.setEnemies(enemies);
 			

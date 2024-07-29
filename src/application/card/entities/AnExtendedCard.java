@@ -7,13 +7,11 @@ import application.buttons.ImageButton;
 import application.buttons.LeaveButton;
 import application.card.effects.StatType;
 import application.entities.Enemy;
+import application.fxcomponents.EraseUtil;
 import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import entities.card.Target;
 import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public class AnExtendedCard extends Card {
 
@@ -50,7 +48,6 @@ public class AnExtendedCard extends Card {
 	}
 	
 	public void set(StatType statType, int value) {
-		//System.out.println(getCardName()+": Setting "+statType+" to "+value);
 		statMap.put(statType, value);
 	}
 
@@ -64,7 +61,6 @@ public class AnExtendedCard extends Card {
 			validPlay=true;
 			getPlayer().setCardClicked(this);
 		}
-		//System.out.println("  "+validPlay);
 		return validPlay;
 	}
 	
@@ -98,7 +94,6 @@ public class AnExtendedCard extends Card {
 			} else if (target==Target.SELF) {
 				if (block != null && block!=0) {
 					getPlayer().getCharacter().increment(StatType.ARMOR,block,-1); // no max armor amount
-					System.out.println("ARMOR="+getPlayer().getCharacter().get(StatType.ARMOR));
 				}
 			}
 			
@@ -106,19 +101,18 @@ public class AnExtendedCard extends Card {
 			// This will change based on index in group for this text
 			group.getChildren().set(5, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 			
-			// Update enemy stats.
-			// This will change based on index in group for this text
-			group.getChildren().set(8, ((DemoPlayer)getPlayer()).getEnemy().getStatsText());
-			
-			// Enemy will be null for cards that do not target an enemy
-			if (enemy!=null && enemy.get(StatType.HEALTH)==0) {
-				ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer(), group);
-				group.getChildren().set(2, leaveButton.getImageView());
+			if (enemy != null && enemy.get(StatType.HEALTH)>0) {
+				// Update enemy stats.
+				// This will change based on index in group for this text
+				group.getChildren().set(8, enemy.getStatsText());
+			} else if (enemy!=null){
+				EraseUtil.eraseEnemy(group, 0);
 				getPlayer().clearHand();
-				VBox pane = new VBox(1, new HBox(group));
-				Scene scene = new Scene(pane, 1500, 900);
-				getPlayer().getStage().setScene(scene);
-				getPlayer().getStage().show();
+				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
+				EraseUtil.eraseDiscard(11,group);
+				ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer());
+				group.getChildren().set(2, leaveButton.getImageView());
+				EraseUtil.redraw(group, getPlayer());
 			}
 		}
 	}

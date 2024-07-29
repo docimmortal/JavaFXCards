@@ -62,9 +62,8 @@ public class Player {
 	public void clearHand() {
 		for (Card card: hand) {
 			int index=getHand().indexOf(card);
-			hand.set(index, new NoCard(this, stage));
+			hand.set(index, new NoCard(this));
 		}
-		((DemoPlayer)this).addCardsToJavaFxDisplay(group);
 	}
 	
 	public Group getGroup() {
@@ -125,6 +124,11 @@ public class Player {
 		}
 		return handSize;
 	}
+	
+	public final int absoluteHandSize() {
+		return hand.size();
+	}
+	
 	public final Card viewCardInHand(int index) {
 		return hand.get(index);
 	}
@@ -139,7 +143,7 @@ public class Player {
 	public final void discardCardFromHand(Card card) {
 		int index=getHand().indexOf(card);
 		discard.add(getHand().get(index));
-		hand.set(index, new NoCard(this, stage));
+		hand.set(index, new NoCard(this));
 		setCardClicked(null);
 		updateDiscardCardImage(index);
 	}

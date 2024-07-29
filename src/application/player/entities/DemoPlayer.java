@@ -2,6 +2,7 @@ package application.player.entities;
 
 import application.entities.Character;
 import application.Main;
+import application.buttons.StartButton;
 import application.card.effects.StatType;
 import application.card.entities.Card;
 import application.entities.Enemy;
@@ -14,8 +15,9 @@ public class DemoPlayer extends Player {
 	private Enemy enemy;
 	private Enemy enemyClicked;
 	private boolean initialHandSet;
+	private StartButton startButton;
 	
-	public DemoPlayer(Group group, Stage stage) {
+	public DemoPlayer( Group group, Stage stage) {
 		super(group, stage);
 	}
 	
@@ -23,11 +25,19 @@ public class DemoPlayer extends Player {
 		super(group, stage, character);
 	}
 
-	public Enemy getEnemy() {
+	public final void setStartButton(StartButton startButton) {
+		this.startButton = startButton;
+	}
+
+	public final StartButton getStartButton() {
+		return startButton;
+	}
+
+	public Enemy getEnemy(int index) {
 		return enemy;
 	}
 
-	public void setEnemy(Enemy enemy) {
+	public void setEnemy(int index, Enemy enemy) {
 		this.enemy = enemy;
 	}
 	
@@ -62,7 +72,7 @@ public class DemoPlayer extends Player {
 	}
 	
 	public void addCardsToJavaFxDisplay(Group group) {
-		for(int i=0; i< handSize(); i++) {
+		for(int i=0; i< absoluteHandSize(); i++) {
 			ImageView imageView = viewCardInHand(i).getImageView();
 			imageView.setLayoutX(50+200*i);
 			imageView.setLayoutY(600);

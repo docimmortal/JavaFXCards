@@ -35,9 +35,7 @@ public class ImageLoader {
 		    imageView.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 		    	@Override
 		        public void handle(MouseEvent event) {
-		    		System.out.println(">>>>>>"+panes.size());
 		    		HBox[] array = panes.toArray(new HBox[panes.size()]);
-		    		System.out.println(">>>>>>"+array.length);
 		    		VBox pane = new VBox(2, array);
 					Scene scene = new Scene(pane, 1000, 700);
 					stage.setScene(scene);

@@ -21,6 +21,7 @@ public class Enemy extends Entity{
 
 	private Enemy thisEnemy;
 
+	private String filename;
 	private ImageView actionImage;
 	
 	private Text actionText;
@@ -30,12 +31,21 @@ public class Enemy extends Entity{
 	private int actionIndex;
 	
 	private int actionImageIndex;
+	private int x;
+	private int y;
 	private int actionX;
 	private int actionY;
 	
+	public Enemy(Enemy enemy) {
+		this(enemy.filename, enemy.actionImageIndex, enemy.getPlayer(), enemy.x, enemy.y, enemy.get(StatType.HEALTH));
+	}
+	
 	public Enemy(String filename, int actionImageIndex, Player player, int x, int y, int health) {
 		super(filename, player, x, y);
+		this.x=x;
+		this.y=y;
 		thisEnemy=this;
+		this.filename=filename;
 		
 		initDefaultActions();
 		this.actionImageIndex=actionImageIndex;
@@ -146,7 +156,6 @@ public class Enemy extends Entity{
 
 	// takes into account armor
 	public final void decrementHealth(int damage) {
-		//System.out.println("=====> Health: "+getHealth()+", Damage: "+damage);
 		if (damage>0) {
 			int armor = get(StatType.ARMOR);
 			int finalDamage=damage-armor;
@@ -191,7 +200,6 @@ public class Enemy extends Entity{
 	public boolean canTarget() {
 		boolean canTarget=false;
 		if (getPlayer().getCardClicked() != null) {
-			System.out.println("We can target the enemy.");
 			canTarget=true;
 		} else {
 			System.out.println("Click a valid card.");
@@ -202,10 +210,14 @@ public class Enemy extends Entity{
 	public void doTargetAction() {
 		Card card=getPlayer().getCardClicked();
 		if (card!=null) {
-			System.out.println("Used the card.");
 			card.useTheCard();
 		}
 		
 	}
 
+	@Override
+	public String toString() {
+		return filename+" "+get(StatType.HEALTH);
+	}
+	
 }
