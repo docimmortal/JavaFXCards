@@ -95,8 +95,14 @@ public class Character extends Entity {
 		AnExtendedCard punchPlus = new AnExtendedCard("images\\cards\\punch-plus.jpg",Target.ENEMY, getPlayer(), group, "Punch+", 1);
 		punchPlus.set(StatType.ATTACK,5);
 		punchPlus.set(StatType.CYCLE, 1);
-		eCards.add(punch);
+		eCards.add(punchPlus);
 		getPlayer().addCardToDeck(punchPlus);
+		
+		AnExtendedCard blockPlus = new AnExtendedCard("images\\cards\\block-plus.jpg",Target.ENEMY, getPlayer(), group, "Block+", 1);
+		blockPlus.set(StatType.ARMOR,5);
+		blockPlus.set(StatType.CYCLE, 1);
+		eCards.add(blockPlus);
+		getPlayer().addCardToDeck(blockPlus);
 		
 		AnExtendedCard puncha = new AnExtendedCard("images\\cards\\puncha.jpg",Target.ENEMY, getPlayer(), group, "Punch A", 1);
 		puncha.set(StatType.ATTACK,5);
