@@ -91,7 +91,7 @@ public class StartButton extends ImageButton {
 
 		// Add character image - group: index 3
 		//group.getChildren().add(getPlayer().getCharacter().getImageView());
-		putInGroup(3,getPlayer().getCharacter().getImageView(), group);
+		putInGroup(3,getPlayer().getCharacter().getEntityImage(), group);
 
 		// Add character stats image - group: index 4
 		//group.getChildren().add(player.getCharacter().getStatsImage());
@@ -106,7 +106,7 @@ public class StartButton extends ImageButton {
 		
 		// Add enemies - group: index 6
 		//group.getChildren().add(enemy.getImageView());
-		putInGroup(6,enemy.getImageView(),group);
+		putInGroup(6,enemy.getEntityImage(),group);
 
 		// Add enemy health - group: index 7,8
 		//group.getChildren().add(enemy.getStatsImage());

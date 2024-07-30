@@ -13,9 +13,9 @@ import javafx.scene.text.Text;
 
 public class Entity {
 
-	private ImageView imageView;
+	private ImageView entityImage;
 	private Player player;
-	private Map<StatType,Integer> statMap;
+	protected Map<StatType,Integer> statMap;
 	
 	private Text statsText;
 	private ImageView statsImage;
@@ -23,9 +23,9 @@ public class Entity {
 	private int statsY;
 	
 	public Entity(String filename, Player player, int x, int y) {
-		imageView = ImageLoader.load(filename,false);
-		imageView.setLayoutX(x);
-		imageView.setLayoutY(y);
+		entityImage = ImageLoader.load(filename,false);
+		entityImage.setLayoutX(x);
+		entityImage.setLayoutY(y);
 		this.player=player;
 		statMap = new HashMap<>();
 		
@@ -35,7 +35,7 @@ public class Entity {
 	
 	private final void initStatsImage(int x) {
 		statsImage = ImageLoader.load("images//characters//stats-images.png",false);
-		statsX=x+(int)(getImageView().getImage().getWidth()/2)-(int)(statsImage.getImage().getWidth()/2);
+		statsX=x+(int)(getEntityImage().getImage().getWidth()/2)-(int)(statsImage.getImage().getWidth()/2);
 		statsY=getLowerYPlusOffset()-12;
 		statsImage.setLayoutX(statsX);
 		statsImage.setLayoutY(statsY);
@@ -127,17 +127,17 @@ public class Entity {
 	}
 	
 	public final int getLowerYPlusOffset() {
-		return (int)getImageView().boundsInParentProperty().get().getMaxY()+25;
+		return (int)getEntityImage().boundsInParentProperty().get().getMaxY()+25;
 	}
 	
 	public final int getLowerXCenter() {
-		int maxX= (int)getImageView().boundsInParentProperty().get().getMaxX();
-		int minX= (int)getImageView().boundsInParentProperty().get().getMinX();
+		int maxX= (int)getEntityImage().boundsInParentProperty().get().getMaxX();
+		int minX= (int)getEntityImage().boundsInParentProperty().get().getMinX();
 		return minX+(maxX-minX)/2;
 	}
 	
-	public final ImageView getImageView() {
-		return imageView;
+	public final ImageView getEntityImage() {
+		return entityImage;
 	}
 	
 	public final Player getPlayer() {

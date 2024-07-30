@@ -14,6 +14,7 @@ public class DemoPlayer extends Player {
 
 	private Enemy enemy;
 	private Enemy enemyClicked;
+	private Character characterClicked;
 	private boolean initialHandSet;
 	private StartButton startButton;
 	
@@ -49,12 +50,21 @@ public class DemoPlayer extends Player {
 		this.enemyClicked = enemyClicked;
 	}
 	
+	public final Character getCharacterClicked() {
+		return characterClicked;
+	}
+
+	public final void setCharacterClicked(Character characterClicked) {
+		this.characterClicked = characterClicked;
+	}
+
 	// When you click on a card, you have not selected an enemy, yet.
 	// If there was a enemy targeted by the previous card, we need to clear it out.
 	@Override
 	public void setCardClicked(Card cardClicked) {
 		super.setCardClicked(cardClicked);
 		enemyClicked=null;
+		characterClicked=null;
 	}
 	
 	@Override

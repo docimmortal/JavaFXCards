@@ -7,6 +7,7 @@ import application.buttons.ImageButton;
 import application.buttons.LeaveButton;
 import application.card.effects.StatType;
 import application.entities.Enemy;
+import application.entities.Character;
 import application.fxcomponents.EraseUtil;
 import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
@@ -68,10 +69,15 @@ public class AnExtendedCard extends Card {
 		return ((DemoPlayer)getPlayer()).getEnemyClicked();
 	}
 	
+	public Character getCharacterClicked() {
+		return ((DemoPlayer)getPlayer()).getCharacterClicked();
+	}
+	
 	@Override
 	public void useTheCard() {
 		Enemy enemy=getEnemyClicked();
-		if (target!=Target.ENEMY || enemy!=null) {
+		Character character=getCharacterClicked();
+		if ((character!=null && target==Target.SELF) || (enemy!=null && target==Target.ENEMY)) {
 			System.out.println("Using "+getCardName()+" on "+target);
 			int cost=statMap.get(StatType.COST);
 			Integer damage=statMap.get(StatType.ATTACK);
@@ -115,6 +121,10 @@ public class AnExtendedCard extends Card {
 				EraseUtil.redraw(group, getPlayer());
 			}
 		}
+	}
+
+	public final Target getTarget() {
+		return target;
 	}
 
 	@Override

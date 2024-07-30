@@ -1,5 +1,6 @@
 package application.entities;
 
+import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import application.utils.TextUtil;
 import entities.card.Target;
@@ -9,7 +10,10 @@ import java.util.List;
 
 import application.card.effects.StatType;
 import application.card.entities.AnExtendedCard;
+import application.card.entities.Card;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class Character extends Entity {
@@ -18,9 +22,11 @@ public class Character extends Entity {
 	private Group group;
 	private String filename;
 	private int x,y;
+	private Character character;
 	
 	public Character(String filename, Player player, Group group, int health, int attack, int armor, int points, int x, int y) {
 		super(filename, player, x, y);
+		character=this;
 		this.filename=filename;
 		this.group=group;
 		this.x=x;
@@ -31,11 +37,19 @@ public class Character extends Entity {
 		set(StatType.HEALTH, health);
 		set(StatType.MAX_HEALTH, health);
 		set(StatType.ARMOR, armor);
+		getEntityImage().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+	    	@Override
+	        public void handle(MouseEvent event) {
+	    		if (canTarget()) {
+	    			((DemoPlayer)player).setCharacterClicked(character);
+	    			doTargetAction();
+	    		}
+	    	}
+		});
 	}
 	
 	public Character(Character model) {
-		super(model.filename, model.getPlayer(), model.x, model.y);
-		this.group=model.group;
+		this(model.filename, model.getPlayer(), model.group, 0,0,0,0, model.x, model.y);
 		set(StatType.POINTS, model.get(StatType.POINTS));
 		set(StatType.MAX_POINTS, model.get(StatType.MAX_POINTS));
 		pointsText = TextUtil.initText("Spell points: "+model.get(StatType.POINTS), 70, 70);
@@ -124,5 +138,23 @@ public class Character extends Entity {
 	public void resetAll() {
 		resetTo(StatType.POINTS, StatType.MAX_POINTS);
 		resetToZero(StatType.ARMOR);
+	}
+	
+	public boolean canTarget() {
+		boolean canTarget=false;
+		if (getPlayer().getCardClicked() != null && ((AnExtendedCard)getPlayer().getCardClicked()).getTarget()==Target.SELF) {
+			canTarget=true;
+		} else {
+			System.out.println("Click a valid card.");
+		}
+		return canTarget;
+	}
+	
+	public void doTargetAction() {
+		Card card=getPlayer().getCardClicked();
+		if (card!=null) {
+			card.useTheCard();
+		}
+		
 	}
 }

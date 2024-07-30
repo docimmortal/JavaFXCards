@@ -6,11 +6,13 @@ import java.util.List;
 import application.card.effects.Adjustment;
 import application.card.effects.EffectTarget;
 import application.card.effects.StatType;
+import application.card.entities.AnExtendedCard;
 import application.card.entities.Card;
 import application.fxcomponents.ImageLoader;
 import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import application.utils.TextUtil;
+import entities.card.Target;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
@@ -50,7 +52,7 @@ public class Enemy extends Entity{
 		initDefaultActions();
 		this.actionImageIndex=actionImageIndex;
 		actionY=y-(int)actionImage.getImage().getHeight()-2;
-		actionX=x+(int)(getImageView().getImage().getWidth()/2)-(int)(actionImage.getImage().getWidth()/2);
+		actionX=x+(int)(getEntityImage().getImage().getWidth()/2)-(int)(actionImage.getImage().getWidth()/2);
 		
 		set(StatType.HEALTH,health);
 		set(StatType.MAX_HEALTH,health);
@@ -59,7 +61,7 @@ public class Enemy extends Entity{
 		displayFirstAction(x,y);
 		
 		// Add click event
-		getImageView().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+		getEntityImage().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 	    	@Override
 	        public void handle(MouseEvent event) {
 	    		if (canTarget()) {
@@ -199,7 +201,7 @@ public class Enemy extends Entity{
 	 */
 	public boolean canTarget() {
 		boolean canTarget=false;
-		if (getPlayer().getCardClicked() != null) {
+		if (getPlayer().getCardClicked() != null && ((AnExtendedCard)getPlayer().getCardClicked()).getTarget()==Target.ENEMY) {
 			canTarget=true;
 		} else {
 			System.out.println("Click a valid card.");
