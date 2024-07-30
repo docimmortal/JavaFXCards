@@ -3,6 +3,7 @@ package application.card.entities;
 import java.util.HashMap;
 import java.util.Map;
 
+import application.Main;
 import application.buttons.ImageButton;
 import application.buttons.LeaveButton;
 import application.card.effects.StatType;
@@ -13,6 +14,7 @@ import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import entities.card.Target;
 import javafx.scene.Group;
+import javafx.scene.Node;
 
 public class AnExtendedCard extends Card {
 
@@ -108,14 +110,15 @@ public class AnExtendedCard extends Card {
 			group.getChildren().set(5, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 			
 			if (enemy != null && enemy.get(StatType.HEALTH)>0) {
-				// Update enemy stats.
-				// This will change based on index in group for this text
-				group.getChildren().set(8, enemy.getStatsText());
+				// hard coded to currently work with one enemy
+				int no=enemy.getEnemyNumber();
+				Group enemyGroup = (Group) group.getChildren().get(Main.ENEMY1_INDEX+no-1);
+				enemyGroup.getChildren().set(2, enemy.getStatsText());
 			} else if (enemy!=null){
-				EraseUtil.eraseEnemy(group, 0);
+				EraseUtil.eraseEnemy(enemy, group, 0);
 				getPlayer().clearHand();
 				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
-				EraseUtil.eraseDiscard(11,group);
+				EraseUtil.eraseDiscard(7,group);
 				ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer());
 				group.getChildren().set(2, leaveButton.getImageView());
 				EraseUtil.redraw(group, getPlayer());

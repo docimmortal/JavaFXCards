@@ -25,9 +25,9 @@ public class Main extends Application {
 	Enemy enemy ;
 	List<HBox> panes;
 	
-	public static final int ENEMY1_ACTION_IMAGE_INDEX=9;
+	public static final int ENEMY1_INDEX=6;
 	
-	public static final int FIRST_CARD_INDEX=12;
+	public static final int FIRST_CARD_INDEX=9;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -38,16 +38,16 @@ public class Main extends Application {
 		try {
 			// Horizontal panes array
 			panes = new ArrayList<>();
-			Group group = new Group();
-			player = new DemoPlayer(group, stage); // new character created
+			Group mainGroup = new Group();
+			player = new DemoPlayer(mainGroup, stage); // new character created
 			
 			SplashScreen spl = new SplashScreen("map.jpg");
-			StartButton start = new StartButton("Button-start.jpg",1200,700, player, group);
+			StartButton start = new StartButton("Button-start.jpg",1200,700, player, mainGroup);
 			player.setStartButton(start);
 			
 			List<Enemy> enemies = new ArrayList<>();			
 			enemies.add(EnemyUtil.yarnBoy(player));
-			enemies.add(new Enemy("images\\enemies\\bunny.png",ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 10));
+			enemies.add(new Enemy("images\\enemies\\bunny.png",ENEMY1_INDEX, player, 1100, 300, 10));
 			start.setEnemies(enemies);
 			
 			spl.addButton(start);

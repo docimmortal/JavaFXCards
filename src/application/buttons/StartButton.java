@@ -38,7 +38,7 @@ public class StartButton extends ImageButton {
 		if (enemies == null || enemies.size()==0) {
 			System.out.println("NO ENEMIES DEFINED! Setting default enemy.");
 			enemies = new ArrayList<>();
-			enemies.add(new Enemy("images\\enemies\\bunny.png",Main.ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 300, 35));
+			enemies.add(new Enemy("images\\enemies\\bunny.png",Main.ENEMY1_INDEX, player, 1100, 300, 35));
 		}
 		if (enemyIndex>(enemies.size()-1)){
 			enemyIndex=0;
@@ -105,24 +105,12 @@ public class StartButton extends ImageButton {
 		/* START ENEMY*/
 		
 		// Add enemies - group: index 6
-		//group.getChildren().add(enemy.getImageView());
-		putInGroup(6,enemy.getEntityImage(),group);
-
-		// Add enemy health - group: index 7,8
-		//group.getChildren().add(enemy.getStatsImage());
-		putInGroup(7,enemy.getStatsImage(),group);
-		//group.getChildren().add(enemy.getStatsText());
-		putInGroup(8,enemy.getStatsText(),group);
-
-		// Add enemy action - group: index 9,10
-		//group.getChildren().add(enemy.getActionImage());
-		putInGroup(9,enemy.getActionImage(),group);
-		//group.getChildren().add(enemy.getActionText());
-		putInGroup(10,enemy.getActionText(),group);
+		putInGroup(6,enemy.getEnemyGroup(),group);
 		
 		/* END ENEMY*/
+		
 		ImageButton discard = new DiscardButton(1200,600, player, group);
-		putInGroup(11,discard.getImageView(),group);
+		putInGroup(7,discard.getImageView(),group);
 	}
 
 	private void putInGroup(int index, Node node, Group group) {

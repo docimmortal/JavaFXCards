@@ -1,5 +1,6 @@
 package application.buttons;
 
+import application.Main;
 import application.card.effects.EffectTarget;
 import application.card.effects.StatType;
 import application.card.entities.NoCard;
@@ -49,7 +50,11 @@ public class EndTurnButton extends ImageButton {
 		// Update enemy stats
 		if (enemy.get(StatType.HEALTH)!=0) {
 			enemy.setStatsText();
-			group.getChildren().set(8, enemy.getStatsText());
+			//group.getChildren().set(8, enemy.getStatsText());
+			// Hard coded to only works for one enemy
+			int no=enemy.getEnemyNumber();
+			Group enemyGroup = (Group) group.getChildren().get(Main.ENEMY1_INDEX+no-1);
+			enemyGroup.getChildren().set(2, enemy.getStatsText());
 			// If the game is not over (ie player dead)
 			if (!getPlayer().isGameOver()) {
 
@@ -60,13 +65,13 @@ public class EndTurnButton extends ImageButton {
 				drawCards(5,5);
 
 				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
-			} // else game over
+			} // else game over*/
 
 		} else {
-			EraseUtil.eraseEnemy(group, 0);
+			EraseUtil.eraseEnemy(enemy, group, 0);
 			getPlayer().clearHand();
 			((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
-			EraseUtil.eraseDiscard(11,group);
+			EraseUtil.eraseDiscard(7,group);
 			ImageButton leaveButton = new LeaveButton("Leave.png",1200,700, getPlayer());
 			group.getChildren().set(2, leaveButton.getImageView());
 			EraseUtil.redraw(group, getPlayer());

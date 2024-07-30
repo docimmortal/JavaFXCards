@@ -13,6 +13,9 @@ import application.card.entities.AnExtendedCard;
 import application.card.entities.Card;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
@@ -81,6 +84,16 @@ public class Character extends Entity {
 	}
 	
 	public void setInitialDeck(){
+		System.out.println("Group size: "+group.getChildren().size());
+		Group group2 = new Group();
+		group2.getChildren().add(new ImageView());
+		group2.getChildren().add(new ImageView());
+		group2.getChildren().add(new ImageView());
+		group2.getChildren().add(new ImageView());
+		System.out.println("Group2 size: "+group2.getChildren().size());
+		group.getChildren().addAll(group2);
+		System.out.println("Group size: "+group.getChildren().size());
+		
 		System.out.println("===========[ DUMMY INITIAL DECK ]===========");
 		AnExtendedCard block = new AnExtendedCard("images\\cards\\block.jpg", Target.SELF, getPlayer(), group, "Block", 1);
 		block.set(StatType.ARMOR,5);

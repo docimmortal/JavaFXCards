@@ -20,7 +20,7 @@ public class EnemyUtil {
 	
 	
 	public static Enemy yarnBoy(Player player) {
-		Enemy yarnBoy = new Enemy("images\\enemies\\Yarnboy.png",Main.ENEMY1_ACTION_IMAGE_INDEX, player, 1100, 350, 15);
+		Enemy yarnBoy = new Enemy("images\\enemies\\Yarnboy.png",Main.ENEMY1_INDEX, player, 1100, 350, 15);
 		List<Action> actions = new ArrayList<>(); 
 		actions.add(new Action("Block",blockImage, EffectTarget.SELF, Adjustment.INCREMENTS, StatType.ARMOR, 6));
 		actions.add(new Action("Bite",attackImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 6));

@@ -38,12 +38,17 @@ public class Enemy extends Entity{
 	private int actionX;
 	private int actionY;
 	
+	private Group enemyGroup;
+	private int enemyNumber;
+	
 	public Enemy(Enemy enemy) {
 		this(enemy.filename, enemy.actionImageIndex, enemy.getPlayer(), enemy.x, enemy.y, enemy.get(StatType.HEALTH));
 	}
 	
 	public Enemy(String filename, int actionImageIndex, Player player, int x, int y, int health) {
 		super(filename, player, x, y);
+		enemyNumber=1;
+		enemyGroup = new Group();
 		this.x=x;
 		this.y=y;
 		thisEnemy=this;
@@ -74,6 +79,21 @@ public class Enemy extends Entity{
 		initText();
 		debugAllStats();
 		setStatsText();
+		
+		// Add enemies FX components
+		enemyGroup.getChildren().add(getEntityImage());
+		enemyGroup.getChildren().add(getStatsImage());
+		enemyGroup.getChildren().add(getStatsText());
+		enemyGroup.getChildren().add(getActionImage());
+		enemyGroup.getChildren().add(getActionText());
+	}
+	
+	public Group getEnemyGroup() {
+		return enemyGroup;
+	}
+	
+	public int getEnemyNumber() {
+		return enemyNumber;
 	}
 	
 	public void initDefaultActions() {
@@ -122,8 +142,9 @@ public class Enemy extends Entity{
 		// update actionImage
 		actionImage=currentAction.getImageView();
 		setActionIndexXY();
-		Group group=((DemoPlayer)getPlayer()).getGroup();
-		group.getChildren().set(actionImageIndex, actionImage);
+		//Group group=((DemoPlayer)getPlayer()).getGroup();
+		//group.getChildren().set(actionImageIndex, actionImage);
+		enemyGroup.getChildren().set(3, actionImage);
 		
 		return currentAction;
 	}
