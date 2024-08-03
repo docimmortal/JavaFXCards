@@ -111,7 +111,7 @@ public class Character extends Entity {
 		eCards.add(punchPlus);
 		getPlayer().addCardToDeck(punchPlus);
 		
-		AnExtendedCard blockPlus = new AnExtendedCard("images\\cards\\block-plus.jpg",Target.ENEMY, getPlayer(), group, "Block+", 1);
+		AnExtendedCard blockPlus = new AnExtendedCard("images\\cards\\block-plus.jpg",Target.SELF, getPlayer(), group, "Block+", 1);
 		blockPlus.set(StatType.ARMOR,5);
 		blockPlus.set(StatType.CYCLE, 1);
 		eCards.add(blockPlus);
