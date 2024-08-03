@@ -7,11 +7,14 @@ import application.card.entities.NoCard;
 import application.entities.Action;
 import application.entities.Enemy;
 import application.fxcomponents.EraseUtil;
+import application.fxcomponents.ImageLoader;
 import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import application.utils.EnemyBuffUtil;
 import application.utils.EnemyVsCharacterUtil;
+import application.utils.ScreenUtil;
 import javafx.scene.Group;
+import javafx.scene.image.ImageView;
 
 public class EndTurnButton extends ImageButton {
 
@@ -65,7 +68,15 @@ public class EndTurnButton extends ImageButton {
 				drawCards(5,5);
 
 				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(group);
-			} // else game over*/
+			} else {
+				// game over
+				ImageView iv=ScreenUtil.GameOver();
+				for (int i=group.getChildren().size()-1; i>0; i--) {
+					group.getChildren().remove(i);
+				}
+				group.getChildren().add(iv);
+				
+			}
 
 		} else {
 			EraseUtil.eraseEnemy(enemy, group, 0);
