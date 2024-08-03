@@ -30,7 +30,7 @@ public class DemoPlayer extends Player {
 		this.startButton = startButton;
 	}
 
-	public final StartButton getStartButton() {
+	public StartButton getStartButton() {
 		return startButton;
 	}
 
