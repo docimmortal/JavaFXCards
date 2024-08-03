@@ -7,7 +7,6 @@ import application.card.entities.NoCard;
 import application.entities.Action;
 import application.entities.Enemy;
 import application.fxcomponents.EraseUtil;
-import application.fxcomponents.ImageLoader;
 import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import application.utils.EnemyBuffUtil;

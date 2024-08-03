@@ -13,8 +13,6 @@ import application.card.entities.AnExtendedCard;
 import application.card.entities.Card;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;

@@ -14,7 +14,6 @@ import application.player.entities.DemoPlayer;
 import application.player.entities.Player;
 import entities.card.Target;
 import javafx.scene.Group;
-import javafx.scene.Node;
 
 public class AnExtendedCard extends Card {
 

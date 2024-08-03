@@ -36,6 +36,8 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) {
 		try {
+			
+			
 			// Horizontal panes array
 			panes = new ArrayList<>();
 			Group mainGroup = new Group();
@@ -56,7 +58,7 @@ public class Main extends Application {
 			// Final steps to render the scene
 			Scene scene = new Scene(new VBox(), 1500, 900);
 			scene = new Scene(vbox, 1500, 900);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			
 			stage.setScene(scene);
 			stage.show();
 		} catch(Exception e) {
