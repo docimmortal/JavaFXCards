@@ -3,6 +3,7 @@ package application.utils;
 import java.util.List;
 import java.util.ArrayList;
 
+import application.card.effects.StatType;
 import application.entities.Enemy;
 
 public class EnemyList {
@@ -57,5 +58,13 @@ public class EnemyList {
 			enemy=enemies.remove(0);
 		}
 		return enemy;
+	}
+	
+	public static int getTotalHealth() {
+		int totalHealth=0;
+		for (Enemy enemy:enemies) {
+			totalHealth+=enemy.get(StatType.HEALTH);
+		}
+		return totalHealth;
 	}
 }

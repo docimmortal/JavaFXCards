@@ -15,7 +15,6 @@ import application.player.entities.DemoPlayer;
 import entities.card.Target;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -71,6 +70,7 @@ public class Enemy extends Entity{
 	        public void handle(MouseEvent event) {
 	    		if (canTarget()) {
 	    			DemoPlayer dp = ((DemoPlayer)getMyParent().lookup("#Player"));
+	    			System.out.println("Targetted "+thisEnemy.getId());
 	    			dp.setEnemyClicked(thisEnemy);
 	    			doTargetAction();
 	    		}
@@ -102,6 +102,30 @@ public class Enemy extends Entity{
 		return enemyNumber;
 	}
 	
+	public final int getX() {
+		return x;
+	}
+
+	public final void resetXs(int x) {
+		int diff=Math.abs(x-this.x);
+		actionX=actionX-diff;
+		this.x = x;
+		getStatsImage().setLayoutX(getStatsImage().getLayoutX()-diff);
+		actionImage.setLayoutX(actionX);
+		getEntityImage().setLayoutX(getEntityImage().getLayoutX()-diff);
+		getStatsText().setLayoutX(getStatsText().getLayoutX()-diff);
+		getActionText().setLayoutX(getActionText().getLayoutX()-diff);
+		setStatsX(getStatsX()-diff);
+	}
+
+	public final int getY() {
+		return y;
+	}
+
+	public final void setY(int y) {
+		this.y = y;
+	}
+
 	public void initDefaultActions() {
 		actions = new ArrayList<>();
 		ImageView attackImage = ImageLoader.load("images//enemies//lattack.png",false);
@@ -133,6 +157,8 @@ public class Enemy extends Entity{
 	public void displayFirstAction(int x, int y) {
 		actionImage = actions.get(0).getImageView();
 		actionImage.setId(enemyName+"-actionImage");
+		setActionIndexXY();
+		
 		setActionIndexXY();
 	}
 	

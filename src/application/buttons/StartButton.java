@@ -1,5 +1,7 @@
 package application.buttons;
 
+import java.util.List;
+
 import application.entities.Enemy;
 import application.fxcomponents.EraseUtil;
 import application.fxcomponents.ImageLoader;
@@ -40,7 +42,7 @@ public class StartButton extends ImageButton {
 			EnemyList.addEnemy(new Enemy(getMyParent(),"images\\enemies\\bunny.png","Enemy1", 1100, 300, 35));
 		}
 	
-		Enemy enemy = new Enemy(EnemyList.getNextEnemy()); // remove first enemy from the list.
+		//Enemy enemy = new Enemy(EnemyList.getNextEnemy()); // remove first enemy from the list.
 		DemoPlayer dp = getPlayer();
 		System.out.println("StartButton DemoPlayer:"+dp);
 		/* This works!
@@ -53,7 +55,7 @@ public class StartButton extends ImageButton {
 		dp.getCharacter().resetAll();
 		
 		// display everything except cards;
-		initScreen(this, dp, enemy);
+		initScreen(this, dp);//, enemy);
 
 		// Cards displayed should be the last thing since max hand size might not be the same as initial hand size
 
@@ -72,7 +74,7 @@ public class StartButton extends ImageButton {
 		dp.getStage().show();
 	}
 	
-	private void initScreen(Group group, DemoPlayer player, Enemy enemy) {
+	private void initScreen(Group group, DemoPlayer player) {//, Enemy enemy) {
 		System.out.println("StartButton initScreen: "+getMyParent().getId());
 		EraseUtil.erase("#StartButton", getMyParent());
 		EraseUtil.erase("#SplashScreen", getMyParent());
@@ -109,7 +111,14 @@ public class StartButton extends ImageButton {
 		/* START ENEMY*/
 		
 		// Add enemies - group: index 6
-		putInGroup("Enemy1", enemy,group);
+		List<Enemy> enemies=EnemyList.getEnemies();
+		for (int i=0; i<enemies.size();i++) {
+			Enemy enemy=enemies.get(i);
+			int x=(int) enemy.getX();
+			x=x-(i*200);
+			enemy.resetXs(x);
+			putInGroup("Enemy"+(i+1), enemies.get(i),group);
+		}
 		
 		/* END ENEMY*/
 		

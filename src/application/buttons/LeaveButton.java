@@ -31,7 +31,7 @@ public class LeaveButton extends ImageButton {
 		
 		SplashScreen spl = new SplashScreen("map.jpg");
 		
-		StartButton startButton = new StartButton(myParent,"Button-start.jpg",1200,700);	
+		RestartButton startButton = new RestartButton(myParent,"Button-start.jpg",1200,700);	
 		spl.addButton(startButton);
 		myParent.getChildren().add(startButton);
 		myParent.getChildren().add(spl);

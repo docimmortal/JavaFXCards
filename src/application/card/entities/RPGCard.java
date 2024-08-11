@@ -12,6 +12,7 @@ import application.fxcomponents.EraseUtil;
 import application.fxcomponents.ScreenUtil;
 import application.fxcomponents.UpdateUtil;
 import application.player.entities.DemoPlayer;
+import application.utils.EnemyList;
 import entities.card.Target;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -79,6 +80,7 @@ public class RPGCard extends Card {
 	
 	@Override
 	public void useTheCard() {
+		System.out.println("=============[Start USE THE CARD]=============");
 		Enemy enemy=getEnemyClicked();
 		Character character=getCharacterClicked();
 		if ((character!=null && target==Target.SELF) || (enemy!=null && target==Target.ENEMY)) {
@@ -119,25 +121,24 @@ public class RPGCard extends Card {
 			
 			if (enemy != null && enemy.get(StatType.HEALTH)>0) {
 				// hard coded to currently work with one enemy
-				int no=enemy.getEnemyNumber();
-				for (Node node:myParent.getChildren()) {
-					System.out.println(node.getId());
-				}
-				int enemyIndex=ScreenUtil.getIndexOfId(myParent,"#Enemy1");
-				Group enemyGroup = (Group) myParent.getChildren().get(enemyIndex+no-1);
+				String id = enemy.getId();
+				int enemyIndex=ScreenUtil.getIndexOfId(myParent,"#"+id);
+				Group enemyGroup = (Group) myParent.getChildren().get(enemyIndex);
 				enemyGroup.getChildren().set(2, enemy.getStatsText());
 			} else if (enemy!=null){
 				EraseUtil.eraseEnemy(enemy, myParent, 0);
-				getPlayer().clearHand();
-				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
-				EraseUtil.erase("#DiscardButton",myParent);
-				EraseUtil.erase("#EndTurnButton",myParent);
-				ImageButton leaveButton = new RestartButton(myParent,"Leave.png",1200,700);
- 				myParent.getChildren().add(leaveButton.getImageView());
-				for (Node node:myParent.getChildren()) {
-					System.out.println("==========>"+node.getId());
+				if (EnemyList.getTotalHealth()==0) {
+					getPlayer().clearHand();
+					((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
+					EraseUtil.erase("#DiscardButton",myParent);
+					EraseUtil.erase("#EndTurnButton",myParent);
+					ImageButton leaveButton = new RestartButton(myParent,"Leave.png",1200,700);
+	 				myParent.getChildren().add(leaveButton.getImageView());
+					for (Node node:myParent.getChildren()) {
+						System.out.println("==========>"+node.getId());
+					}
+					System.out.println("=========[END RPGCard enemy dead]=====");
 				}
-				System.out.println("=========[END RPGCard enemy dead]=====");
 				EraseUtil.redraw(myParent, getPlayer());
 			}
 		}

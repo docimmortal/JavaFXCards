@@ -13,7 +13,7 @@ public class EraseUtil {
 	public static void eraseEnemy(Enemy enemy, Group group, int offset) {
 		// hard coded to currently work with one enemy
 		int no=enemy.getEnemyNumber();
-		int enemyIndex=ScreenUtil.getIndexOfId(group,"#Enemy1");
+		int enemyIndex=ScreenUtil.getIndexOfId(group,"#"+enemy.getId());
 		Group enemyGroup = (Group) group.getChildren().get(enemyIndex+no-1);
 		enemyGroup.getChildren().set(0, ImageLoader.load("images\\enemies\\no-enemy.png", false));
 		enemyGroup.getChildren().set(1, ImageLoader.load("images\\enemies\\no-enemy.png", false));

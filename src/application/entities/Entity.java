@@ -34,6 +34,24 @@ public class Entity extends Group{
 		setStatsText();
 	}
 	
+	public final int getStatsX() {
+		return statsX;
+	}
+
+	public final void setStatsX(int statsX) {
+		this.statsX = statsX;
+	}
+
+	public final int getStatsY() {
+		return statsY;
+	}
+
+	public final void setStatsY(int statsY) {
+		this.statsY = statsY;
+	}
+
+
+
 	private final void initStatsImage(int x) {
 		statsImage = ImageLoader.load("images//characters//stats-images.png",false);
 		statsX=x+(int)(getEntityImage().getImage().getWidth()/2)-(int)(statsImage.getImage().getWidth()/2);
