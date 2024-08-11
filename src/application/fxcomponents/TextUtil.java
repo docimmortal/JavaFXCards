@@ -1,4 +1,4 @@
-package application.utils;
+package application.fxcomponents;
 
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

@@ -1,35 +1,31 @@
 package application.entities;
 
 import application.player.entities.DemoPlayer;
-import application.player.entities.Player;
-import application.utils.TextUtil;
 import entities.card.Target;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import application.card.effects.StatType;
-import application.card.entities.AnExtendedCard;
+import application.card.entities.RPGCard;
+import application.fxcomponents.TextUtil;
 import application.card.entities.Card;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class Character extends Entity {
 
 	private Text pointsText;
-	private Group group;
 	private String filename;
 	private int x,y;
 	private Character character;
 	
-	public Character(String filename, Player player, Group group, int health, int attack, int armor, int points, int x, int y) {
-		super(filename, player, x, y);
+	public Character(Group myParent, String filename, int health, int attack, int armor, int points, int x, int y) {
+		super(myParent, filename, x, y);
 		character=this;
 		this.filename=filename;
-		this.group=group;
 		this.x=x;
 		this.y=y;
 		set(StatType.POINTS, points);
@@ -42,15 +38,20 @@ public class Character extends Entity {
 	    	@Override
 	        public void handle(MouseEvent event) {
 	    		if (canTarget()) {
-	    			((DemoPlayer)player).setCharacterClicked(character);
+	    			getPlayer().setCharacterClicked(character);
 	    			doTargetAction();
 	    		}
 	    	}
 		});
+		setId("Character");
+	}
+	
+	private DemoPlayer getPlayer() {
+		return (DemoPlayer)myParent.lookup("#Player");
 	}
 	
 	public Character(Character model) {
-		this(model.filename, model.getPlayer(), model.group, 0,0,0,0, model.x, model.y);
+		this(model.myParent,model.filename,0,0,0,0, model.x, model.y);
 		set(StatType.POINTS, model.get(StatType.POINTS));
 		set(StatType.MAX_POINTS, model.get(StatType.MAX_POINTS));
 		pointsText = TextUtil.initText("Spell points: "+model.get(StatType.POINTS), 70, 70);
@@ -60,6 +61,7 @@ public class Character extends Entity {
 	}
 
 	public final Text getSpellpointsText() {
+		pointsText.setId("PointsText");
 		return pointsText;
 	}
 	
@@ -68,7 +70,9 @@ public class Character extends Entity {
 	}
 	
 	public final Text getStatsText() {
-		return super.getStatsText();
+		Text text=super.getStatsText();
+		text.setId("PlayerStatsText");
+		return text;
 	}
 	
 	/*
@@ -82,70 +86,60 @@ public class Character extends Entity {
 	}
 	
 	public void setInitialDeck(){
-		System.out.println("Group size: "+group.getChildren().size());
-		Group group2 = new Group();
-		group2.getChildren().add(new ImageView());
-		group2.getChildren().add(new ImageView());
-		group2.getChildren().add(new ImageView());
-		group2.getChildren().add(new ImageView());
-		System.out.println("Group2 size: "+group2.getChildren().size());
-		group.getChildren().addAll(group2);
-		System.out.println("Group size: "+group.getChildren().size());
 		
 		System.out.println("===========[ DUMMY INITIAL DECK ]===========");
-		AnExtendedCard block = new AnExtendedCard("images\\cards\\block.jpg", Target.SELF, getPlayer(), group, "Block", 1);
+		RPGCard block = new RPGCard(myParent, "images\\cards\\block.jpg", Target.SELF, "Block", 1);
 		block.set(StatType.ARMOR,5);
 		getPlayer().addCardToDeck(block);
 		
-		List<AnExtendedCard> eCards = new ArrayList<>();
-		AnExtendedCard punch = new AnExtendedCard("images\\cards\\lg-punch.jpg",Target.ENEMY, getPlayer(), group, "Punch", 1);
+		List<RPGCard> eCards = new ArrayList<>();
+		RPGCard punch = new RPGCard(myParent,"images\\cards\\lg-punch.jpg",Target.ENEMY, "Punch", 1);
 		punch.set(StatType.ATTACK,5);
 		eCards.add(punch);
 		getPlayer().addCardToDeck(punch);
-		
-		AnExtendedCard punchPlus = new AnExtendedCard("images\\cards\\punch-plus.jpg",Target.ENEMY, getPlayer(), group, "Punch+", 1);
+	
+		RPGCard punchPlus = new RPGCard(myParent,"images\\cards\\punch-plus.jpg",Target.ENEMY, "Punch+", 1);
 		punchPlus.set(StatType.ATTACK,5);
 		punchPlus.set(StatType.CYCLE, 1);
 		eCards.add(punchPlus);
 		getPlayer().addCardToDeck(punchPlus);
 		
-		AnExtendedCard blockPlus = new AnExtendedCard("images\\cards\\block-plus.jpg",Target.SELF, getPlayer(), group, "Block+", 1);
+		RPGCard blockPlus = new RPGCard(myParent,"images\\cards\\block-plus.jpg",Target.SELF, "Block+", 1);
 		blockPlus.set(StatType.ARMOR,5);
 		blockPlus.set(StatType.CYCLE, 1);
 		eCards.add(blockPlus);
 		getPlayer().addCardToDeck(blockPlus);
 		
-		AnExtendedCard puncha = new AnExtendedCard("images\\cards\\puncha.jpg",Target.ENEMY, getPlayer(), group, "Punch A", 1);
+		RPGCard puncha = new RPGCard(myParent,"images\\cards\\puncha.jpg",Target.ENEMY, "Punch A", 1);
 		puncha.set(StatType.ATTACK,5);
 		eCards.add(puncha);
 		getPlayer().addCardToDeck(puncha);
 		
-		getPlayer().addCardToDeck(new AnExtendedCard(block));
+		getPlayer().addCardToDeck(new RPGCard(block));
 		
-		AnExtendedCard punchb = new AnExtendedCard("images\\cards\\punchb.jpg",Target.ENEMY, getPlayer(), group, "Punch B", 1);
+		RPGCard punchb = new RPGCard(myParent,"images\\cards\\punchb.jpg",Target.ENEMY, "Punch B", 1);
 		punchb.set(StatType.ATTACK,5);
 		eCards.add(punchb);
 		getPlayer().addCardToDeck(punchb);
 		
-		AnExtendedCard punchc = new AnExtendedCard("images\\cards\\punchc.jpg",Target.ENEMY, getPlayer(), group, "Punch C", 1);
+		RPGCard punchc = new RPGCard(myParent,"images\\cards\\punchc.jpg",Target.ENEMY, "Punch C", 1);
 		punchc.set(StatType.ATTACK,5);
 		eCards.add(punchc);
 		getPlayer().addCardToDeck(punchc);
 		
-		getPlayer().addCardToDeck(new AnExtendedCard(block));
-		getPlayer().addCardToDeck(new AnExtendedCard(block));
-		getPlayer().addCardToDeck(new AnExtendedCard(block));
+		getPlayer().addCardToDeck(new RPGCard(block));
+		getPlayer().addCardToDeck(new RPGCard(block));
+		getPlayer().addCardToDeck(new RPGCard(block));
 		
-		AnExtendedCard punchd = new AnExtendedCard("images\\cards\\punchd.jpg",Target.ENEMY, getPlayer(), group, "Punch D", 1);
+		RPGCard punchd = new RPGCard(myParent,"images\\cards\\punchd.jpg",Target.ENEMY, "Punch D", 1);
 		punchd.set(StatType.ATTACK,5);
 		eCards.add(punchd);
 		getPlayer().addCardToDeck(punchd);
 		
-		AnExtendedCard punche = new AnExtendedCard("images\\cards\\punche.jpg",Target.ENEMY, getPlayer(), group, "Punch E", 1);
+		RPGCard punche = new RPGCard(myParent,"images\\cards\\punche.jpg",Target.ENEMY, "Punch E", 1);
 		punche.set(StatType.ATTACK,5);
 		eCards.add(punche);
 		getPlayer().addCardToDeck(punche);
-		
 	}
 	
 	public void setPointsText() {
@@ -159,7 +153,7 @@ public class Character extends Entity {
 	
 	public boolean canTarget() {
 		boolean canTarget=false;
-		if (getPlayer().getCardClicked() != null && ((AnExtendedCard)getPlayer().getCardClicked()).getTarget()==Target.SELF) {
+		if (getPlayer().getCardClicked() != null && ((RPGCard)getPlayer().getCardClicked()).getTarget()==Target.SELF) {
 			canTarget=true;
 		} else {
 			System.out.println("Click a valid card.");

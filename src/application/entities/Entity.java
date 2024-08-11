@@ -6,15 +6,14 @@ import java.util.Set;
 
 import application.card.effects.StatType;
 import application.fxcomponents.ImageLoader;
-import application.player.entities.Player;
-import application.utils.TextUtil;
+import application.fxcomponents.TextUtil;
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class Entity {
+public class Entity extends Group{
 
 	private ImageView entityImage;
-	private Player player;
 	protected Map<StatType,Integer> statMap;
 	
 	private Text statsText;
@@ -22,12 +21,14 @@ public class Entity {
 	private int statsX;
 	private int statsY;
 	
-	public Entity(String filename, Player player, int x, int y) {
+	protected Group myParent;
+	
+	public Entity(Group myParent, String filename, int x, int y) {
 		entityImage = ImageLoader.load(filename,false);
 		entityImage.setLayoutX(x);
 		entityImage.setLayoutY(y);
-		this.player=player;
 		statMap = new HashMap<>();
+		this.myParent=myParent;
 		
 		initStatsImage(x);
 		setStatsText();
@@ -47,6 +48,10 @@ public class Entity {
 			value = Integer.valueOf(0);
 		}
 		return value;
+	}
+	
+	public Group getMyParent() {
+		return myParent;
 	}
 	
 	public final void set(StatType statType, int value) {
@@ -138,10 +143,6 @@ public class Entity {
 	
 	public final ImageView getEntityImage() {
 		return entityImage;
-	}
-	
-	public final Player getPlayer() {
-		return player;
 	}
 	
 	// methods that can be overridden

@@ -1,18 +1,18 @@
 package application.card.entities;
 
 import application.fxcomponents.ImageLoader;
-import application.player.entities.Player;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-public class Card {
+public class Card extends Group {
 
 	private ImageView imageView;
 	private String cardName;
-	private Player player; // required to manipulate player variables.
+	protected Group myParent;
 	
-	public Card(String filename, String cardName, Player player) {
+	public Card(Group myParent, String filename, String cardName) {
 		if (! filename.contains("no-card")) {
 				imageView = ImageLoader.load(filename,false,169,244);
 		} else {
@@ -26,8 +26,8 @@ public class Card {
 	    		}
 	    	}
 		});
-		this.player=player;
 		this.cardName=cardName;
+		this.myParent=myParent;
 	}
 	
 	public String getCardName() {
@@ -38,11 +38,7 @@ public class Card {
 	public final ImageView getImageView() {
 		return imageView;
 	}
-	
-	public final Player getPlayer() {
-		return player;
-	}
-	
+
 	/*
 	 *  Methods that can be overridden
 	 */

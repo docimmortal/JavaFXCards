@@ -6,42 +6,50 @@ import java.util.List;
 import application.card.entities.Card;
 import application.card.entities.NoCard;
 import application.entities.Character;
+import application.fxcomponents.ScreenUtil;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 
-public class Player {
+public class Player extends Group{
 
 	private Card cardClicked;
 	private List<Card> deck;
 	private List<Card> hand;
 	private List<Card> discard;
 	private Character character;
-	
-	private Group group;
+	protected Group myParent;
+
 	private Stage stage;
 
-	public Player(Group group, Stage stage, Character character) {
+	public Player(Group myParent, Stage stage, Character character) {
 		deck = new ArrayList<>();
 		hand = new ArrayList<>();
 		discard = new ArrayList<>();
-		this.group=group;
 		this.stage=stage;
 		// 20 health, 0 armor, 0 attack, 3 spell points, x=100,y=100 
 		this.character = character;
+		this.myParent=myParent;
+		setId("SimplePlayer");
 	}
 	
-	public Player(Group group, Stage stage) {
+	public Player(Group myParent, Stage stage) {
 		deck = new ArrayList<>();
 		hand = new ArrayList<>();
 		discard = new ArrayList<>();
-		this.group=group;
 		this.stage=stage;
 		// 20 health, 0 armor, 0 attack, 3 spell points, x=100,y=100 
-		character = new Character("images\\characters\\wizard-point-tp.png",this,group, 20,0,0,3,100,100);
+		character = new Character(myParent,"images\\characters\\wizard-point-tp.png",20,0,0,3,100,100);
+		this.myParent=myParent;
+		setId("Player");
 	}
 
 	public Stage getStage() {
 		return stage;
+	}
+	
+	public Group myParent() {
+		return myParent;
 	}
 	
 	public void resetDeckHandDiscard() {
@@ -60,14 +68,12 @@ public class Player {
 	}
 	
 	public void clearHand() {
-		for (Card card: hand) {
+		for (int i=0; i < hand.size(); i++) {
+			Card card = hand.get(i);
 			int index=getHand().indexOf(card);
-			hand.set(index, new NoCard(this));
+			String num=""+card.getId().charAt(card.getId().length()-1);
+			hand.set(index, new NoCard(myParent,num));
 		}
-	}
-	
-	public Group getGroup() {
-		return group;
 	}
 	
 	public final Card getCardClicked() {
@@ -96,14 +102,18 @@ public class Player {
 			if (deck.size()==0) {
 				putDiscardsInDeck();
 			}
-			hand.add(deck.remove(0));
+			Card card = deck.remove(0);
+			card.setId("Card"+(i+1));
+			hand.add(card);
 		}
 	}
 	public final void replaceACard(int index) {
 		if (deck.size()==0) {
 			putDiscardsInDeck();
 		}
-		hand.set(index, deck.remove(0));
+		Card card = deck.remove(0);
+		card.setId("Card"+(index+1));
+		hand.set(index,card);
 	}
 	
 	public final List<Card> getHand() {
@@ -141,11 +151,28 @@ public class Player {
 	}
 
 	public final void discardCardFromHand(Card card) {
+		System.out.println(getHand().size());
 		int index=getHand().indexOf(card);
-		discard.add(getHand().get(index));
-		hand.set(index, new NoCard(this));
+		System.out.println("discardCardFromHand, index="+index);
+		Card oldCard=getHand().get(index);
+		discard.add(oldCard);
+		NoCard noCard = new NoCard(myParent,oldCard.getId().replaceAll("Card", ""));
+		System.out.println("discardCardFromHand: "+noCard.getId());
+		hand.set(index,noCard);
+		System.out.println("discardCardFromHand NoCard check:"+hand.get(index));
 		setCardClicked(null);
-		updateDiscardCardImage(index);
+		int firstCardIndex=ScreenUtil.getIndexOfId(myParent,"#Card1");
+		if (firstCardIndex==-1) {
+			firstCardIndex=ScreenUtil.getIndexOfId(myParent,"#NoCard1");
+		}
+		System.out.println("FirstCardIndex:"+firstCardIndex+", index*2:"+(index*2));
+		myParent.getChildren().set(firstCardIndex+index*2, viewCardInHand(index));
+		myParent.getChildren().set(firstCardIndex+index*2+1, noCard.getImageView());
+		
+		for (Node node: myParent.getChildren()) {
+			System.out.println(node.getId());
+		}
+		System.out.println("=============[End of discardCardFromHand]========\n\n");
 	}
 	
 	public final void putDiscardsInDeck() {
@@ -170,9 +197,6 @@ public class Player {
 	// Additional logic can be added for targeting (see AnExtendedCard)
 	public void setCardClicked(Card cardClicked) {
 		this.cardClicked = cardClicked;
-	}
-	
-	public void updateDiscardCardImage(int index) {	
 	}
 	
 	public boolean isGameOver() {

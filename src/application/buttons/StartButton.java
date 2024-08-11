@@ -1,13 +1,10 @@
 package application.buttons;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import application.Main;
 import application.entities.Enemy;
+import application.fxcomponents.EraseUtil;
 import application.fxcomponents.ImageLoader;
-import application.player.entities.Player;
 import application.player.entities.DemoPlayer;
+import application.utils.EnemyList;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,108 +14,127 @@ import javafx.scene.text.Text;
 
 public class StartButton extends ImageButton {
 
-	private DemoPlayer player;
 	private Text pointsText;
 	private Text statsText;
-	private Enemy enemy;
-	private Group group;
+
+	public StartButton(Group myParent, String filename, int x, int y) {
+		super(myParent, filename, x, y);
+		setId("StartButton");
+	}
 	
-	private List<Enemy> enemies;
-	private int enemyIndex;
-
-
-	public StartButton(String filename, int x, int y, Player player, Group group) {
-		super(filename, x, y, player);
-		this.player=(DemoPlayer)player;
-		this.group=group;
+	public DemoPlayer getPlayer() {
+		System.out.println("StartButton "+this.getParent().getChildrenUnmodifiable().size());
+		return (DemoPlayer)getMyParent().lookup("#Player");
 	}
 
 	@Override
-	public void doAction() {
-		if (enemies == null || enemies.size()==0) {
+	public void doAction(){
+		System.out.println("StartButton doAction");
+		System.out.println(getMyParent().getId());
+		int size=getMyParent().getChildren().size();
+		for (int i=0; i<size;i++) {
+			System.out.println(getMyParent().getChildren().get(i).getId());
+		}
+		if (EnemyList.size()==0) {
 			System.out.println("NO ENEMIES DEFINED! Setting default enemy.");
-			enemies = new ArrayList<>();
-			enemies.add(new Enemy("images\\enemies\\bunny.png",Main.ENEMY1_INDEX, player, 1100, 300, 35));
+			EnemyList.addEnemy(new Enemy(getMyParent(),"images\\enemies\\bunny.png","Enemy1", 1100, 300, 35));
 		}
-		if (enemyIndex>(enemies.size()-1)){
-			enemyIndex=0;
+	
+		Enemy enemy = new Enemy(EnemyList.getNextEnemy()); // remove first enemy from the list.
+		DemoPlayer dp = getPlayer();
+		System.out.println("StartButton DemoPlayer:"+dp);
+		/* This works!
+		Node node=myParent.lookup("#StartButton");
+		if (node==null) {
+			System.out.println("ERROR!");
 		}
-		enemy = new Enemy(enemies.get(enemyIndex++)); // remove first enemy from the list.
-		player.setEnemy(0,enemy);
-		player.getCharacter().resetAll();
+		myParent.getChildren().remove(node);
+		dp.setEnemy(0,enemy);*/
+		dp.getCharacter().resetAll();
 		
 		// display everything except cards;
-		initScreen(group);
+		initScreen(this, dp, enemy);
 
 		// Cards displayed should be the last thing since max hand size might not be the same as initial hand size
 
 		// initialize deck and add the card images to the screen
 		//initDeck(group);
-		player.getCharacter().setInitialDeck();
-		player.resetDeckHandDiscard();
-		player.drawAnInitialHand();
+		dp.getCharacter().setInitialDeck();
+		dp.resetDeckHandDiscard();
+		dp.drawAnInitialHand();
 
 		// display cards
 		// group: indexes 11-15 (change FIRST_CARD_INDEX if this changes).
-		player.addCardsToJavaFxDisplay(group);
-		VBox pane = new VBox(1, new HBox(group));
+		dp.addCardsToJavaFxDisplay(getMyParent());
+		VBox pane = new VBox(1, new HBox(getMyParent()));
 		Scene scene = new Scene(pane, 1500, 900);
-		player.getStage().setScene(scene);
-		player.getStage().show();
+		dp.getStage().setScene(scene);
+		dp.getStage().show();
 	}
 	
-	public void setEnemies(List<Enemy> enemies) {
-		this.enemies=enemies;
-		enemyIndex=0;
-	}
-	
-	private void initScreen(Group group) {
+	private void initScreen(Group group, DemoPlayer player, Enemy enemy) {
+		System.out.println("StartButton initScreen: "+getMyParent().getId());
+		EraseUtil.erase("#StartButton", getMyParent());
+		EraseUtil.erase("#SplashScreen", getMyParent());
+		System.out.println("\nAFTER");
 		// Set background
 		// group: index 0
 		//group.getChildren().add(ImageLoader.load("images\\backgrounds\\woods2.jpg", false)); 
-		putInGroup(0, ImageLoader.load("images\\backgrounds\\woods2.jpg", false),group);
+		putInGroup("Background",ImageLoader.load("images\\backgrounds\\woods2.jpg", false),group);
 		
 		// Add spell points text
 		// group: index 1
-		pointsText = getPlayer().getCharacter().getSpellpointsText();
+		pointsText = player.getCharacter().getSpellpointsText();
 		//group.getChildren().add(pointsText);
-		putInGroup(1,pointsText, group);
+		putInGroup("PointsText", pointsText, group);
 
 		// Add End Turn button - group: index 2
-		ImageButton endTurnButton = new EndTurnButton("Button-EndTurn.jpg",1200,750, player, group);
+		ImageButton endTurnButton = new EndTurnButton(getMyParent(),"Button-EndTurn.jpg",1200,750);
 		//group.getChildren().add(endTurnButton.getImageView());
-		putInGroup(2,endTurnButton.getImageView(), group);
+		putInGroup("EndTurnButton", endTurnButton.getImageView(), group);
 
 		// Add character image - group: index 3
 		//group.getChildren().add(getPlayer().getCharacter().getImageView());
-		putInGroup(3,getPlayer().getCharacter().getEntityImage(), group);
+		putInGroup("PlayerImage", player.getCharacter().getEntityImage(), group);
 
 		// Add character stats image - group: index 4
 		//group.getChildren().add(player.getCharacter().getStatsImage());
-		putInGroup(4,player.getCharacter().getStatsImage(),group);
+		putInGroup("PlayerStatsImage", player.getCharacter().getStatsImage(),group);
 
 		// Add character text - group: index 5
 		statsText=player.getCharacter().getStatsText();
 		//group.getChildren().add(statsText);
-		putInGroup(5,statsText,group);
+		putInGroup("PlayerStatsText", statsText,group);
 
 		/* START ENEMY*/
 		
 		// Add enemies - group: index 6
-		putInGroup(6,enemy.getEnemyGroup(),group);
+		putInGroup("Enemy1", enemy,group);
 		
 		/* END ENEMY*/
 		
-		ImageButton discard = new DiscardButton(1200,600, player, group);
-		putInGroup(7,discard.getImageView(),group);
+		ImageButton discard = new DiscardButton(getMyParent(),1200,600);
+		putInGroup("DiscardButton", discard.getImageView(),group);
+	}
+	
+	public void debugGroup() {
+		int size=getMyParent().getChildren().size();
+		for (int i=0; i<size;i++) {
+			System.out.println("==>"+getMyParent().getChildren().get(i).getId());
+		}
 	}
 
-	private void putInGroup(int index, Node node, Group group) {
+	private void putInGroup(String id, Node node, Group group) {
 	
-		if (group.getChildren().size()<index+1) {
-			group.getChildren().add(node);
+		node.setId(id);
+		boolean found = (getMyParent().lookup("#"+id)==null)?false:true;
+		//if (getMyParent().getChildren().size()<index+1) {
+		if (!found) {
+			getMyParent().getChildren().add(node);
 		} else {
-			group.getChildren().set(index, node);
+			Node g = getMyParent().lookup("#"+id);
+			int index=getMyParent().getChildren().indexOf(g);
+			getMyParent().getChildren().set(index, node);
 		}
 	}
 

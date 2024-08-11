@@ -7,24 +7,23 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class SplashScreen {
+public class SplashScreen extends Group{
 
 	private ImageView imageView;
-	private Group splashScreenGroup = new Group();
-	
+
 	public SplashScreen(String filename) {
-		splashScreenGroup = new Group();
 		imageView = ImageLoader.load("images\\backgrounds\\"+filename, false);
-		splashScreenGroup.getChildren().add(imageView);
+		this.getChildren().add(imageView);
+		setId("SplashScreen");
 	}
 	
 	public void addButton(ImageButton button) {
-		splashScreenGroup.getChildren().add(button.getImageView());
+		this.getChildren().add(button.getImageView());
 	}
 	
 	public VBox getSplashScreen() {
 		// Final steps to render the scene
-		VBox pane = new VBox(1, new HBox(splashScreenGroup));
+		VBox pane = new VBox(1, new HBox(this));
 		return pane;
 	}
 }

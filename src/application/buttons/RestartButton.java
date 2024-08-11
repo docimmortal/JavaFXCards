@@ -7,10 +7,11 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-public class LeaveButton extends ImageButton {
+public class RestartButton extends ImageButton {
 
-	public LeaveButton(Group myParent, String filename, int x, int y) {
+	public RestartButton(Group myParent, String filename, int x, int y) {
 		super(myParent, filename, x, y);;
 	}
 	
@@ -22,6 +23,12 @@ public class LeaveButton extends ImageButton {
 			node=myParent.getChildren().get(index);
 			if (node.getId().equals("Player")) {
 				playerFound=true;
+				DemoPlayer dp = (DemoPlayer)node;
+				// We need to create a new player
+				Stage stage = dp.getStage();
+				node = new DemoPlayer(myParent,stage);
+				
+				// group should only have player object.
 				myParent.getChildren().clear();
 				myParent.getChildren().add(node);
 			} else {

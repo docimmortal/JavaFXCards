@@ -1,12 +1,11 @@
 package application.player.entities;
 
 import application.entities.Character;
-import application.Main;
-import application.buttons.StartButton;
 import application.card.effects.StatType;
 import application.card.entities.Card;
 import application.entities.Enemy;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -16,22 +15,15 @@ public class DemoPlayer extends Player {
 	private Enemy enemyClicked;
 	private Character characterClicked;
 	private boolean initialHandSet;
-	private StartButton startButton;
 	
-	public DemoPlayer( Group group, Stage stage) {
-		super(group, stage);
+	public DemoPlayer(Group myParent, Stage stage) {
+		super(myParent, stage);
+		setId("Player");
+		System.out.println("DemoPlayer id:"+getId());
 	}
 	
-	public DemoPlayer(Group group, Stage stage, Character character) {
-		super(group, stage, character);
-	}
-
-	public final void setStartButton(StartButton startButton) {
-		this.startButton = startButton;
-	}
-
-	public StartButton getStartButton() {
-		return startButton;
+	public DemoPlayer(Group myParent, Stage stage, Character character) {
+		super(myParent, stage, character);
 	}
 
 	public Enemy getEnemy(int index) {
@@ -68,11 +60,6 @@ public class DemoPlayer extends Player {
 	}
 	
 	@Override
-	public void updateDiscardCardImage(int index) {
-		getGroup().getChildren().set(Main.FIRST_CARD_INDEX+index, getHand().get(index).getImageView());
-	}
-	
-	@Override
 	public boolean isGameOver() {
 		boolean gameOver=false;
 		if (getCharacter().get(StatType.HEALTH) <=0) {
@@ -81,18 +68,42 @@ public class DemoPlayer extends Player {
 		return gameOver;
 	}
 	
+	public void setNoInitialHandSet() {
+		initialHandSet=false;
+	}
+	
 	public void addCardsToJavaFxDisplay(Group group) {
+		int firstCardIndex=0;
+		System.out.println("DemoPlayer addCardsToJavaFxDisplay START: initialHandSet="+initialHandSet);
+		if (initialHandSet) {
+			int count=myParent.getChildren().size();
+			System.out.println("DemoPlayer addCardsToJavaFxDisplay: count="+count);
+			for (int i=0; i<count; i++) {
+				System.out.println("DemoPlayer addCardsToJavaFxDisplay: "+myParent.getChildren().get(i).getId());
+			}
+			Node node=myParent.lookup("#Card1");
+			if (node==null) {
+				node=myParent.lookup("#NoCard1");
+			}
+			firstCardIndex=myParent.getChildren().indexOf(node);
+		}
 		for(int i=0; i< absoluteHandSize(); i++) {
 			ImageView imageView = viewCardInHand(i).getImageView();
 			imageView.setLayoutX(50+200*i);
 			imageView.setLayoutY(600);
+			imageView.setId("Card"+(i+1)+"-Image");
 			if (initialHandSet) {
-				group.getChildren().set(Main.FIRST_CARD_INDEX+i, imageView);
+				myParent.getChildren().set(firstCardIndex+i*2, viewCardInHand(i));
+				myParent.getChildren().set(firstCardIndex+i*2+1, imageView);
 			} else {
-				group.getChildren().add(imageView);
+				myParent.getChildren().add(viewCardInHand(i));
+				myParent.getChildren().add(imageView);
 			}
 		}
 		initialHandSet=true;
+		System.out.println("DemoPlayer addCardsToJavaFxDisplay END: initialHandSet="+initialHandSet);
+		int count=myParent.getChildren().size();
+		System.out.println("===========[DemoPlayer addCardsToJavaFxDisplay: count="+count+"]=========\n");
 	}
 	
 }

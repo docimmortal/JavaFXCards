@@ -1,6 +1,5 @@
 package application.fxcomponents;
 
-import application.Main;
 import application.entities.Enemy;
 import application.player.entities.Player;
 import javafx.scene.Group;
@@ -14,7 +13,8 @@ public class EraseUtil {
 	public static void eraseEnemy(Enemy enemy, Group group, int offset) {
 		// hard coded to currently work with one enemy
 		int no=enemy.getEnemyNumber();
-		Group enemyGroup = (Group) group.getChildren().get(Main.ENEMY1_INDEX+no-1);
+		int enemyIndex=ScreenUtil.getIndexOfId(group,"#Enemy1");
+		Group enemyGroup = (Group) group.getChildren().get(enemyIndex+no-1);
 		enemyGroup.getChildren().set(0, ImageLoader.load("images\\enemies\\no-enemy.png", false));
 		enemyGroup.getChildren().set(1, ImageLoader.load("images\\enemies\\no-enemy.png", false));
 		enemyGroup.getChildren().set(2, new Text(""));
@@ -22,8 +22,13 @@ public class EraseUtil {
 		enemyGroup.getChildren().set(4, new Text(""));
 	}
 	
-	public static void eraseDiscard(int index, Group group) {
-		group.getChildren().set(index,ImageLoader.load("images\\enemies\\no-enemy.png", false));
+	public static void erase(String id, Group group) {
+		System.out.print("EraseUtil erase "+id+"\n\n");
+		int index=ScreenUtil.getIndexOfId(group,id);
+		if (index>-1) {
+			group.getChildren().set(index,ImageLoader.load("images\\enemies\\no-enemy.png", false));
+		}
+		System.out.println("EraseUtil END");
 	}
 	
 	public static void redraw(Group group, Player player) {

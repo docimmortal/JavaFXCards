@@ -6,15 +6,16 @@ import java.util.List;
 import application.card.effects.Adjustment;
 import application.card.effects.EffectTarget;
 import application.card.effects.StatType;
-import application.card.entities.AnExtendedCard;
+import application.card.entities.RPGCard;
 import application.card.entities.Card;
 import application.fxcomponents.ImageLoader;
+import application.fxcomponents.ScreenUtil;
+import application.fxcomponents.TextUtil;
 import application.player.entities.DemoPlayer;
-import application.player.entities.Player;
-import application.utils.TextUtil;
 import entities.card.Target;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -24,6 +25,7 @@ public class Enemy extends Entity{
 	private Enemy thisEnemy;
 
 	private String filename;
+	private String enemyName;
 	private ImageView actionImage;
 	
 	private Text actionText;
@@ -31,31 +33,29 @@ public class Enemy extends Entity{
 	private List<Action> actions;
 	private Action currentAction;
 	private int actionIndex;
-	
-	private int actionImageIndex;
+
 	private int x;
 	private int y;
 	private int actionX;
 	private int actionY;
 	
-	private Group enemyGroup;
 	private int enemyNumber;
 	
 	public Enemy(Enemy enemy) {
-		this(enemy.filename, enemy.actionImageIndex, enemy.getPlayer(), enemy.x, enemy.y, enemy.get(StatType.HEALTH));
+		this(enemy.myParent,enemy.filename, enemy.enemyName, enemy.x, enemy.y, enemy.get(StatType.HEALTH));
 	}
 	
-	public Enemy(String filename, int actionImageIndex, Player player, int x, int y, int health) {
-		super(filename, player, x, y);
+	public Enemy(Group myParent, String filename, String enemyName, int x, int y, int health) {
+		super(myParent, filename, x, y);
+		this.enemyName=enemyName;
+		setId(enemyName);
 		enemyNumber=1;
-		enemyGroup = new Group();
 		this.x=x;
 		this.y=y;
 		thisEnemy=this;
 		this.filename=filename;
 		
 		initDefaultActions();
-		this.actionImageIndex=actionImageIndex;
 		actionY=y-(int)actionImage.getImage().getHeight()-2;
 		actionX=x+(int)(getEntityImage().getImage().getWidth()/2)-(int)(actionImage.getImage().getWidth()/2);
 		
@@ -70,7 +70,8 @@ public class Enemy extends Entity{
 	    	@Override
 	        public void handle(MouseEvent event) {
 	    		if (canTarget()) {
-	    			((DemoPlayer)player).setEnemyClicked(thisEnemy);
+	    			DemoPlayer dp = ((DemoPlayer)getMyParent().lookup("#Player"));
+	    			dp.setEnemyClicked(thisEnemy);
 	    			doTargetAction();
 	    		}
 	    	}
@@ -81,15 +82,20 @@ public class Enemy extends Entity{
 		setStatsText();
 		
 		// Add enemies FX components
-		enemyGroup.getChildren().add(getEntityImage());
-		enemyGroup.getChildren().add(getStatsImage());
-		enemyGroup.getChildren().add(getStatsText());
-		enemyGroup.getChildren().add(getActionImage());
-		enemyGroup.getChildren().add(getActionText());
-	}
-	
-	public Group getEnemyGroup() {
-		return enemyGroup;
+		getEntityImage().setId(enemyName+"-entityimage");
+		this.getChildren().add(getEntityImage());
+		
+		getStatsImage().setId(enemyName+"-statsimage");
+		this.getChildren().add(getStatsImage());
+		
+		getStatsText().setId(enemyName+"-statsText");
+		this.getChildren().add(getStatsText());
+
+		getActionImage().setId(enemyName+"-actionImage");
+		this.getChildren().add(getActionImage());
+		
+		getActionText().setId(enemyName+"-actionText");
+		this.getChildren().add(getActionText());
 	}
 	
 	public int getEnemyNumber() {
@@ -106,12 +112,14 @@ public class Enemy extends Entity{
 		actions.add(new Action("Bite",attackImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 6)); 
 		currentAction = actions.get(0);
 		actionImage=currentAction.getImageView();
+		actionImage.setId(enemyName+"-actionImage");
 	}
 	
 	public void initDefaultActions(List<Action> actions) {
 		this.actions = actions;
 		currentAction = actions.get(0);
 		actionImage=currentAction.getImageView();
+		actionImage.setId(enemyName+"-actionImage");
 	}
 	
 	public final void setStatsText() {
@@ -124,6 +132,7 @@ public class Enemy extends Entity{
 	
 	public void displayFirstAction(int x, int y) {
 		actionImage = actions.get(0).getImageView();
+		actionImage.setId(enemyName+"-actionImage");
 		setActionIndexXY();
 	}
 	
@@ -133,6 +142,7 @@ public class Enemy extends Entity{
 	}
 	
 	public final Action getNextAction() {
+		int index=ScreenUtil.getIndexOfId(this,"#"+enemyName+"-actionImage");
 		actionIndex++;
 		if (actionIndex==actions.size()) {
 			actionIndex=0;
@@ -141,11 +151,13 @@ public class Enemy extends Entity{
 		
 		// update actionImage
 		actionImage=currentAction.getImageView();
+		actionImage.setId(enemyName+"-actionImage");
 		setActionIndexXY();
+
+		this.getChildren().set(index, actionImage);
 		//Group group=((DemoPlayer)getPlayer()).getGroup();
-		//group.getChildren().set(actionImageIndex, actionImage);
-		enemyGroup.getChildren().set(3, actionImage);
-		
+		//group.getChildren().set(actionImageIndex, actionImage);		
+		//this.getChildren().set(3, actionImage);
 		return currentAction;
 	}
 	
@@ -167,6 +179,7 @@ public class Enemy extends Entity{
 
 	public final void setActionImage(ImageView actionImage) {
 		this.actionImage.setImage(actionImage.getImage());
+		actionImage.setId(enemyName+"-actionImage");
 	}
 
 	public final int getHealth() {
@@ -205,10 +218,12 @@ public class Enemy extends Entity{
 	
 	public void setActionText() {
 		actionText.setText(""+currentAction.getValue());
+		actionText.setId(enemyName+"-actionText");
 	}
 	
 	private void initText() {
 		actionText = TextUtil.initText(""+currentAction.getValue(), (int)actionImage.getLayoutX()+10, (int)actionImage.getLayoutY()+25);
+		actionText.setId(enemyName+"-actionText");
 	}
 	
 	@Override
@@ -217,12 +232,15 @@ public class Enemy extends Entity{
 		setActionText();
 	}
 
+	private DemoPlayer getPlayer() {
+		return (DemoPlayer)myParent.lookup("#Player");
+	}
 	/*
 	 * Methods that can be overridden
 	 */
 	public boolean canTarget() {
 		boolean canTarget=false;
-		if (getPlayer().getCardClicked() != null && ((AnExtendedCard)getPlayer().getCardClicked()).getTarget()==Target.ENEMY) {
+		if (getPlayer().getCardClicked() != null && ((RPGCard)getPlayer().getCardClicked()).getTarget()==Target.ENEMY) {
 			canTarget=true;
 		} else {
 			System.out.println("Click a valid card.");
