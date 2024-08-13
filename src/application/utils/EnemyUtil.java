@@ -34,4 +34,13 @@ public class EnemyUtil {
 		yarnBoy.initDefaultActions(actions);
 		return yarnBoy;
 	}
+	
+	public static Enemy redCrab(Group myParent, int enemyNumber) {
+		Enemy crab = new Enemy(myParent, "images\\enemies\\crab.png","Enemy"+enemyNumber, 1000, 170, 75);
+		List<Action> actions = new ArrayList<>(); 
+		actions.add(new Action("Bite",new ImageView(attackImage.getImage()), Target.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 10));
+		actions.add(new Action("Bite",new ImageView(attackImage.getImage()), Target.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 8));
+		crab.initDefaultActions(actions);
+		return crab;
+	}
 }

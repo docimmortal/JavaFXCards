@@ -52,6 +52,14 @@ public class MapUtil extends Group{
 		enemies.add(EnemyUtil.bunny(player,1));
 		enemies.add(EnemyUtil.bunny(player,2));
 		initMapLocation("s-woods.png","Woods3",620,650, enemies);
+		
+		enemies = new ArrayList<>();
+		enemies.add(EnemyUtil.redCrab(player,1));
+		initMapLocation("s-water.png","Ocean1",280,680, enemies);
+		
+		enemies = new ArrayList<>();
+		enemies.add(EnemyUtil.bunny(player,1));
+		initMapLocation("s-mount.png","Mount1",500,380, enemies);
 	}
 	
 	public void initMapLocation(String imageFilename, String mapLoc, int x, int y, List<Enemy> enemies) {
