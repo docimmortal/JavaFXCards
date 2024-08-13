@@ -4,16 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import application.buttons.ImageButton;
-import application.buttons.RestartButton;
+import application.buttons.LeaveButton;
 import application.card.effects.StatType;
+import application.card.effects.Target;
 import application.entities.Enemy;
 import application.entities.Character;
 import application.fxcomponents.EraseUtil;
-import application.fxcomponents.ScreenUtil;
 import application.fxcomponents.UpdateUtil;
 import application.player.entities.DemoPlayer;
-import application.utils.EnemyList;
-import entities.card.Target;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
@@ -80,11 +78,9 @@ public class RPGCard extends Card {
 	
 	@Override
 	public void useTheCard() {
-		System.out.println("=============[Start USE THE CARD]=============");
 		Enemy enemy=getEnemyClicked();
 		Character character=getCharacterClicked();
 		if ((character!=null && target==Target.SELF) || (enemy!=null && target==Target.ENEMY)) {
-			System.out.println("Using "+getCardName()+" on "+target);
 			int cost=statMap.get(StatType.COST);
 			Integer damage=statMap.get(StatType.ATTACK);
 			Integer block=statMap.get(StatType.ARMOR);
@@ -116,28 +112,25 @@ public class RPGCard extends Card {
 			//this.getChildren().set(5, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
 			getPlayer().getCharacter().updateScreenText();
 			text=getPlayer().getCharacter().getStatsText();
-			System.out.println("Player stats text: "+text.getText());
 			UpdateUtil.updateGroupText(myParent, "#PlayerStatsText", text);
 			
 			if (enemy != null && enemy.get(StatType.HEALTH)>0) {
-				// hard coded to currently work with one enemy
-				String id = enemy.getId();
-				int enemyIndex=ScreenUtil.getIndexOfId(myParent,"#"+id);
-				Group enemyGroup = (Group) myParent.getChildren().get(enemyIndex);
-				enemyGroup.getChildren().set(2, enemy.getStatsText());
+				enemy.getChildren().set(2, enemy.getStatsText());
 			} else if (enemy!=null){
-				EraseUtil.eraseEnemy(enemy, myParent, 0);
-				if (EnemyList.getTotalHealth()==0) {
+				EraseUtil.eraseEnemy(enemy);
+				int totalHealth=0;
+				for (Node n: myParent.getChildren()) {
+					if (n instanceof Enemy) {
+						totalHealth+=((Enemy)n).get(StatType.HEALTH);
+					}
+				}
+				if (totalHealth==0) {
 					getPlayer().clearHand();
 					((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
 					EraseUtil.erase("#DiscardButton",myParent);
 					EraseUtil.erase("#EndTurnButton",myParent);
-					ImageButton leaveButton = new RestartButton(myParent,"Leave.png",1200,700);
+					ImageButton leaveButton = new LeaveButton(myParent,"Leave.png",1200,700);
 	 				myParent.getChildren().add(leaveButton.getImageView());
-					for (Node node:myParent.getChildren()) {
-						System.out.println("==========>"+node.getId());
-					}
-					System.out.println("=========[END RPGCard enemy dead]=====");
 				}
 				EraseUtil.redraw(myParent, getPlayer());
 			}

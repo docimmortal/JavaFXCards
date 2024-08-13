@@ -8,6 +8,7 @@ public enum StatType {
 	BURN,
 	COST,
 	CYCLE,
+	DRAIN,
 	FORTITUDE,
 	FROST,
 	HEALTH,
@@ -16,6 +17,8 @@ public enum StatType {
 	POINTS,
 	POISON,
 	POWER,
+	SLEEP,
 	STUN,
-	STRENGTH
+	STRENGTH,
+	THINKING
 }

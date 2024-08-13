@@ -1,20 +1,16 @@
 package application.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import application.card.effects.Adjustment;
-import application.card.effects.EffectTarget;
 import application.card.effects.StatType;
+import application.card.effects.Target;
 import application.card.entities.RPGCard;
 import application.card.entities.Card;
-import application.fxcomponents.ImageLoader;
-import application.fxcomponents.ScreenUtil;
 import application.fxcomponents.TextUtil;
 import application.player.entities.DemoPlayer;
-import entities.card.Target;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -25,7 +21,6 @@ public class Enemy extends Entity{
 
 	private String filename;
 	private String enemyName;
-	private ImageView actionImage;
 	
 	private Text actionText;
 	
@@ -54,15 +49,10 @@ public class Enemy extends Entity{
 		thisEnemy=this;
 		this.filename=filename;
 		
-		initDefaultActions();
-		actionY=y-(int)actionImage.getImage().getHeight()-2;
-		actionX=x+(int)(getEntityImage().getImage().getWidth()/2)-(int)(actionImage.getImage().getWidth()/2);
+		//initDefaultActions();
 		
 		set(StatType.HEALTH,health);
 		set(StatType.MAX_HEALTH,health);
-		
-		
-		displayFirstAction(x,y);
 		
 		// Add click event
 		getEntityImage().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -77,8 +67,8 @@ public class Enemy extends Entity{
 	    	}
 		});
 		
-		initText();
-		debugAllStats();
+		//initText();
+		//debugAllStats();
 		setStatsText();
 		
 		// Add enemies FX components
@@ -90,12 +80,9 @@ public class Enemy extends Entity{
 		
 		getStatsText().setId(enemyName+"-statsText");
 		this.getChildren().add(getStatsText());
-
-		getActionImage().setId(enemyName+"-actionImage");
-		this.getChildren().add(getActionImage());
 		
-		getActionText().setId(enemyName+"-actionText");
-		this.getChildren().add(getActionText());
+		//NEW!!!!
+		myParent.getChildren().add(this);
 	}
 	
 	public int getEnemyNumber() {
@@ -111,7 +98,7 @@ public class Enemy extends Entity{
 		actionX=actionX-diff;
 		this.x = x;
 		getStatsImage().setLayoutX(getStatsImage().getLayoutX()-diff);
-		actionImage.setLayoutX(actionX);
+		getActionImage().setLayoutX(actionX);
 		getEntityImage().setLayoutX(getEntityImage().getLayoutX()-diff);
 		getStatsText().setLayoutX(getStatsText().getLayoutX()-diff);
 		getActionText().setLayoutX(getActionText().getLayoutX()-diff);
@@ -125,25 +112,22 @@ public class Enemy extends Entity{
 	public final void setY(int y) {
 		this.y = y;
 	}
-
-	public void initDefaultActions() {
-		actions = new ArrayList<>();
-		ImageView attackImage = ImageLoader.load("images//enemies//lattack.png",false);
-		ImageView blockImage = ImageLoader.load("images//enemies//lshield.png",false);
-		
-		//actions.add(String name, ImageView imageView, EffectTarget target, Adjustment adjustment, StatType statType, int value) 		
-		actions.add(new Action("Block",blockImage, EffectTarget.SELF, Adjustment.INCREMENTS, StatType.ARMOR, 6));
-		actions.add(new Action("Bite",attackImage, EffectTarget.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 6)); 
-		currentAction = actions.get(0);
-		actionImage=currentAction.getImageView();
-		actionImage.setId(enemyName+"-actionImage");
-	}
 	
 	public void initDefaultActions(List<Action> actions) {
 		this.actions = actions;
 		currentAction = actions.get(0);
-		actionImage=currentAction.getImageView();
-		actionImage.setId(enemyName+"-actionImage");
+		getActionImage().setId(enemyName+"-actionImage");
+		actionY=y-(int)getActionImage().getImage().getHeight()-2;
+		actionX=x+(int)(getEntityImage().getImage().getWidth()/2)-(int)(getActionImage().getImage().getWidth()/2);
+		setActionImageIndexXY();
+		
+		//NEW
+		initText();
+		getActionText().setId(enemyName+"-actionText");
+		this.getChildren().add(getActionImage());
+		this.getChildren().add(getActionText());
+
+		displayFirstAction(x,y);
 	}
 	
 	public final void setStatsText() {
@@ -151,39 +135,46 @@ public class Enemy extends Entity{
 	}
 	
 	public final Text getStatsText() {
+		Text text=super.getStatsText();
+		text.setId(this.getId()+"-statsText");
 		return super.getStatsText();
 	}
 	
 	public void displayFirstAction(int x, int y) {
-		actionImage = actions.get(0).getImageView();
-		actionImage.setId(enemyName+"-actionImage");
-		setActionIndexXY();
-		
-		setActionIndexXY();
+		getActionImage().setId(enemyName+"-actionImage");
+		setActionImageIndexXY();
 	}
 	
-	private void setActionIndexXY() {
-		actionImage.setLayoutX(actionX);
-		actionImage.setLayoutY(actionY);
+	private void setActionImageIndexXY() {
+		getActionImage().setLayoutX(actionX);
+		getActionImage().setLayoutY(actionY);
 	}
 	
 	public final Action getNextAction() {
-		int index=ScreenUtil.getIndexOfId(this,"#"+enemyName+"-actionImage");
+		System.out.println("==============[getNextAction]=========");
+		System.out.println(this.getId());
+		for(Node node:this.getChildren()) {
+			System.out.println(node.getId());
+		}
+		//int index=ScreenUtil.getIndexOfId(this,"#"+enemyName+"-actionImage");
 		actionIndex++;
 		if (actionIndex==actions.size()) {
 			actionIndex=0;
 		}
 		currentAction=actions.get(actionIndex);
+		setActionText();
 		
 		// update actionImage
-		actionImage=currentAction.getImageView();
-		actionImage.setId(enemyName+"-actionImage");
-		setActionIndexXY();
+		getActionImage().setId(enemyName+"-actionImage");
+		setActionImageIndexXY();
 
-		this.getChildren().set(index, actionImage);
-		//Group group=((DemoPlayer)getPlayer()).getGroup();
-		//group.getChildren().set(actionImageIndex, actionImage);		
-		//this.getChildren().set(3, actionImage);
+		//this.getChildren().set(index, getActionImage());
+		this.getChildren().set(3, getActionImage());
+		
+		//index=ScreenUtil.getIndexOfId(this,"#"+enemyName+"-actionText");
+		//this.getChildren().set(index, actionText);
+		this.getChildren().set(4, actionText);
+		
 		return currentAction;
 	}
 	
@@ -195,16 +186,12 @@ public class Enemy extends Entity{
 		return actions;
 	}
 
-	public final void setActions(List<Action> actions) {
-		this.actions = actions;
-	}
-	
 	public final ImageView getActionImage() {
-		return actionImage;
+		return currentAction.getImageView();
 	}
 
 	public final void setActionImage(ImageView actionImage) {
-		this.actionImage.setImage(actionImage.getImage());
+		getActionImage().setImage(actionImage.getImage());
 		actionImage.setId(enemyName+"-actionImage");
 	}
 
@@ -239,6 +226,7 @@ public class Enemy extends Entity{
 	}
 	
 	public final Text getActionText() {
+		actionText.setId(enemyName+"-actionText");
 		return actionText;
 	}
 	
@@ -248,7 +236,7 @@ public class Enemy extends Entity{
 	}
 	
 	private void initText() {
-		actionText = TextUtil.initText(""+currentAction.getValue(), (int)actionImage.getLayoutX()+10, (int)actionImage.getLayoutY()+25);
+		actionText = TextUtil.initText(""+currentAction.getValue(), (int)getActionImage().getLayoutX()+10, (int)getActionImage().getLayoutY()+25);
 		actionText.setId(enemyName+"-actionText");
 	}
 	

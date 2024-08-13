@@ -21,20 +21,15 @@ public class ScreenUtil {
 		return imageView;
 	}
 	
-	public static Node getNodeOfIndex(Group myParent, String id) {
-		int index=getIndexOfId(myParent, id);
-		Node node=null;
-		if (index>-1) {
-			node=myParent.getChildren().get(index);
-		}
-		return node;
+	public static Node getNodeOfId(Group myParent, String id) {
+		return myParent.lookup(id);
 	}
 	
 	public static int getIndexOfId(Group myParent, String id) {
 		Node node = myParent.lookup(id);
 		int index=-1;
 		if (node == null) {
-			System.out.println("ScreenUtil: "+id+" not found");
+			System.out.println("*********ERROR ScreenUtil getIndexOfId: "+id+" not found");
 		} else {
 			index=myParent.getChildren().indexOf(node);
 		}

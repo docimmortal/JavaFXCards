@@ -1,8 +1,8 @@
 package application.buttons;
 
-import application.fxcomponents.ScreenUtil;
 import application.player.entities.DemoPlayer;
-import application.screens.SplashScreen;
+import application.screens.MapScreen;
+import application.utils.MapUtil;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 
 public class RestartButton extends ImageButton {
 
+	private MapScreen map;
+	
 	public RestartButton(Group myParent, String filename, int x, int y) {
 		super(myParent, filename, x, y);;
 	}
@@ -23,31 +25,32 @@ public class RestartButton extends ImageButton {
 			node=myParent.getChildren().get(index);
 			if (node.getId().equals("Player")) {
 				playerFound=true;
-				DemoPlayer dp = (DemoPlayer)node;
-				// We need to create a new player
-				Stage stage = dp.getStage();
-				node = new DemoPlayer(myParent,stage);
-				
-				// group should only have player object.
-				myParent.getChildren().clear();
-				myParent.getChildren().add(node);
 			} else {
 				index++;
 			}
 		}
 		
-		SplashScreen spl = new SplashScreen("map.jpg");
+		DemoPlayer dp = (DemoPlayer)node;
+		// We need to create a new player
+		Stage stage = dp.getStage();
+
+		// group should only have player object.
+		myParent.getChildren().clear();
+		dp = new DemoPlayer(myParent,stage);
+		myParent.getChildren().add(dp);
 		
-		StartButton startButton = new StartButton(myParent,"Button-start.jpg",1200,700);	
-		spl.addButton(startButton);
-		myParent.getChildren().add(startButton);
-		myParent.getChildren().add(spl);
-		
-		index=ScreenUtil.getIndexOfId(myParent, "#Player");
-		((DemoPlayer)myParent.getChildren().get(index)).setNoInitialHandSet();
-		
+		map = new MapScreen();
+		map.setId("#Map");
+		dp.setMapScreen(map);
+
+		MapUtil mu = new MapUtil(myParent);
+		mu.setMapScreen(map);
+		mu.setDefaultLocations();
+		myParent.getChildren().add(mu);
+		myParent.getChildren().add(map);
+
 		// Final steps to render the scene
-		Scene scene = new Scene(new VBox(getMyParent()), 1500, 900);
+		Scene scene = new Scene(new VBox(myParent), 1500, 900);
 		getPlayer().getStage().setScene(scene);
 		getPlayer().getStage().show();
 	}

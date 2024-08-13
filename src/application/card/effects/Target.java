@@ -1,6 +1,6 @@
 package application.card.effects;
 
-public enum EffectTarget {
+public enum Target {
 	SELF,
 	ENEMY,
 	CHARACTER,

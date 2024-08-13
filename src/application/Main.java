@@ -3,12 +3,10 @@ package application;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.entities.Enemy;
 import application.buttons.StartButton;
 import application.player.entities.DemoPlayer;
 import application.screens.SplashScreen;
-import application.utils.EnemyList;
-import application.utils.EnemyUtil;
+import application.utils.MapUtil;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Group;
@@ -35,11 +33,11 @@ public class Main extends Application {
 			player = new DemoPlayer(mainGroup,stage); // new character created
 			mainGroup.getChildren().add(player);
 			
-			EnemyList.addEnemy(EnemyUtil.yarnBoy(player,1));
-			EnemyList.addEnemy(new Enemy(mainGroup,"images\\enemies\\bunny.png","Enemy1", 1100, 300, 10));
-
-			SplashScreen spl = new SplashScreen("map.jpg");
-			StartButton startButton = new StartButton(mainGroup,"Button-start.jpg",1200,700);		
+			MapUtil mu = new MapUtil(mainGroup);
+			mainGroup.getChildren().add(mu);
+			
+			SplashScreen spl = new SplashScreen("TwoWizards.jpg");
+			StartButton startButton = new StartButton(mainGroup,"Button-start.png",1200,700);		
 			spl.addButton(startButton);
 			mainGroup.getChildren().add(startButton);
 			mainGroup.getChildren().add(spl);

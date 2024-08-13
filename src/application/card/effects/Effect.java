@@ -3,12 +3,12 @@ package application.card.effects;
 public class Effect {
 
 	private String name;
-	private EffectTarget target;
+	private Target target;
 	private Adjustment adjustment;
 	private StatType statType;
 	private int value;
 
-	public Effect(String name, EffectTarget target, Adjustment adjustment, StatType statType, int value) {
+	public Effect(String name, Target target, Adjustment adjustment, StatType statType, int value) {
 		super();
 		this.name = name;
 		this.target = target;
@@ -25,11 +25,11 @@ public class Effect {
 		this.name = name;
 	}
 
-	public final EffectTarget getTarget() {
+	public final Target getTarget() {
 		return target;
 	}
 
-	public final void setTarget(EffectTarget target) {
+	public final void setTarget(Target target) {
 		this.target = target;
 	}
 

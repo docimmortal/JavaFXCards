@@ -3,6 +3,7 @@ package application.fxcomponents;
 import application.entities.Enemy;
 import application.player.entities.Player;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -10,25 +11,21 @@ import javafx.scene.text.Text;
 
 public class EraseUtil {
 
-	public static void eraseEnemy(Enemy enemy, Group group, int offset) {
+	public static void eraseEnemy(Enemy enemy) {
 		// hard coded to currently work with one enemy
-		int no=enemy.getEnemyNumber();
-		int enemyIndex=ScreenUtil.getIndexOfId(group,"#"+enemy.getId());
-		Group enemyGroup = (Group) group.getChildren().get(enemyIndex+no-1);
-		enemyGroup.getChildren().set(0, ImageLoader.load("images\\enemies\\no-enemy.png", false));
-		enemyGroup.getChildren().set(1, ImageLoader.load("images\\enemies\\no-enemy.png", false));
-		enemyGroup.getChildren().set(2, new Text(""));
-		enemyGroup.getChildren().set(3, ImageLoader.load("images\\enemies\\no-enemy.png", false));
-		enemyGroup.getChildren().set(4, new Text(""));
+		enemy.getChildren().set(0, ImageLoader.load("images\\enemies\\no-enemy.png", false));
+		enemy.getChildren().set(1, ImageLoader.load("images\\enemies\\no-enemy.png", false));
+		enemy.getChildren().set(2, new Text(""));
+		enemy.getChildren().set(3, ImageLoader.load("images\\enemies\\no-enemy.png", false));
+		enemy.getChildren().set(4, new Text(""));
 	}
 	
 	public static void erase(String id, Group group) {
-		System.out.print("EraseUtil erase "+id+"\n\n");
-		int index=ScreenUtil.getIndexOfId(group,id);
-		if (index>-1) {
-			group.getChildren().set(index,ImageLoader.load("images\\enemies\\no-enemy.png", false));
+		Node node = group.lookup(id);
+		if (node==null) {
+			System.out.println("************* ERROR: EraseUtil erase cannot find "+id);
 		}
-		System.out.println("EraseUtil END");
+		group.getChildren().remove(node);
 	}
 	
 	public static void redraw(Group group, Player player) {

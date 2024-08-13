@@ -8,7 +8,6 @@ import application.card.entities.NoCard;
 import application.entities.Character;
 import application.fxcomponents.ScreenUtil;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.stage.Stage;
 
 public class Player extends Group{
@@ -151,28 +150,25 @@ public class Player extends Group{
 	}
 
 	public final void discardCardFromHand(Card card) {
-		System.out.println(getHand().size());
+		//System.out.println(getHand().size());
 		int index=getHand().indexOf(card);
-		System.out.println("discardCardFromHand, index="+index);
+		//System.out.println("discardCardFromHand, index="+index);
 		Card oldCard=getHand().get(index);
 		discard.add(oldCard);
 		NoCard noCard = new NoCard(myParent,oldCard.getId().replaceAll("Card", ""));
-		System.out.println("discardCardFromHand: "+noCard.getId());
+		//System.out.println("discardCardFromHand: "+noCard.getId());
 		hand.set(index,noCard);
-		System.out.println("discardCardFromHand NoCard check:"+hand.get(index));
+		//System.out.println("discardCardFromHand NoCard check:"+hand.get(index));
 		setCardClicked(null);
 		int firstCardIndex=ScreenUtil.getIndexOfId(myParent,"#Card1");
 		if (firstCardIndex==-1) {
 			firstCardIndex=ScreenUtil.getIndexOfId(myParent,"#NoCard1");
 		}
-		System.out.println("FirstCardIndex:"+firstCardIndex+", index*2:"+(index*2));
+		//System.out.println("FirstCardIndex:"+firstCardIndex+", index*2:"+(index*2));
 		myParent.getChildren().set(firstCardIndex+index*2, viewCardInHand(index));
 		myParent.getChildren().set(firstCardIndex+index*2+1, noCard.getImageView());
 		
-		for (Node node: myParent.getChildren()) {
-			System.out.println(node.getId());
-		}
-		System.out.println("=============[End of discardCardFromHand]========\n\n");
+		//System.out.println("=============[End of discardCardFromHand]========\n\n");
 	}
 	
 	public final void putDiscardsInDeck() {

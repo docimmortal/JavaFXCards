@@ -62,8 +62,10 @@ public class EnemyList {
 	
 	public static int getTotalHealth() {
 		int totalHealth=0;
-		for (Enemy enemy:enemies) {
-			totalHealth+=enemy.get(StatType.HEALTH);
+		if (enemies!=null) {
+			for (Enemy enemy:enemies) {
+				totalHealth+=enemy.get(StatType.HEALTH);
+			}
 		}
 		return totalHealth;
 	}

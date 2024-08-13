@@ -1,6 +1,6 @@
 package application.buttons;
 
-import application.card.effects.EffectTarget;
+import application.card.effects.Target;
 import application.card.effects.StatType;
 import application.card.entities.NoCard;
 import application.entities.Action;
@@ -23,16 +23,15 @@ public class EndTurnButton extends ImageButton {
 	}
 
 	public void doAction() {
-		System.out.println("Ended turn. Do stuff.");
+		//System.out.println("Ended turn. Do stuff.");
 
 		int totalEnemyHealth=0;
 		// Enemy does action, can be changed to getEnemies();
-		for (int i=0; i<4; i++) {
-			Node node = ScreenUtil.getNodeOfIndex(myParent, "#Enemy"+i);
-			if (node!= null) {
+		for (Node node: myParent.getChildren()) {
+			
+			if (node instanceof Enemy) {
 				Enemy enemy = (Enemy) node;
-
-
+				//System.out.println("==============[EndTurn doAction]=========");
 				// Any ongoing enemy damage/debuffs
 
 				// Enemy reset armor
@@ -40,9 +39,9 @@ public class EndTurnButton extends ImageButton {
 
 				// Can be changed to loop through enemy list
 				Action action = enemy.getCurrentAction();
-				if (action.getTarget() == EffectTarget.SELF) {
+				if (action.getTarget() == Target.SELF) {
 					EnemyBuffUtil.getEnemyBuff(enemy);
-				} else if (action.getTarget() == EffectTarget.CHARACTER) {
+				} else if (action.getTarget() == Target.CHARACTER) {
 					EnemyVsCharacterUtil.getEnemyAction(enemy, ((DemoPlayer)getPlayer()).getCharacter());
 				}
 
@@ -50,15 +49,10 @@ public class EndTurnButton extends ImageButton {
 				totalEnemyHealth+=enemy.get(StatType.HEALTH);
 				if (enemy.get(StatType.HEALTH)!=0) {
 					enemy.setStatsText();
-					//group.getChildren().set(8, enemy.getStatsText());
-					// Hard coded to only works for one enemy
-					int no=enemy.getEnemyNumber();
-					int enemyIndex=ScreenUtil.getIndexOfId(myParent,"#Enemy"+i);
-					Group enemyGroup = (Group) myParent.getChildren().get(enemyIndex+no-1);
-					enemyGroup.getChildren().set(2, enemy.getStatsText());
+					enemy.getChildren().set(2, enemy.getStatsText());
 					enemy.getNextAction();
 				}else {
-					EraseUtil.eraseEnemy(enemy, myParent, 0);
+					EraseUtil.eraseEnemy(enemy);
 				}
 			}
 		}

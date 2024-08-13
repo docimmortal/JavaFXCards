@@ -4,6 +4,7 @@ import application.entities.Character;
 import application.card.effects.StatType;
 import application.card.entities.Card;
 import application.entities.Enemy;
+import application.screens.MapScreen;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -15,15 +16,24 @@ public class DemoPlayer extends Player {
 	private Enemy enemyClicked;
 	private Character characterClicked;
 	private boolean initialHandSet;
+	private MapScreen mapScreen;
 	
 	public DemoPlayer(Group myParent, Stage stage) {
 		super(myParent, stage);
 		setId("Player");
-		System.out.println("DemoPlayer id:"+getId());
+		initialHandSet=false;
 	}
 	
 	public DemoPlayer(Group myParent, Stage stage, Character character) {
 		super(myParent, stage, character);
+	}
+
+	public final MapScreen getMapScreen() {
+		return mapScreen;
+	}
+
+	public final void setMapScreen(MapScreen mapScreen) {
+		this.mapScreen = mapScreen;
 	}
 
 	public Enemy getEnemy(int index) {
@@ -74,13 +84,7 @@ public class DemoPlayer extends Player {
 	
 	public void addCardsToJavaFxDisplay(Group group) {
 		int firstCardIndex=0;
-		System.out.println("DemoPlayer addCardsToJavaFxDisplay START: initialHandSet="+initialHandSet);
 		if (initialHandSet) {
-			int count=myParent.getChildren().size();
-			System.out.println("DemoPlayer addCardsToJavaFxDisplay: count="+count);
-			for (int i=0; i<count; i++) {
-				System.out.println("DemoPlayer addCardsToJavaFxDisplay: "+myParent.getChildren().get(i).getId());
-			}
 			Node node=myParent.lookup("#Card1");
 			if (node==null) {
 				node=myParent.lookup("#NoCard1");
@@ -101,9 +105,6 @@ public class DemoPlayer extends Player {
 			}
 		}
 		initialHandSet=true;
-		System.out.println("DemoPlayer addCardsToJavaFxDisplay END: initialHandSet="+initialHandSet);
-		int count=myParent.getChildren().size();
-		System.out.println("===========[DemoPlayer addCardsToJavaFxDisplay: count="+count+"]=========\n");
 	}
 	
 }

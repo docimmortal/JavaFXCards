@@ -1,12 +1,12 @@
 package application.entities;
 
 import application.player.entities.DemoPlayer;
-import entities.card.Target;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import application.card.effects.StatType;
+import application.card.effects.Target;
 import application.card.entities.RPGCard;
 import application.fxcomponents.TextUtil;
 import application.card.entities.Card;
@@ -127,8 +127,6 @@ public class Character extends Entity {
 		eCards.add(punchc);
 		getPlayer().addCardToDeck(punchc);
 		
-		getPlayer().addCardToDeck(new RPGCard(block));
-		getPlayer().addCardToDeck(new RPGCard(block));
 		getPlayer().addCardToDeck(new RPGCard(block));
 		
 		RPGCard punchd = new RPGCard(myParent,"images\\cards\\punchd.jpg",Target.ENEMY, "Punch D", 1);
