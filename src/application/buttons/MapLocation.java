@@ -2,6 +2,7 @@ package application.buttons;
 
 import java.util.List;
 
+import application.card.effects.StatType;
 import application.entities.Enemy;
 import application.fxcomponents.ImageLoader;
 import application.fxcomponents.ScreenUtil;
@@ -19,6 +20,7 @@ public class MapLocation extends ImageButton {
 	private Text statsText;
 	private List<Enemy> enemies;
 	private String mapLocId;
+	private int totalHealth;
 
 	public MapLocation(Group myParent, String mapLocId, String filename, int x, int y, List<Enemy> enemies) {
 		super(myParent, "images//mapLocs//",filename, x, y);
@@ -54,13 +56,15 @@ public class MapLocation extends ImageButton {
 
 		// initialize deck and add the card images to the screen
 		//initDeck(group);
-		dp.getCharacter().setInitialDeck();
-		dp.resetDeckHandDiscard();
-		dp.drawAnInitialHand();
-
-		// display cards
-		// group: indexes 11-15 (change FIRST_CARD_INDEX if this changes).
-		dp.addCardsToJavaFxDisplay(getMyParent());
+		if (totalHealth > 0) {
+			dp.getCharacter().setInitialDeck();
+			dp.resetDeckHandDiscard();
+			dp.drawAnInitialHand();
+	
+			// display cards
+			// group: indexes 11-15 (change FIRST_CARD_INDEX if this changes).
+			dp.addCardsToJavaFxDisplay(getMyParent());
+		}
 		VBox pane = new VBox(1, new HBox(getMyParent()));
 		Scene scene = new Scene(pane, 1500, 900);
 		dp.getStage().setScene(scene);
@@ -73,9 +77,19 @@ public class MapLocation extends ImageButton {
 		pointsText = player.getCharacter().getSpellpointsText();
 		putInGroup("PointsText", pointsText);
 
+		totalHealth=0;
+		for (int i=0; i<enemies.size();i++) {
+			Enemy enemy=enemies.get(i);
+			totalHealth+=enemy.get(StatType.HEALTH);
+		}
 
-		ImageButton endTurnButton = new EndTurnButton(getMyParent(),"Button-EndTurn.jpg",1200,750);
-		putInGroup("EndTurnButton", endTurnButton.getImageView());
+		if (totalHealth > 0) {
+			ImageButton endTurnButton = new EndTurnButton(getMyParent(),"Button-EndTurn.jpg",1200,750);
+			putInGroup("EndTurnButton", endTurnButton.getImageView());
+		} else {
+			ImageButton leaveButton = new LeaveButton(getMyParent(),"Leave.png",1200,700);
+			putInGroup("EndTurnButton", leaveButton.getImageView());
+		}
 
 		putInGroup("PlayerImage", player.getCharacter().getEntityImage());
 
@@ -85,18 +99,21 @@ public class MapLocation extends ImageButton {
 		putInGroup("PlayerStatsText", statsText);
 
 		/* START ENEMY*/
-		for (int i=0; i<enemies.size();i++) {
-			Enemy enemy=enemies.get(i);
-			int x=(int) enemy.getX();
-			x=x-(i*200);
-			enemy.resetXs(x);
-			putInGroup("Enemy"+(i+1), enemy);
+		if (totalHealth>0) {
+			for (int i=0; i<enemies.size();i++) {
+				Enemy enemy=enemies.get(i);
+				int x=(int) enemy.getX();
+				x=x-(i*200);
+				enemy.resetXs(x);
+				putInGroup("Enemy"+(i+1), enemy);
+			}
+			
+			
+			/* END ENEMY*/
+			
+			ImageButton discard = new DiscardButton(getMyParent(),1200,600);
+			putInGroup("DiscardButton", discard.getImageView());
 		}
-		
-		/* END ENEMY*/
-		
-		ImageButton discard = new DiscardButton(getMyParent(),1200,600);
-		putInGroup("DiscardButton", discard.getImageView());
 	}
 	
 	public void debugGroup() {
@@ -110,7 +127,6 @@ public class MapLocation extends ImageButton {
 		node.setId(id);
 		int index=ScreenUtil.getIndexOfId(myParent, "#"+id);
 		if (index<0) {
-			System.out.println("*******ERROR MapLocation putInGroup "+id+" not found");
 			getMyParent().getChildren().add(node);
 		} else {
 			getMyParent().getChildren().set(index, node);

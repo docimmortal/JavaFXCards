@@ -28,9 +28,7 @@ public class ScreenUtil {
 	public static int getIndexOfId(Group myParent, String id) {
 		Node node = myParent.lookup(id);
 		int index=-1;
-		if (node == null) {
-			System.out.println("*********ERROR ScreenUtil getIndexOfId: "+id+" not found");
-		} else {
+		if (node != null) {
 			index=myParent.getChildren().indexOf(node);
 		}
 		return index;

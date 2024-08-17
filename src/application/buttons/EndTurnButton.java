@@ -77,7 +77,7 @@ public class EndTurnButton extends ImageButton {
 				ImageView iv=ScreenUtil.GameOver();
 				clearHandAndButtons();
 				myParent.getChildren().add(iv);
-				ImageButton leaveButton = new RestartButton(getMyParent(),"Leave.png",1200,700);
+				ImageButton leaveButton = new LeaveButton(getMyParent(),"Leave.png",1200,700);
 				leaveButton.setId("LeaveButton");
 				myParent.getChildren().add(leaveButton.getImageView());
 			}

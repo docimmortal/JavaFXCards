@@ -22,9 +22,6 @@ public class EraseUtil {
 	
 	public static void erase(String id, Group group) {
 		Node node = group.lookup(id);
-		if (node==null) {
-			System.out.println("************* ERROR: EraseUtil erase cannot find "+id);
-		}
 		group.getChildren().remove(node);
 	}
 	
