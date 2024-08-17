@@ -39,8 +39,8 @@ public class MapUtil extends Group{
 		DemoPlayer player = (DemoPlayer)ScreenUtil.getNodeOfId(myParent,"#Player");
 		List<Enemy> enemies = new ArrayList<>();
 		enemies.add(EnemyUtil.yarnBoy(player,1));
-		enemies.add(EnemyUtil.yarnBoy(player,2));
-		enemies.add(EnemyUtil.bunny(player,3));
+		enemies.add(EnemyUtil.easyBunny(player,2));
+		enemies.add(EnemyUtil.easyBunny(player,3));
 
 		initMapLocation("s-woods.png","Woods1",770,670, enemies);
 		
@@ -58,7 +58,7 @@ public class MapUtil extends Group{
 		initMapLocation("s-water.png","Ocean1",280,680, enemies);
 		
 		enemies = new ArrayList<>();
-		enemies.add(EnemyUtil.bunny(player,1));
+		enemies.add(EnemyUtil.gingerbreadMan(player,1));
 		initMapLocation("s-mount.png","Mount1",500,380, enemies);
 	}
 	

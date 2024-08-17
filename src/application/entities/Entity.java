@@ -31,7 +31,7 @@ public class Entity extends Group{
 		this.myParent=myParent;
 		
 		initStatsImage(x);
-		setStatsText();
+		//setStatsText();
 	}
 	
 	public final int getStatsX() {
@@ -132,6 +132,7 @@ public class Entity extends Group{
 	}
 	
 	public void setStatsText() {
+
 		int lHealth=get(StatType.HEALTH);
 		String healthStr=String.format("%3d",lHealth);
 		int hpLen=8;
@@ -143,6 +144,8 @@ public class Entity extends Group{
 		int lArmor=get(StatType.ARMOR);
 		String armorStr=String.format(" %3d",lArmor);
 
+		System.out.println(getId()+" "+lHealth+" "+lArmor);
+		
 		String msg=healthStr+spacing1+armorStr;
 		statsText = TextUtil.initText(msg, statsX, statsY+25);
 	}

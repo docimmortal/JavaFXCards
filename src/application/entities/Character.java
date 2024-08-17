@@ -105,7 +105,7 @@ public class Character extends Entity {
 		getPlayer().addCardToDeck(punchPlus);
 		
 		RPGCard blockPlus = new RPGCard(myParent,"images\\cards\\block-plus.jpg",Target.SELF, "Block+", 1);
-		blockPlus.set(StatType.ARMOR,5);
+		blockPlus.set(StatType.ARMOR,6);
 		blockPlus.set(StatType.CYCLE, 1);
 		eCards.add(blockPlus);
 		getPlayer().addCardToDeck(blockPlus);

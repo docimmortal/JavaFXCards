@@ -105,6 +105,7 @@ public class MapLocation extends ImageButton {
 				int x=(int) enemy.getX();
 				x=x-(i*200);
 				enemy.resetXs(x);
+				System.out.println("FOUND"+enemy.getStatsText().getText());
 				putInGroup("Enemy"+(i+1), enemy);
 			}
 			

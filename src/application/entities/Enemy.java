@@ -53,6 +53,7 @@ public class Enemy extends Entity{
 		
 		set(StatType.HEALTH,health);
 		set(StatType.MAX_HEALTH,health);
+		setStatsText();
 		
 		// Add click event
 		getEntityImage().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
@@ -69,7 +70,6 @@ public class Enemy extends Entity{
 		
 		//initText();
 		//debugAllStats();
-		setStatsText();
 		
 		// Add enemies FX components
 		getEntityImage().setId(enemyName+"-entityimage");
@@ -79,6 +79,7 @@ public class Enemy extends Entity{
 		this.getChildren().add(getStatsImage());
 		
 		getStatsText().setId(enemyName+"-statsText");
+		System.out.println("STATS TEXT:"+getStatsText().getText());
 		this.getChildren().add(getStatsText());
 		
 		//NEW!!!!
@@ -132,6 +133,11 @@ public class Enemy extends Entity{
 	
 	public final void setStatsText() {
 		super.setStatsText();
+		if (this.getChildren().size()==3) {
+			this.getChildren().set(2, getStatsText());
+		} else {
+			System.out.println(this.getChildren().size());
+		}
 	}
 	
 	public final Text getStatsText() {
@@ -231,7 +237,12 @@ public class Enemy extends Entity{
 	}
 	
 	public void setActionText() {
-		actionText.setText(""+currentAction.getValue());
+		int value=currentAction.getValue();
+		if (value>0) {
+			actionText.setText(""+currentAction.getValue());
+		} else {
+			actionText.setText("");
+		}
 		actionText.setId(enemyName+"-actionText");
 	}
 	
