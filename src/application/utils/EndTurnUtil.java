@@ -93,7 +93,7 @@ public class EndTurnUtil extends Group {
 	}
 
 
-	private void clearHandAndButtons() {
+	protected void clearHandAndButtons() {
 		getPlayer().clearHand();
 		((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
 		EraseUtil.erase("#DiscardButton",myParent);
@@ -101,7 +101,7 @@ public class EndTurnUtil extends Group {
 	}
 	
 
-	private void drawCards(int cards, int maxHandSize) {
+	protected void drawCards(int cards, int maxHandSize) {
 		int count=0;
 		int index=0;
 
