@@ -1,7 +1,6 @@
 package application.utils;
 
 import application.buttons.ImageButton;
-import application.buttons.LeaveButton;
 import application.buttons.RestartButton;
 import application.card.effects.StatType;
 import application.card.effects.Target;
