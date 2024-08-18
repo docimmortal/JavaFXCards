@@ -51,8 +51,16 @@ public class RPGCard extends Card {
 		statMap.put(statType, value);
 	}
 	
-	private DemoPlayer getPlayer() {
+	public Map<StatType,Integer>  getStatMap() {
+		return statMap;
+	}
+	
+	public DemoPlayer getPlayer() {
 		return (DemoPlayer)myParent.lookup("#Player");
+	}
+	
+	public String getFilename() {
+		return filename;
 	}
 
 	@Override

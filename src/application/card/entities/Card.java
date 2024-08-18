@@ -34,6 +34,10 @@ public class Card extends Group {
 		return cardName;
 	}
 	
+	public Group getMyParent() {
+		return myParent;
+	}
+	
 
 	public final ImageView getImageView() {
 		return imageView;
