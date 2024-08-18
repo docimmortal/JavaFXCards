@@ -3,6 +3,7 @@ package application.buttons;
 import application.fxcomponents.ScreenUtil;
 import application.player.entities.DemoPlayer;
 import application.screens.MapScreen;
+import application.utils.EndTurnUtil;
 import application.utils.MapUtil;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -18,15 +19,18 @@ public class LeaveButton extends ImageButton {
 	public void doAction() {
 		DemoPlayer player=null;
 		MapUtil mapUtil=null;
+		EndTurnUtil endTurn=null;
 		MapScreen map=null;
 		int index=0;
-		while (player==null||map==null) {
+		while (player==null||map==null||endTurn==null) {
 			Node node=myParent.getChildren().get(index);
 			if (node.getId().equals("Player")) {
 				player=(DemoPlayer)node;
 			} else if (node.getId().equals("MapUtil")) {
 				mapUtil=(MapUtil)node;
 				map=mapUtil.getMapScreen();
+			} else if (node.getId().equals("EndTurnUtil")) {
+				endTurn=(EndTurnUtil)node;
 			}
 			index++;
 		}
@@ -34,6 +38,7 @@ public class LeaveButton extends ImageButton {
 		myParent.getChildren().clear();
 		myParent.getChildren().add(player);
 		myParent.getChildren().add(mapUtil);
+		myParent.getChildren().add(endTurn);
 		
 		index=ScreenUtil.getIndexOfId(myParent, "#Player");
 		player.setNoInitialHandSet();

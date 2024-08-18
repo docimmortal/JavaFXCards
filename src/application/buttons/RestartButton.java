@@ -2,12 +2,15 @@ package application.buttons;
 
 import application.player.entities.DemoPlayer;
 import application.screens.MapScreen;
+import application.utils.EndTurnUtil;
 import application.utils.MapUtil;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import application.card.effects.StatType;
+import application.entities.Character;
 
 public class RestartButton extends ImageButton {
 
@@ -18,36 +21,40 @@ public class RestartButton extends ImageButton {
 	}
 	
 	public void doAction() {
-		boolean playerFound=false;
 		Node node = null;
+		DemoPlayer demo = null;
+		EndTurnUtil endTurn=null;
 		int index=0;
-		while (!playerFound) {
+		while (demo==null || endTurn==null) {
 			node=myParent.getChildren().get(index);
 			if (node.getId().equals("Player")) {
-				playerFound=true;
-			} else {
-				index++;
+				demo=(DemoPlayer)node;
+			} else if (node.getId().equals("EndTurnUtil")) {
+				endTurn=(EndTurnUtil)node;
 			}
+			index++;
 		}
 		
-		DemoPlayer dp = (DemoPlayer)node;
 		// We need to create a new player
-		Stage stage = dp.getStage();
+		Stage stage = demo.getStage();
+		Character character = demo.getCharacter();
+		character.set(StatType.HEALTH, character.get(StatType.MAX_HEALTH));
 
-		// group should only have player object.
+		// group should only have player and EndUtil objects.
 		myParent.getChildren().clear();
-		dp = new DemoPlayer(myParent,stage);
-		myParent.getChildren().add(dp);
+		demo = new DemoPlayer(myParent,stage);
+		demo.setCharacter(character);
+		myParent.getChildren().add(demo);
+		myParent.getChildren().add(endTurn);
 		
 		map = new MapScreen();
 		map.setId("#Map");
-		dp.setMapScreen(map);
+		demo.setMapScreen(map);
 
 		MapUtil mu = new MapUtil(myParent);
 		mu.setMapScreen(map);
 		mu.setDefaultLocations();
 		myParent.getChildren().add(mu);
-		myParent.getChildren().add(map);
 
 		// Final steps to render the scene
 		Scene scene = new Scene(new VBox(myParent), 1500, 900);

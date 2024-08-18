@@ -1,7 +1,10 @@
-package application.buttons;
+package application.utils;
 
-import application.card.effects.Target;
+import application.buttons.ImageButton;
+import application.buttons.LeaveButton;
+import application.buttons.RestartButton;
 import application.card.effects.StatType;
+import application.card.effects.Target;
 import application.card.entities.NoCard;
 import application.entities.Action;
 import application.entities.Enemy;
@@ -9,24 +12,25 @@ import application.fxcomponents.EraseUtil;
 import application.fxcomponents.ScreenUtil;
 import application.fxcomponents.UpdateUtil;
 import application.player.entities.DemoPlayer;
-import application.utils.EndTurnUtil;
-import application.utils.EnemyBuffUtil;
-import application.utils.EnemyVsCharacterUtil;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class EndTurnButton extends ImageButton {
+public class EndTurnUtil extends Group {
 
-	public EndTurnButton(Group myParent, String filename, int x, int y) {
-		super(myParent, filename, x, y);
+	private Group myParent;
+	
+	public EndTurnUtil(Group myParent) {
+		this.myParent=myParent;
+		setId("EndTurnUtil");
 	}
-
+	
+	public DemoPlayer getPlayer() {
+		return (DemoPlayer)myParent.lookup("#Player");
+	}
+	
 	public void doAction() {
-		EndTurnUtil endTurn = (EndTurnUtil)ScreenUtil.getNodeOfId(getMyParent(),"#EndTurnUtil");
-		endTurn.doAction();
-		/*
 		//System.out.println("Ended turn. Do stuff.");
 
 		int totalEnemyHealth=0;
@@ -81,15 +85,15 @@ public class EndTurnButton extends ImageButton {
 				ImageView iv=ScreenUtil.GameOver();
 				clearHandAndButtons();
 				myParent.getChildren().add(iv);
-				ImageButton leaveButton = new LeaveButton(getMyParent(),"Leave.png",1200,700);
+				ImageButton leaveButton = new RestartButton(myParent,"Leave.png",1200,700);
 				leaveButton.setId("LeaveButton");
 				myParent.getChildren().add(leaveButton.getImageView());
 			}
 
-		}*/
+		}
 	}
 
-	/*
+
 	private void clearHandAndButtons() {
 		getPlayer().clearHand();
 		((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
@@ -109,6 +113,5 @@ public class EndTurnButton extends ImageButton {
 			}
 			index++;
 		}
-	}*/
-
+	}
 }

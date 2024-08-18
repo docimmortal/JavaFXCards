@@ -9,6 +9,7 @@ import application.entities.Character;
 import application.player.entities.DemoPlayer;
 import application.screens.SplashScreen;
 import application.utils.DeckUtil;
+import application.utils.EndTurnUtil;
 import application.utils.MapUtil;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -41,6 +42,10 @@ public class Main extends Application {
 			
 			MapUtil mu = new MapUtil(mainGroup);
 			mainGroup.getChildren().add(mu);
+			
+			// We externalized the end turn logic
+			EndTurnUtil endTurn = new EndTurnUtil(mainGroup);
+			mainGroup.getChildren().add(endTurn);
 			
 			SplashScreen spl = new SplashScreen("TwoWizards.jpg");
 			StartButton startButton = new StartButton(mainGroup,"Button-start.png",1200,700);		
