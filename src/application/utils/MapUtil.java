@@ -21,6 +21,10 @@ public class MapUtil extends Group{
 		setId("MapUtil");
 	}
 	
+	public Group getMyParent() {
+		return myParent;
+	}
+	
 	public void setMapScreen(MapScreen map) {
 		this.map=map;
 		map.setId("Map");
