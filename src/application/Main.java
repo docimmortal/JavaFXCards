@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import application.buttons.StartButton;
+import application.card.entities.Card;
+import application.entities.Character;
 import application.player.entities.DemoPlayer;
 import application.screens.SplashScreen;
+import application.utils.DeckUtil;
 import application.utils.MapUtil;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -30,7 +33,10 @@ public class Main extends Application {
 		try {
 			Group mainGroup = new Group();
 			mainGroup.setId("Main");
+			List<Card> initialDeck = DeckUtil.getInitialDeck(mainGroup);
+			Character character = new Character(mainGroup,"images\\characters\\wizard-point-tp.png",initialDeck,20,0,0,3,100,100);
 			player = new DemoPlayer(mainGroup,stage); // new character created
+			player.setCharacter(character);
 			mainGroup.getChildren().add(player);
 			
 			MapUtil mu = new MapUtil(mainGroup);

@@ -20,25 +20,12 @@ public class Player extends Group{
 	protected Group myParent;
 
 	private Stage stage;
-
-	public Player(Group myParent, Stage stage, Character character) {
-		deck = new ArrayList<>();
-		hand = new ArrayList<>();
-		discard = new ArrayList<>();
-		this.stage=stage;
-		// 20 health, 0 armor, 0 attack, 3 spell points, x=100,y=100 
-		this.character = character;
-		this.myParent=myParent;
-		setId("SimplePlayer");
-	}
 	
 	public Player(Group myParent, Stage stage) {
 		deck = new ArrayList<>();
 		hand = new ArrayList<>();
 		discard = new ArrayList<>();
 		this.stage=stage;
-		// 20 health, 0 armor, 0 attack, 3 spell points, x=100,y=100 
-		character = new Character(myParent,"images\\characters\\wizard-point-tp.png",20,0,0,3,100,100);
 		this.myParent=myParent;
 		setId("Player");
 	}

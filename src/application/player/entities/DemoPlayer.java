@@ -23,10 +23,6 @@ public class DemoPlayer extends Player {
 		setId("Player");
 		initialHandSet=false;
 	}
-	
-	public DemoPlayer(Group myParent, Stage stage, Character character) {
-		super(myParent, stage, character);
-	}
 
 	public final MapScreen getMapScreen() {
 		return mapScreen;

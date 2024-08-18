@@ -2,7 +2,6 @@ package application.entities;
 
 import application.player.entities.DemoPlayer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import application.card.effects.StatType;
@@ -22,9 +21,12 @@ public class Character extends Entity {
 	private int x,y;
 	private Character character;
 	
-	public Character(Group myParent, String filename, int health, int attack, int armor, int points, int x, int y) {
+	private List<Card> initialDeck;
+	
+	public Character(Group myParent, String filename, List<Card> initialDeck, int health, int attack, int armor, int points, int x, int y) {
 		super(myParent, filename, x, y);
 		character=this;
+		this.initialDeck=initialDeck;
 		this.filename=filename;
 		this.x=x;
 		this.y=y;
@@ -51,7 +53,7 @@ public class Character extends Entity {
 	}
 	
 	public Character(Character model) {
-		this(model.myParent,model.filename,0,0,0,0, model.x, model.y);
+		this(model.myParent,model.filename, model.initialDeck, 0,0,0,0, model.x, model.y);
 		set(StatType.POINTS, model.get(StatType.POINTS));
 		set(StatType.MAX_POINTS, model.get(StatType.MAX_POINTS));
 		pointsText = TextUtil.initText("Spell points: "+model.get(StatType.POINTS), 70, 70);
@@ -87,57 +89,9 @@ public class Character extends Entity {
 	
 	public void setInitialDeck(){
 		
-		System.out.println("===========[ DUMMY INITIAL DECK ]===========");
-		RPGCard block = new RPGCard(myParent, "images\\cards\\block.jpg", Target.SELF, "Block", 1);
-		block.set(StatType.ARMOR,5);
-		getPlayer().addCardToDeck(block);
-		
-		List<RPGCard> eCards = new ArrayList<>();
-		RPGCard punch = new RPGCard(myParent,"images\\cards\\lg-punch.jpg",Target.ENEMY, "Punch", 1);
-		punch.set(StatType.ATTACK,5);
-		eCards.add(punch);
-		getPlayer().addCardToDeck(punch);
-	
-		RPGCard punchPlus = new RPGCard(myParent,"images\\cards\\punch-plus.jpg",Target.ENEMY, "Punch+", 1);
-		punchPlus.set(StatType.ATTACK,5);
-		punchPlus.set(StatType.CYCLE, 1);
-		eCards.add(punchPlus);
-		getPlayer().addCardToDeck(punchPlus);
-		
-		RPGCard blockPlus = new RPGCard(myParent,"images\\cards\\block-plus.jpg",Target.SELF, "Block+", 1);
-		blockPlus.set(StatType.ARMOR,6);
-		blockPlus.set(StatType.CYCLE, 1);
-		eCards.add(blockPlus);
-		getPlayer().addCardToDeck(blockPlus);
-		
-		RPGCard puncha = new RPGCard(myParent,"images\\cards\\puncha.jpg",Target.ENEMY, "Punch A", 1);
-		puncha.set(StatType.ATTACK,5);
-		eCards.add(puncha);
-		getPlayer().addCardToDeck(puncha);
-		
-		getPlayer().addCardToDeck(new RPGCard(block));
-		
-		RPGCard punchb = new RPGCard(myParent,"images\\cards\\punchb.jpg",Target.ENEMY, "Punch B", 1);
-		punchb.set(StatType.ATTACK,5);
-		eCards.add(punchb);
-		getPlayer().addCardToDeck(punchb);
-		
-		RPGCard punchc = new RPGCard(myParent,"images\\cards\\punchc.jpg",Target.ENEMY, "Punch C", 1);
-		punchc.set(StatType.ATTACK,5);
-		eCards.add(punchc);
-		getPlayer().addCardToDeck(punchc);
-		
-		getPlayer().addCardToDeck(new RPGCard(block));
-		
-		RPGCard punchd = new RPGCard(myParent,"images\\cards\\punchd.jpg",Target.ENEMY, "Punch D", 1);
-		punchd.set(StatType.ATTACK,5);
-		eCards.add(punchd);
-		getPlayer().addCardToDeck(punchd);
-		
-		RPGCard punche = new RPGCard(myParent,"images\\cards\\punche.jpg",Target.ENEMY, "Punch E", 1);
-		punche.set(StatType.ATTACK,5);
-		eCards.add(punche);
-		getPlayer().addCardToDeck(punche);
+		for (Card card: initialDeck) {
+			getPlayer().addCardToDeck(card);
+		}
 	}
 	
 	public void setPointsText() {
