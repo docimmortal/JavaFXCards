@@ -46,7 +46,7 @@ public class Character extends Entity {
 		setId("Character");
 	}
 	
-	private DemoPlayer getPlayer() {
+	public DemoPlayer getPlayer() {
 		return (DemoPlayer)myParent.lookup("#Player");
 	}
 	
