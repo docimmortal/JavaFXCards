@@ -31,7 +31,9 @@ public class RPGCard extends Card {
 		super(eCard.myParent, eCard.filename, eCard.getCardName());
 		statMap = new HashMap<>(eCard.statMap);
 		this.target=eCard.target;
-		statMap.put(StatType.COST, eCard.get(StatType.COST));
+		for (StatType st:eCard.getStatMap().keySet()) {
+			statMap.put(st, eCard.get(st));
+		}
 	}
 	
 	public int get(StatType statType) {
