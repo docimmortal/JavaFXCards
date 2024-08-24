@@ -1,5 +1,6 @@
 package application.buttons;
 
+import application.fxcomponents.EraseUtil;
 import application.fxcomponents.ScreenUtil;
 import application.player.entities.RPGPlayer;
 import application.screens.MapScreen;
@@ -17,7 +18,8 @@ public class LeaveButton extends ImageButton {
 	}
 	
 	public void doAction() {
-		RPGPlayer player=null;
+		//RPGPlayer player=null;
+		/*
 		MapUtil mapUtil=null;
 		EndTurnUtil endTurn=null;
 		MapScreen map=null;
@@ -38,10 +40,12 @@ public class LeaveButton extends ImageButton {
 		myParent.getChildren().clear();
 		myParent.getChildren().add(player);
 		myParent.getChildren().add(mapUtil);
-		myParent.getChildren().add(endTurn);
+		myParent.getChildren().add(endTurn);*/
+		MapScreen map=EraseUtil.clearAllButRequired(myParent);
+		RPGPlayer player = (RPGPlayer)ScreenUtil.getNodeOfId(myParent, "#Player");
 		
-		index=ScreenUtil.getIndexOfId(myParent, "#Player");
-		player.setNoInitialHandSet();
+		//int index=ScreenUtil.getIndexOfId(myParent, "#Player");
+		//player.setNoInitialHandSet();
 		
 		// Final steps to render the scene
 		Scene scene = new Scene(new VBox(map), 1500, 900);

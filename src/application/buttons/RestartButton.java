@@ -2,15 +2,15 @@ package application.buttons;
 
 import application.player.entities.RPGPlayer;
 import application.screens.MapScreen;
-import application.utils.EndTurnUtil;
 import application.utils.MapUtil;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import application.card.effects.StatType;
 import application.entities.Character;
+import application.fxcomponents.EraseUtil;
+import application.fxcomponents.ScreenUtil;
 
 public class RestartButton extends ImageButton {
 
@@ -21,6 +21,7 @@ public class RestartButton extends ImageButton {
 	}
 	
 	public void doAction() {
+		/*
 		Node node = null;
 		RPGPlayer demo = null;
 		EndTurnUtil endTurn=null;
@@ -34,22 +35,24 @@ public class RestartButton extends ImageButton {
 			}
 			index++;
 		}
-		
-		// We need to create a new player
-		Stage stage = demo.getStage();
-		Character character = demo.getCharacter();
-		character.set(StatType.HEALTH, character.get(StatType.MAX_HEALTH));
-
 		// group should only have player and EndUtil objects.
 		myParent.getChildren().clear();
-		demo = new RPGPlayer(myParent,stage);
-		demo.setCharacter(character);
 		myParent.getChildren().add(demo);
-		myParent.getChildren().add(endTurn);
+		myParent.getChildren().add(endTurn);*/
+		EraseUtil.clearAllButRequired(myParent);
+		RPGPlayer player = (RPGPlayer)ScreenUtil.getNodeOfId(myParent, "#Player");
 		
+		// We need to create a new player
+		Stage stage = player.getStage();
+		Character character = player.getCharacter();
+		character.set(StatType.HEALTH, character.get(StatType.MAX_HEALTH));
+
+		player = new RPGPlayer(myParent,stage);
+		player.setCharacter(character);
+
 		map = new MapScreen();
 		map.setId("#Map");
-		demo.setMapScreen(map);
+		player.setMapScreen(map);
 
 		MapUtil mu = new MapUtil(myParent);
 		mu.setMapScreen(map);

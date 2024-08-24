@@ -2,6 +2,10 @@ package application.fxcomponents;
 
 import application.entities.Enemy;
 import application.player.entities.Player;
+import application.player.entities.RPGPlayer;
+import application.screens.MapScreen;
+import application.utils.EndTurnUtil;
+import application.utils.MapUtil;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -24,11 +28,37 @@ public class EraseUtil {
 		Node node = group.lookup(id);
 		group.getChildren().remove(node);
 	}
-	
-	public static void redraw(Group group, Player player) {
-		VBox pane = new VBox(1, new HBox(group));
-		Scene scene = new Scene(pane, 1500, 900);
-		player.getStage().setScene(scene);
-		player.getStage().show();
+
+	public static MapScreen clearAllButRequired(Group myParent) {
+		// Objects we want to keep
+		RPGPlayer player=null;
+		MapUtil mapUtil=null;
+		EndTurnUtil endTurn=null;
+		
+		// returned value
+		MapScreen map=null;
+		
+		int index=0;
+		while (player==null||map==null||endTurn==null) {
+			Node node=myParent.getChildren().get(index);
+			if (node.getId().equals("Player")) {
+				player=(RPGPlayer)node;
+			} else if (node.getId().equals("MapUtil")) {
+				mapUtil=(MapUtil)node;
+				map=mapUtil.getMapScreen();
+			} else if (node.getId().equals("EndTurnUtil")) {
+				endTurn=(EndTurnUtil)node;
+			}
+			index++;
+		}
+		
+		myParent.getChildren().clear();
+		myParent.getChildren().add(player);
+		myParent.getChildren().add(mapUtil);
+		myParent.getChildren().add(endTurn);
+		
+		player.setNoInitialHandSet();
+		
+		return map;
 	}
 }

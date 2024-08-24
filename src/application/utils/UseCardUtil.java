@@ -8,6 +8,7 @@ import application.card.entities.RPGCard;
 import application.entities.Character;
 import application.entities.Enemy;
 import application.fxcomponents.EraseUtil;
+import application.fxcomponents.ScreenUtil;
 import application.fxcomponents.UpdateUtil;
 import application.player.entities.RPGPlayer;
 import javafx.scene.Node;
@@ -70,7 +71,7 @@ public class UseCardUtil {
 					ImageButton leaveButton = new LeaveButton(card.getMyParent(),"Leave.png",1200,700);
 					card.getMyParent().getChildren().add(leaveButton.getImageView());
 				}
-				EraseUtil.redraw(card.getMyParent(), card.getPlayer());
+				ScreenUtil.redraw(card.getMyParent(), card.getPlayer());
 			}
 		}
 	}
