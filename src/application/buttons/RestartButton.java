@@ -1,6 +1,6 @@
 package application.buttons;
 
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import application.screens.MapScreen;
 import application.utils.EndTurnUtil;
 import application.utils.MapUtil;
@@ -22,13 +22,13 @@ public class RestartButton extends ImageButton {
 	
 	public void doAction() {
 		Node node = null;
-		DemoPlayer demo = null;
+		RPGPlayer demo = null;
 		EndTurnUtil endTurn=null;
 		int index=0;
 		while (demo==null || endTurn==null) {
 			node=myParent.getChildren().get(index);
 			if (node.getId().equals("Player")) {
-				demo=(DemoPlayer)node;
+				demo=(RPGPlayer)node;
 			} else if (node.getId().equals("EndTurnUtil")) {
 				endTurn=(EndTurnUtil)node;
 			}
@@ -42,7 +42,7 @@ public class RestartButton extends ImageButton {
 
 		// group should only have player and EndUtil objects.
 		myParent.getChildren().clear();
-		demo = new DemoPlayer(myParent,stage);
+		demo = new RPGPlayer(myParent,stage);
 		demo.setCharacter(character);
 		myParent.getChildren().add(demo);
 		myParent.getChildren().add(endTurn);

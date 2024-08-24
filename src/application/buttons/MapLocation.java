@@ -6,7 +6,7 @@ import application.card.effects.StatType;
 import application.entities.Enemy;
 import application.fxcomponents.ImageLoader;
 import application.fxcomponents.ScreenUtil;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -35,8 +35,8 @@ public class MapLocation extends ImageButton {
 		return mapLocId;
 	}
 	
-	public DemoPlayer getPlayer() {
-		return (DemoPlayer)getMyParent().lookup("#Player");
+	public RPGPlayer getPlayer() {
+		return (RPGPlayer)getMyParent().lookup("#Player");
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class MapLocation extends ImageButton {
 			System.out.println("NO ENEMIES DEFINED!");
 		}
 	
-		DemoPlayer dp=getPlayer();
+		RPGPlayer dp=getPlayer();
 
 		dp.getCharacter().resetAll();
 		
@@ -71,7 +71,7 @@ public class MapLocation extends ImageButton {
 		dp.getStage().show();
 	}
 	
-	private void initScreen(Group group, DemoPlayer player) {//, Enemy enemy) {
+	private void initScreen(Group group, RPGPlayer player) {//, Enemy enemy) {
 		putInGroup("Background",ImageLoader.load("images\\backgrounds\\woods2.jpg", false));
 		
 		pointsText = player.getCharacter().getSpellpointsText();

@@ -6,7 +6,7 @@ import java.util.List;
 import application.buttons.MapLocation;
 import application.entities.Enemy;
 import application.fxcomponents.ScreenUtil;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import application.screens.MapScreen;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -40,7 +40,7 @@ public class MapUtil extends Group{
 	}
 	
 	public void setDefaultLocations() {
-		DemoPlayer player = (DemoPlayer)ScreenUtil.getNodeOfId(myParent,"#Player");
+		RPGPlayer player = (RPGPlayer)ScreenUtil.getNodeOfId(myParent,"#Player");
 		List<Enemy> enemies = new ArrayList<>();
 		enemies.add(EnemyUtil.yarnBoy(player,1));
 		enemies.add(EnemyUtil.easyBunny(player,2));

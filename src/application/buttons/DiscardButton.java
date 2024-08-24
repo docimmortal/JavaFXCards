@@ -2,7 +2,7 @@ package application.buttons;
 
 import application.card.effects.StatType;
 import application.card.entities.RPGCard;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import javafx.scene.Group;
 
 public class DiscardButton extends ImageButton {
@@ -24,7 +24,7 @@ public class DiscardButton extends ImageButton {
 			getPlayer().discardCardFromHand(card);
 			if (index>-1) {
 				getPlayer().replaceACard(index);
-				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(this);
+				((RPGPlayer)getPlayer()).addCardsToJavaFxDisplay(this);
 			}
 		}
 	}

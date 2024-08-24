@@ -7,7 +7,7 @@ import application.card.effects.Target;
 import application.card.entities.RPGCard;
 import application.card.entities.Card;
 import application.fxcomponents.TextUtil;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
@@ -59,7 +59,7 @@ public class Enemy extends Entity{
 	    	@Override
 	        public void handle(MouseEvent event) {
 	    		if (canTarget()) {
-	    			DemoPlayer dp = ((DemoPlayer)getMyParent().lookup("#Player"));
+	    			RPGPlayer dp = ((RPGPlayer)getMyParent().lookup("#Player"));
 	    			dp.setEnemyClicked(thisEnemy);
 	    			doTargetAction();
 	    		}
@@ -247,8 +247,8 @@ public class Enemy extends Entity{
 		setActionText();
 	}
 
-	private DemoPlayer getPlayer() {
-		return (DemoPlayer)myParent.lookup("#Player");
+	private RPGPlayer getPlayer() {
+		return (RPGPlayer)myParent.lookup("#Player");
 	}
 	/*
 	 * Methods that can be overridden

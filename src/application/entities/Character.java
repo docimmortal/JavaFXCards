@@ -1,6 +1,6 @@
 package application.entities;
 
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 
 import java.util.List;
 
@@ -48,8 +48,8 @@ public class Character extends Entity {
 		setId("Character");
 	}
 	
-	public DemoPlayer getPlayer() {
-		return (DemoPlayer)myParent.lookup("#Player");
+	public RPGPlayer getPlayer() {
+		return (RPGPlayer)myParent.lookup("#Player");
 	}
 	
 	public Character(Character model) {

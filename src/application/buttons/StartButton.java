@@ -2,7 +2,7 @@ package application.buttons;
 
 import application.fxcomponents.EraseUtil;
 import application.fxcomponents.ScreenUtil;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import application.screens.MapScreen;
 import application.utils.MapUtil;
 import javafx.scene.Group;
@@ -20,20 +20,20 @@ public class StartButton extends ImageButton {
 		setId("StartButton");
 	}
 	
-	public DemoPlayer getPlayer() {
-		return (DemoPlayer)getMyParent().lookup("#Player");
+	public RPGPlayer getPlayer() {
+		return (RPGPlayer)getMyParent().lookup("#Player");
 	}
 
 	@Override
 	public void doAction(){
-		DemoPlayer dp = getPlayer();
+		RPGPlayer dp = getPlayer();
 		Group myParent=getMyParent();
 		EraseUtil.erase("#StartButton", myParent);
 		EraseUtil.erase("#SplashScreen", myParent);
 		initScreen(myParent, dp);
 	}
 	
-	private void initScreen(Group group, DemoPlayer player) {
+	private void initScreen(Group group, RPGPlayer player) {
 		map = new MapScreen();
 		MapUtil mu = (MapUtil)ScreenUtil.getNodeOfId(myParent, "#MapUtil");
 		mu.setMapScreen(map);

@@ -6,7 +6,7 @@ import java.util.List;
 import application.buttons.StartButton;
 import application.card.entities.Card;
 import application.entities.Character;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import application.screens.SplashScreen;
 import application.utils.DeckUtil;
 import application.utils.EndTurnUtil;
@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
 
 public class Main extends Application {
 	
-	DemoPlayer player;
+	RPGPlayer player;
 	List<HBox> panes;
 	StartButton startButton;
 	
@@ -36,7 +36,7 @@ public class Main extends Application {
 			mainGroup.setId("Main");
 			List<Card> initialDeck = DeckUtil.getInitialDeck(mainGroup);
 			Character character = new Character(mainGroup,"images\\characters\\wizard-point-tp.png",initialDeck,20,0,0,3,100,100);
-			player = new DemoPlayer(mainGroup,stage); // new character created
+			player = new RPGPlayer(mainGroup,stage); // new character created
 			player.setCharacter(character);
 			mainGroup.getChildren().add(player);
 			

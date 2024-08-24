@@ -7,7 +7,7 @@ import application.card.effects.StatType;
 import application.card.effects.Target;
 import application.entities.Enemy;
 import application.entities.Character;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import application.utils.UseCardUtil;
 import javafx.scene.Group;
 
@@ -52,8 +52,8 @@ public class RPGCard extends Card {
 		return statMap;
 	}
 	
-	public DemoPlayer getPlayer() {
-		return (DemoPlayer)myParent.lookup("#Player");
+	public RPGPlayer getPlayer() {
+		return (RPGPlayer)myParent.lookup("#Player");
 	}
 	
 	public String getFilename() {
@@ -64,7 +64,7 @@ public class RPGCard extends Card {
 	public boolean checkUsability() {
 		boolean validPlay=false;
 		int cost=statMap.get(StatType.COST);
-		int totalPoints=((DemoPlayer)getPlayer()).getCharacter().get(StatType.POINTS);
+		int totalPoints=((RPGPlayer)getPlayer()).getCharacter().get(StatType.POINTS);
 		//System.out.print(getCardName()+" cost:"+cost+", total points:"+totalPoints);
 		if (totalPoints >= cost) {
 			validPlay=true;
@@ -74,11 +74,11 @@ public class RPGCard extends Card {
 	}
 	
 	public Enemy getEnemyClicked() {
-		return ((DemoPlayer)getPlayer()).getEnemyClicked();
+		return ((RPGPlayer)getPlayer()).getEnemyClicked();
 	}
 	
 	public Character getCharacterClicked() {
-		return ((DemoPlayer)getPlayer()).getCharacterClicked();
+		return ((RPGPlayer)getPlayer()).getCharacterClicked();
 	}
 	
 	@Override

@@ -10,7 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class DemoPlayer extends Player {
+public class RPGPlayer extends Player {
 
 	private Enemy enemy;
 	private Enemy enemyClicked;
@@ -18,7 +18,7 @@ public class DemoPlayer extends Player {
 	private boolean initialHandSet;
 	private MapScreen mapScreen;
 	
-	public DemoPlayer(Group myParent, Stage stage) {
+	public RPGPlayer(Group myParent, Stage stage) {
 		super(myParent, stage);
 		setId("Player");
 		initialHandSet=false;

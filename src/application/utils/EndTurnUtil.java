@@ -10,7 +10,7 @@ import application.entities.Enemy;
 import application.fxcomponents.EraseUtil;
 import application.fxcomponents.ScreenUtil;
 import application.fxcomponents.UpdateUtil;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
@@ -25,8 +25,8 @@ public class EndTurnUtil extends Group {
 		setId("EndTurnUtil");
 	}
 	
-	public DemoPlayer getPlayer() {
-		return (DemoPlayer)myParent.lookup("#Player");
+	public RPGPlayer getPlayer() {
+		return (RPGPlayer)myParent.lookup("#Player");
 	}
 	
 	public void doAction() {
@@ -49,7 +49,7 @@ public class EndTurnUtil extends Group {
 				if (action.getTarget() == Target.SELF) {
 					EnemyBuffUtil.getEnemyBuff(enemy);
 				} else if (action.getTarget() == Target.CHARACTER) {
-					EnemyVsCharacterUtil.getEnemyAction(enemy, ((DemoPlayer)getPlayer()).getCharacter());
+					EnemyVsCharacterUtil.getEnemyAction(enemy, ((RPGPlayer)getPlayer()).getCharacter());
 				}
 
 				// Update enemy stats
@@ -65,12 +65,12 @@ public class EndTurnUtil extends Group {
 		}
 
 		// Player reset
-		((DemoPlayer)getPlayer()).getCharacter().resetAll();
+		((RPGPlayer)getPlayer()).getCharacter().resetAll();
 		//getMyParent().getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
-		Text text=((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText();
+		Text text=((RPGPlayer)getPlayer()).getCharacter().getSpellpointsText();
 		UpdateUtil.updateGroupText(myParent, "#PointsText", text);
 		//getMyParent().getChildren().set(5, ((DemoPlayer)getPlayer()).getCharacter().getStatsText());
-		text=((DemoPlayer)getPlayer()).getCharacter().getStatsText();
+		text=((RPGPlayer)getPlayer()).getCharacter().getStatsText();
 		UpdateUtil.updateGroupText(myParent, "#PlayerStatsText", text);
 
 		// Update enemy stats
@@ -78,7 +78,7 @@ public class EndTurnUtil extends Group {
 			if (!getPlayer().isGameOver()) {
 				// Draw up cards
 				drawCards(5,5);
-				((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
+				((RPGPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
 			} else {
 				// game over
 				ImageView iv=ScreenUtil.GameOver();
@@ -95,7 +95,7 @@ public class EndTurnUtil extends Group {
 
 	protected void clearHandAndButtons() {
 		getPlayer().clearHand();
-		((DemoPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
+		((RPGPlayer)getPlayer()).addCardsToJavaFxDisplay(myParent);
 		EraseUtil.erase("#DiscardButton",myParent);
 		EraseUtil.erase("#EndTurnButton",myParent);
 	}

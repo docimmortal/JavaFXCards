@@ -3,7 +3,7 @@ package application.buttons;
 import java.io.File;
 
 import application.fxcomponents.ImageLoader;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
@@ -62,8 +62,8 @@ public class ImageButton extends Group {
 		return myParent;
 	}
 	
-	public DemoPlayer getPlayer() {
-		return (DemoPlayer)myParent.lookup("#Player");
+	public RPGPlayer getPlayer() {
+		return (RPGPlayer)myParent.lookup("#Player");
 	}
 
 	public final ImageView getImageView() {

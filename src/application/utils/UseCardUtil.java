@@ -9,7 +9,7 @@ import application.entities.Character;
 import application.entities.Enemy;
 import application.fxcomponents.EraseUtil;
 import application.fxcomponents.UpdateUtil;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import javafx.scene.Node;
 import javafx.scene.text.Text;
 
@@ -24,9 +24,9 @@ public class UseCardUtil {
 			Integer block=card.get(StatType.ARMOR);
 			
 			// spend points on using card
-			((DemoPlayer)card.getPlayer()).getCharacter().decrement(StatType.POINTS,cost,0); // lowest point value is 0.
+			((RPGPlayer)card.getPlayer()).getCharacter().decrement(StatType.POINTS,cost,0); // lowest point value is 0.
 			//this.getChildren().set(1, ((DemoPlayer)getPlayer()).getCharacter().getSpellpointsText());
-			Text text=((DemoPlayer)card.getPlayer()).getCharacter().getSpellpointsText();
+			Text text=((RPGPlayer)card.getPlayer()).getCharacter().getSpellpointsText();
 			UpdateUtil.updateGroupText(card.getMyParent(), "#PointsText", text);
 			
 			// Discard card
@@ -64,7 +64,7 @@ public class UseCardUtil {
 				}
 				if (totalHealth==0) {
 					card.getPlayer().clearHand();
-					((DemoPlayer)card.getPlayer()).addCardsToJavaFxDisplay(card.getMyParent());
+					((RPGPlayer)card.getPlayer()).addCardsToJavaFxDisplay(card.getMyParent());
 					EraseUtil.erase("#DiscardButton",card.getMyParent());
 					EraseUtil.erase("#EndTurnButton",card.getMyParent());
 					ImageButton leaveButton = new LeaveButton(card.getMyParent(),"Leave.png",1200,700);

@@ -1,7 +1,7 @@
 package application.buttons;
 
 import application.fxcomponents.ScreenUtil;
-import application.player.entities.DemoPlayer;
+import application.player.entities.RPGPlayer;
 import application.screens.MapScreen;
 import application.utils.EndTurnUtil;
 import application.utils.MapUtil;
@@ -17,7 +17,7 @@ public class LeaveButton extends ImageButton {
 	}
 	
 	public void doAction() {
-		DemoPlayer player=null;
+		RPGPlayer player=null;
 		MapUtil mapUtil=null;
 		EndTurnUtil endTurn=null;
 		MapScreen map=null;
@@ -25,7 +25,7 @@ public class LeaveButton extends ImageButton {
 		while (player==null||map==null||endTurn==null) {
 			Node node=myParent.getChildren().get(index);
 			if (node.getId().equals("Player")) {
-				player=(DemoPlayer)node;
+				player=(RPGPlayer)node;
 			} else if (node.getId().equals("MapUtil")) {
 				mapUtil=(MapUtil)node;
 				map=mapUtil.getMapScreen();
