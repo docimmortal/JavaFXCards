@@ -53,6 +53,13 @@ public class Player extends Group{
 		shuffleDeck();
 	}
 	
+	// Used by set initial hand
+	public void clearDeckHandDiscard() {
+		deck.clear();
+		hand.clear();
+		discard.clear();
+	}
+	
 	public void clearHand() {
 		for (int i=0; i < hand.size(); i++) {
 			Card card = hand.get(i);
@@ -188,7 +195,19 @@ public class Player extends Group{
 	}
 	
 	public void shuffleDeck() {
-		System.out.println(">>>>>>>> Not shuffling deck!");
+		// shuffle seven times to get a good shuffle
+		for (int i=0; i<7; i++) {
+			ArrayList<Card> shuffledCards = new ArrayList<>();
+
+			int deckSize = deck.size();
+			while(deckSize > 0) {
+				int cardIndex = (int)(Math.random()*deckSize);
+				shuffledCards.add(deck.remove(cardIndex));
+				deckSize--;
+			}
+			deck = shuffledCards;
+		}
+
 	}
 	
 }

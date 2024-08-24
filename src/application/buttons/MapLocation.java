@@ -42,7 +42,7 @@ public class MapLocation extends ImageButton {
 	@Override
 	public void doAction(){
 		if (enemies==null || enemies.size()==0) {
-			System.out.println("NO ENEMIES DEFINED! Setting default enemy.");
+			System.out.println("NO ENEMIES DEFINED!");
 		}
 	
 		DemoPlayer dp=getPlayer();
@@ -105,7 +105,6 @@ public class MapLocation extends ImageButton {
 				int x=(int) enemy.getX();
 				x=x-(i*200);
 				enemy.resetXs(x);
-				System.out.println("FOUND"+enemy.getStatsText().getText());
 				putInGroup("Enemy"+(i+1), enemy);
 			}
 			

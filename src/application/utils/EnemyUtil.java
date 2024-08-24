@@ -48,7 +48,6 @@ public class EnemyUtil {
 	public static Enemy gingerbreadMan(Group myParent, int enemyNumber) {
 		Enemy gbm = new Enemy(myParent, "images\\enemies\\gingerbreadman.png","Enemy"+enemyNumber, 1100, 150, 25);
 		gbm.set(StatType.ARMOR, 5);
-		System.out.println("GBM");
 		gbm.setStatsText();
 		List<Action> actions = new ArrayList<>(); 
 		actions.add(new Action("Bite",new ImageView(attackImage.getImage()), Target.CHARACTER, Adjustment.INCREMENTS, StatType.ATTACK, 15));

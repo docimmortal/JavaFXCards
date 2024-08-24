@@ -10,7 +10,6 @@ import application.fxcomponents.TextUtil;
 import application.player.entities.DemoPlayer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -61,7 +60,6 @@ public class Enemy extends Entity{
 	        public void handle(MouseEvent event) {
 	    		if (canTarget()) {
 	    			DemoPlayer dp = ((DemoPlayer)getMyParent().lookup("#Player"));
-	    			System.out.println("Targetted "+thisEnemy.getId());
 	    			dp.setEnemyClicked(thisEnemy);
 	    			doTargetAction();
 	    		}
@@ -79,7 +77,6 @@ public class Enemy extends Entity{
 		this.getChildren().add(getStatsImage());
 		
 		getStatsText().setId(enemyName+"-statsText");
-		System.out.println("STATS TEXT:"+getStatsText().getText());
 		this.getChildren().add(getStatsText());
 		
 		//NEW!!!!
@@ -135,8 +132,6 @@ public class Enemy extends Entity{
 		super.setStatsText();
 		if (this.getChildren().size()==3) {
 			this.getChildren().set(2, getStatsText());
-		} else {
-			System.out.println(this.getChildren().size());
 		}
 	}
 	
@@ -157,11 +152,6 @@ public class Enemy extends Entity{
 	}
 	
 	public final Action getNextAction() {
-		System.out.println("==============[getNextAction]=========");
-		System.out.println(this.getId());
-		for(Node node:this.getChildren()) {
-			System.out.println(node.getId());
-		}
 		//int index=ScreenUtil.getIndexOfId(this,"#"+enemyName+"-actionImage");
 		actionIndex++;
 		if (actionIndex==actions.size()) {

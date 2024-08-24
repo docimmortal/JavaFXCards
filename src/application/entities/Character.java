@@ -88,10 +88,11 @@ public class Character extends Entity {
 	}
 	
 	public void setInitialDeck(){
-		
+		getPlayer().clearDeckHandDiscard();
 		for (Card card: initialDeck) {
 			getPlayer().addCardToDeck(card);
 		}
+		getPlayer().shuffleDeck();
 	}
 	
 	public void setPointsText() {

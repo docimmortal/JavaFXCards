@@ -143,8 +143,6 @@ public class Entity extends Group{
 
 		int lArmor=get(StatType.ARMOR);
 		String armorStr=String.format(" %3d",lArmor);
-
-		System.out.println(getId()+" "+lHealth+" "+lArmor);
 		
 		String msg=healthStr+spacing1+armorStr;
 		statsText = TextUtil.initText(msg, statsX, statsY+25);
