@@ -102,6 +102,7 @@ public class MapLocation extends ImageButton {
 		if (totalHealth>0) {
 			for (int i=0; i<enemies.size();i++) {
 				Enemy enemy=enemies.get(i);
+				enemy.setEntityVisible(true);
 				int x=(int) enemy.getX();
 				x=x-(i*200);
 				enemy.resetXs(x);
@@ -125,6 +126,7 @@ public class MapLocation extends ImageButton {
 
 	private void putInGroup(String id, Node node) {
 		node.setId(id);
+		node.setVisible(true);
 		int index=ScreenUtil.getIndexOfId(myParent, "#"+id);
 		if (index<0) {
 			getMyParent().getChildren().add(node);

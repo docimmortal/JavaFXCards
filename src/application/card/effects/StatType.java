@@ -20,6 +20,7 @@ public enum StatType {
 	POINTS,
 	POISON,
 	POWER,
+	PURCHASE_COST,
 	SLEEP,
 	STUN,
 	STRENGTH,

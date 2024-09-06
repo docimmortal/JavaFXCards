@@ -23,6 +23,8 @@ public class Entity extends Group{
 	
 	protected Group myParent;
 	
+	protected boolean visible;
+	
 	public Entity(Group myParent, String filename, int x, int y) {
 		entityImage = ImageLoader.load(filename,false);
 		entityImage.setLayoutX(x);
@@ -32,6 +34,8 @@ public class Entity extends Group{
 		
 		initStatsImage(x);
 		//setStatsText();
+		//temp set visible to true
+		visible=true;
 	}
 	
 	public final int getStatsX() {
@@ -81,6 +85,10 @@ public class Entity extends Group{
 		}
 	}
 	
+	public void setEntityVisible(boolean visible) {
+		this.visible=visible;
+	}
+	
 	// set minAmount to -1 if there is no minAmount.
 	public final void decrement(StatType statType, int amount, int minAmount) {
 		if (amount>0) {
@@ -124,10 +132,12 @@ public class Entity extends Group{
 	}
 	
 	public final ImageView getStatsImage() {
+		statsImage.setVisible(visible);
 		return statsImage;
 	}
 	
 	public Text getStatsText() {
+		statsText.setVisible(visible);
 		return statsText;
 	}
 	
@@ -159,6 +169,7 @@ public class Entity extends Group{
 	}
 	
 	public final ImageView getEntityImage() {
+		entityImage.setVisible(visible);
 		return entityImage;
 	}
 	

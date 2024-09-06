@@ -43,6 +43,9 @@ public class Card extends Group {
 		return imageView;
 	}
 
+	public final void setImageView(ImageView imageView) {
+		this.imageView=imageView;
+	}
 	/*
 	 *  Methods that can be overridden
 	 */

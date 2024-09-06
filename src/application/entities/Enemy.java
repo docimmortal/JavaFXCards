@@ -183,6 +183,7 @@ public class Enemy extends Entity{
 	}
 
 	public final ImageView getActionImage() {
+		currentAction.getImageView().setVisible(visible);
 		return currentAction.getImageView();
 	}
 
@@ -223,6 +224,7 @@ public class Enemy extends Entity{
 	
 	public final Text getActionText() {
 		actionText.setId(enemyName+"-actionText");
+		actionText.setVisible(visible);
 		return actionText;
 	}
 	
